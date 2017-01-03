@@ -95,7 +95,7 @@
             <div id="main">
                 <ol id="breadcrumbs" class="breadcrumb" ng-if="isAuthenticated">
                     <li ng-repeat="breadcrumb in breadcrumbs.get() track by breadcrumb.path" ng-class="{ active: $last }" class="fx-fade-left">
-                        <a class="uppercase" style="font-size: 0.8em" ng-href="@{{ breadcrumb.path}}" ng-if="!$last">@{{breadcrumb.label}}</a>
+                        <a class="uppercase" style="font-size: 0.8em" ng-href="/#@{{ breadcrumb.path}}" ng-if="!$last">@{{breadcrumb.label}}</a>
                         <span ng-if="$last" class="uppercase" style="font-size: 0.8em">@{{breadcrumb.label}}</span>
                     </li>
                 </ol>
@@ -111,6 +111,7 @@
                         <ul>
                             <li ng-if="('\'SysAdmin\'' | hasRole)"><a ng-href="/#/admin/tables"> Tabelle </a></li>
                             <li ng-if="('\'SysAdmin\'' | hasRole)"><a ng-href="/#/admin/configuration"> Configurazione di sistema</a></li>
+                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-clock-o"></i> Ruoli </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-clock-o"></i> Utenti </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-clock-o"></i> Marche </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/typologies"><i class="icon fa fa-clock-o"></i> Tipologie </a></li>

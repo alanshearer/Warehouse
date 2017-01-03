@@ -22,7 +22,19 @@ class InitDbWithMainTables extends Migration {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
-            $table->string('initials')->nullable();
+            $table->string('code')->nullable();
+            $table->string('uic_id')->nullable();
+            $table->softDeletes();
+        });
+
+
+        Schema::create('regions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->string('name')->unique();
+            $table->string('position')->nullable();
+            $table->integer('country_id')->unsigned();
+            $table->foreign('country_id')->references('id')->on('countries');
             $table->softDeletes();
         });
 
@@ -30,9 +42,9 @@ class InitDbWithMainTables extends Migration {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
-            $table->string('initials')->nullable();
-            $table->integer('country_id')->unsigned();
-            $table->foreign('country_id')->references('id')->on('countries');
+            $table->string('code')->nullable();
+            $table->integer('region_id')->unsigned();
+            $table->foreign('region_id')->references('id')->on('regions');
             $table->softDeletes();
         });
 
@@ -40,7 +52,8 @@ class InitDbWithMainTables extends Migration {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
-            $table->string('initials')->nullable();
+            $table->string('istatcode')->nullable();
+            $table->string('postalcode')->nullable();
             $table->integer('county_id')->unsigned();
             $table->foreign('county_id')->references('id')->on('counties');
             $table->softDeletes();
@@ -93,6 +106,7 @@ class InitDbWithMainTables extends Migration {
             $table->timestamps();
             $table->string('name')->unique();
             $table->string('address');
+            $table->string('postalcode');
             $table->integer('city_id')->unsigned();
             $table->foreign('city_id')->references('id')->on('cities');
             $table->integer('officetype_id')->unsigned();
@@ -209,10 +223,11 @@ class InitDbWithMainTables extends Migration {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
+            $table->string('vatcode');
             $table->string('address');
+            $table->string('postalcode');
             $table->integer('city_id')->unsigned();
             $table->foreign('city_id')->references('id')->on('cities');
-            $table->string('vatcode');
             $table->softDeletes();
         });
     }

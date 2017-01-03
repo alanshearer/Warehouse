@@ -8,6 +8,26 @@ use App\Models\Role;
 
 class RoleController extends Controller {
 
+    public function search(Request $request)
+    {
+        $page = $request->page;
+        $elements = $request->elements;
+        $orderby = isset($request->orderby) ? $request->orderby : 'name';
+        $type = $request->desc == 'true' ? 'desc' : 'asc';
+        $term = $request->term ?? '';
+        $isActive = $request->isActive ?? false;
+        $paginateditems = Role::where('name', 'LIKE', '%'.$term.'%')->orderBy($orderby, $type)->paginate($elements, null, '', $page);
+        return response()->json($paginateditems);     
+    }
+    
+    public function kvp(Request $request) {
+        $roles = Role::all()->map(function ($item, $key) {
+            return ["key" => $item->name, "value" => $item->id];
+        }); 
+        return response()->json($roles);
+    }
+
+    
     public function index(Request $request) {
         $roles = Role::all();
         return response()->json($roles);
@@ -25,8 +45,7 @@ class RoleController extends Controller {
 
     public function update(Request $request, $id) {
         $role = Role::find($id);
-        $role->name = $request->input('name');
-        $role->details = $request->input('details');
+        $role->fill($request->all());
         $role->save();
         return response()->json($role);
     }

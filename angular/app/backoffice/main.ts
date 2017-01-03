@@ -131,7 +131,7 @@
                     templateUrl: "/app/backoffice/views/campaigns/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Modifica campagna'
-                }) .when('/campaigns/create', {
+                }).when('/campaigns/create', {
                     templateUrl: "/app/backoffice/views/campaigns/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuova'
@@ -188,8 +188,20 @@
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuovo contratto'
                 })
-
-                .when('/registrations', {  
+                .when('/roles', {
+                    templateUrl: "/app/backoffice/views/roles/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione ruoli'
+                }).when('/roles/edit/:id', {
+                    templateUrl: "/app/backoffice/views/roles/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica ruolo'
+                }).when('/roles/create', {
+                    templateUrl: "/app/backoffice/views/roles/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo ruolo'
+                })
+                .when('/registrations', {
                     templateUrl: "/app/backoffice/views/presences/_edit.html",
                     roles: "'Backoffice' || 'SysAdmin' || 'DataEntry' || 'HrManager'",
                     label: 'Registrazioni'
@@ -225,7 +237,7 @@
             authentication.fillAuthData();
 
             $rootScope.$on("$routeChangeSuccess", (event, current, previous) => {
-                if (!angular.isUndefined(current.roles) && current.roles && !$filter('hasRole') (current.roles)) {
+                if (!angular.isUndefined(current.roles) && current.roles && !$filter('hasRole')(current.roles)) {
                     $location.path('login');
                 }
             });
@@ -236,7 +248,7 @@
                 }
             });
 
-          
+
         });
 
     var regexIso8601 = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/;
@@ -293,7 +305,7 @@
         //}
     }
 
-    function dateObject(s: any){
+    function dateObject(s: any) {
         s = s.split(/\D/);
         return new Date(+s[0], --s[1], +s[2], +s[3], +s[4], +s[5], 0);
     }

@@ -16,5 +16,9 @@ class RolesTableSeeder extends Seeder
             'name' => 'Amministratore',
             'description' => 'Descrizione amministratore'
         ]);
+        Role::create([
+            'name' => 'Supervisore',
+            'description' => 'Descrizione supervisore'
+        ]);
     }
 }

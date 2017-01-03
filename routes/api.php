@@ -84,6 +84,8 @@ Route::post('productstates','ProductstateController@create');
 Route::put('productstates/{id}','ProductstateController@update');    
 Route::delete('productstates/{id}','ProductstateController@delete');
 
+Route::get('roles/{page}/{elements}/{orderby?}/{desc?}', 'RoleController@search');
+Route::get('roles/kvp', 'RoleController@kvp');
 Route::get('roles', 'RoleController@index');
 Route::get('roles/{id}', 'RoleController@get');
 Route::post('roles','RoleController@create');
