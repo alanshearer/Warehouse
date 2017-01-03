@@ -2,8 +2,6 @@ const gulp = require('gulp');
 const del = require('del');
 const typescript = require('gulp-typescript');
 
-
-
 gulp.task('clean', function () {
   return del(['public/app/**/*', 'public/common/**/*', 'public/configuration/**/*', 'public/content/**/*']);
 });

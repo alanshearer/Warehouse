@@ -51,7 +51,7 @@ class InitDbWithMainTables extends Migration {
         Schema::create('cities', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('istatcode')->nullable();
             $table->string('postalcode')->nullable();
             $table->integer('county_id')->unsigned();
@@ -197,6 +197,18 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
+        Schema::create('suppliers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->string('name')->unique();
+            $table->string('vatcode');
+            $table->string('address');
+            $table->string('postalcode');
+            $table->integer('city_id')->unsigned();
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->softDeletes();
+        });
+
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -216,18 +228,6 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('model_id')->references('id')->on('models');
             $table->integer('quantity');
             $table->integer('left')->nullable();
-            $table->softDeletes();
-        });
-
-        Schema::create('suppliers', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->string('name')->unique();
-            $table->string('vatcode');
-            $table->string('address');
-            $table->string('postalcode');
-            $table->integer('city_id')->unsigned();
-            $table->foreign('city_id')->references('id')->on('cities');
             $table->softDeletes();
         });
     }
