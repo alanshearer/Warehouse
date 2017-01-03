@@ -1,0 +1,176 @@
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="employeesCtrl">
+    <header class="panel-heading sm">
+        <h2><strong>Elenco</strong> dipendenti </h2>
+    </header>
+    <div class="panel-tools" align="left">
+        <ul>
+            <li>
+                <a href="employees/create" class="btn btn-theme btn-transparent" title="Aggiungi nuovo dipendente" data-jquery-tooltip>
+                    <i class="fa fa-plus-square"></i>
+                    Nuovo
+                </a>
+            </li>
+            <li ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'DataEntry\' || \'HrManager\'' | hasRole)">
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='dipendenti.xml' data-jquery-tooltip title="Download file xls">
+                    <i class="fa fa-file-excel-o"></i>
+                    Esporta in excel
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <paginator data-page-size="{{pageSize}}"
+                   data-resource-url="{{resourceUrl}}"
+                   data-items="items"
+                   data-cachekey="employeelist"
+                   data-filters="filters"
+                   data-total-items="totalItems">
+            <div class="panel-group margin-bottom-5">
+                <div class="panel panel-default borders bd-gray">
+                    <header class="panel-heading" style="padding:0 10px">
+                        <a data-toggle="collapse" data-target="#collapseOne" data-jquery-collapse href="javascript:void(0)">
+                            <i class="collapse-caret fa fa-angle-down"></i>
+                            <strong>
+                                <span><i class="fa fa-filter text-muted"></i></span>
+                                FILTRI DI RICERCA
+                            </strong>
+                        </a>
+                    </header>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body bg-white-darken">
+                            <form novalidate="" name="filterItemsForm">
+                                <div class="row">
+                                    <div class="col-md-4" data-form-group label="Cerca...">
+                                        <div class="input-icon right">
+                                            <i class="fa fa-search ico" data-jquery-popover
+                                               data-trigger="hover"
+                                               data-placement="bottom"
+                                               title="Ricerca libera"
+                                               data-content="La ricerca viene eseguita per i campi Nome, Cognome e Codice"></i>
+                                            <input type="text" name="term" class="form-control input-sm" ng-model="filters.term" placeholder="Cerca" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" data-form-group label="Posto di lavoro">
+                                        <kvp-select data-items="workPlaces"
+                                                    data-current="filters.workPlaceId"
+                                                    data-action="getWorkPlaces()">
+                                        </kvp-select>
+                                    </div>
+                                    <div class="col-md-4" data-form-group label="Reparto">
+                                        <kvp-select data-items="departments"
+                                                    data-current="filters.departmentId"
+                                                    data-action="getDepartments()">
+                                        </kvp-select>
+                                    </div>
+                                   
+                                </div>
+                                <div class="row">
+                                    <!--<div class="col-md-4" data-form-group label="Campagna">
+                                        <kvp-select data-items="campaigns"
+                                                    data-current="filters.campaignId"
+                                                    data-action="getCampaigns()">
+                                        </kvp-select>
+                                    </div>-->
+                                    <div class="col-md-4" data-form-group label="Responsabile">
+                                        <kvp-select data-items="personsInCharge"
+                                                    data-current="filters.personInChargeId"
+                                                    data-action="getPersonsInCharge()">
+                                        </kvp-select>
+                                    </div>
+                                    <div class="col-md-4" data-form-group>
+                                        <ul class="iCheck">
+                                            <li>
+                                                <input type="checkbox" name="isEnabled" ng-model="filters.isEnabled" data-jquery-icheck>
+                                                <label>Visualizza solo dipendenti attivi <i class="fa fa-info-circle ico" title="Vengono esclusi i dipendenti che non hanno contratti attivi" data-jquery-tooltip></i></label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" data-sorter="internalCode" class="text-left width-5">Codice</th>
+                            <th scope="col" data-sorter="name" class="text-left">Nome</th>
+                            <th scope="col" class="text-left width-10">Reparto</th>
+                            <th scope="col" class="text-left">Responsabile</th>
+                            <th scope="col" class="text-left">Posto di lavoro</th>
+                            <th scope="col" class="text-left">Assunzione</th>
+                            <th scope="col" class="text-left">Ultimo giorno</th>
+                            <th scope="col" class="text-left">Tipo contratto</th>
+                            <th scope="col" class="text-center width-5">Stato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in items">
+                            <td>
+                                <span class="badge bg-theme">{{item.internalCode}}</span>
+                            </td>
+                            <td>
+                                <a class="btn btn-link uppercase no-margin-padding" href="employees/edit/{{item.id}}"><strong>{{item.name + ' ' + item.surname}}</strong></a>
+                            </td>
+                            <td>{{item.departmentName}}</td>
+                            <td>
+                                <span data-ng-repeat="person in item.personsInCharge">
+                                    {{person.key}}
+                                    <span data-ng-if="!$last">&nbsp;,&nbsp;</span>
+                                </span>
+
+                            </td>
+                            <td>
+                                {{item.workPlace.key}}
+                            </td>
+                            <td>
+                                {{item.currentContract.startDate | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{item.currentContract.endDate | date:'dd/MM/yyyy'}}
+                            </td>
+                            <td>
+                                {{item.currentContract.type.key}}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-danger-darken" data-ng-if="item.disabled">Non attivo</span>
+                                <span class="badge bg-success-darken" data-ng-if="!item.disabled">Attivo</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </paginator>
+    </div>
+</section>
+
+
+
+<!--<div class="row" ng-controller="employeesCtrl">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading sm">
+                <h2><strong>Dipendenti</strong> <span data-ng-if="currentUser.lastUsedCompanyName != null && currentUser.lastUsedCompanyName != ''"> - {{currentUser.lastUsedCompanyName}}</span>  </h2>
+            </header>
+            <div class="panel-tools" align="right">
+                <ul class="tooltip-area">
+                    <li><a href="employees/create" class="btn btn-theme-inverse" title="Aggiungi nuovo dipendente"><i class="fa fa-plus"></i></a></li>
+                    <li><a href="javascript:void(0)" class="btn btn-theme-inverse" data-download-file="downloadXls()" data-download-file-name='dipendenti.xls' title="Download file xls"><i class="fa fa-download"></i></a></li>
+                </ul>
+            </div>
+            <div class="panel-body">
+                <paginator data-page-size="{{pageSize}}"
+                           data-resource-url="{{resourceUrl}}"
+                           data-items="items"
+                           data-cachekey="employeelist"
+                           data-filters="filters"
+                           data-total-items="totalItems">
+
+
+                </paginator>
+            </div>
+        </section>
+    </div>
+</div>-->

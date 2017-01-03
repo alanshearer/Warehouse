@@ -1,0 +1,59 @@
+﻿<div class="col-lg-12">
+    <div class="col-lg-4">
+        <div data-jquery-daterangepicker
+            data-start-date="filters.startDate"
+            data-end-date="filters.endDate"
+            class="btn btn-success">
+            <i class="fa fa-calendar"></i>
+            <span ng-if="filters.startDate">Dal {{filters.startDate |  date : 'dd/MM/yyyy'}} al {{filters.endDate |  date : 'dd/MM/yyyy' }}
+            </span>
+            <span ng-if="filters.startDate == null">&nbsp;Selezionare un periodo... &nbsp; &nbsp;
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-2">
+        <button class="btn btn-theme-inverse btn-block" type="button" data-ng-click="getOperatorsAbsenteeism()">
+            Visualizza&nbsp;&nbsp;<i class="fa fa-arrow-down"></i>
+        </button>
+    </div>
+    <div class="col-lg-2">
+        <!--<a href="javascript:void(0)" class="btn btn-theme-inverse" data-download-file="getXls(5)"
+            data-download-file-name='assenteismoOperatori.xls' title="Download file xls"><i class="fa fa-download"></i></a>-->
+        <button class="btn btn-theme-inverse btn-block" type="button" data-ng-click="showReportAbsenteeismCallcenter()">
+            Visualizza il report &nbsp;&nbsp;<i class="fa fa-info"></i>
+        </button>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="row"><i class="fa fa-info"></i>&nbsp;&nbsp;% di assenze, rispetto ai giorni per i quali è stata effettuata un'operazione di presenza o assenza, degli operatori, raggruppati per campagna e team leader.</div>
+    <section class="panel" ng-repeat="item in operatorsAbsenteeism">
+        <header class="panel-heading xs">
+            <h3>&nbsp;&nbsp;{{item.campaignName}}</h3>
+        </header>
+        <div class="panel-body col-lg-offset-1">
+            <section ng-repeat="teamLeader in item.teamLeadersAbsenteeism">
+                <header class="panel-heading xs">
+                    <h3>&nbsp;&nbsp;{{teamLeader.name}}</h3>
+                </header>
+                <div class="panel-body" ng-repeat="employee in teamLeader.employeesAbsenteeism">
+                    <div class="col-lg-8">{{employee.name}}</div>
+                    <div class="col-lg-4">{{employee.percentage | number:2}}&nbsp;%</div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="align-lg-right"><strong>{{teamLeader.percentage | number:2}}&nbsp;%</strong></div>
+                </footer>
+            </section>
+        </div>
+        <footer class="panel-footer">
+            <div class="align-lg-right"><strong>{{item.percentage | number:2}}&nbsp;%</strong></div>
+        </footer>
+    </section>
+    <div ng-show="operatorsAbsenteeism.length>0">
+        <header class="panel-heading xs">
+            <h3>&nbsp;&nbsp;<strong>Media generale</strong></h3>
+        </header>
+        <div class="panel-body">
+            <div class="align-lg-right"><strong>{{operatorsAbsenteeismAvg | number:2}}&nbsp;%</strong></div>
+        </div>
+    </div>
+</div>

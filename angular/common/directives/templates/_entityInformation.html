@@ -1,0 +1,43 @@
+﻿<div class="panel-group" ng-if="entity.createUser">
+    <div class="panel panel-default borders bd-gray">
+        <header class="panel-heading" style="padding:0 10px">
+            <a data-toggle="collapse" data-target="#collapseEntityInformation{{entity.id}}" data-jquery-collapse href="javascript:void(0)">
+                <i class="collapse-caret fa fa-angle-down"></i>
+                <strong>
+                    INFORMAZIONI DI COMPILAZIONE
+                </strong>
+            </a>
+        </header>
+        <div id="collapseEntityInformation{{entity.id}}" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div class="" data-form-group data-label="Autore"
+                     data-ng-if="entity.createUser">
+                    <p class="form-control-static">
+                        <i class="fa fa-user"></i>
+                        {{entity.createUser}}
+                    </p>
+                </div>
+                <div class="" data-form-group data-label="Data creazione" data-ng-if="entity.createDate">
+                    <p class="form-control-static">
+                        <i class="fa fa-calendar"></i>
+                        {{entity.createDate | date:'dd/MM/yyyy HH:mm' }}
+                    </p>
+                </div>
+                <div class="" data-form-group data-label="Data modifica" data-ng-if="entity.modifiedDate">
+                    <p class="form-control-static">
+                        <i class="fa fa-calendar"></i>
+                        {{entity.modifiedDate | date:'dd/MM/yyyy HH:mm' }}
+                    </p>
+                </div>
+                <div class="" data-form-group data-label="Utente modifica" data-ng-if="entity.modifiedUser">
+                    <p class="form-control-static">
+                        <i class="fa fa-user"></i>
+                        {{entity.modifiedUser}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

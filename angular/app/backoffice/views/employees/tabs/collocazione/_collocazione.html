@@ -1,0 +1,58 @@
+﻿
+
+
+<div class="alert alert-warning" data-ng-show="employeeForm.$dirty || data.id == null">
+    <strong>Attenzione! </strong> Per poter procedere alla gestione delle posizioni è necessario salvare prima le informazioni del dipendente
+</div>
+<section class="panel panel-default borders bd-gray"
+         data-ng-controller="employeePositionsCtrl"
+         data-ng-show="!employeeForm.$dirty && data.id != null">
+    <header class="panel-heading xs">
+        <strong> COLLOCAZIONI DIPENDENTE</strong>
+    </header>
+    <div class="panel-tools">
+        <ul>
+            <li>
+                <a href="employees/edit/{{data.id}}/positions/create" class="btn btn-info btn-transparent">
+                    <i class="fa fa-plus-square"></i>
+                    Aggiungi collocazione
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-left width-5">Reparto</th>
+                    <th scope="col" class="text-left width-10">Posto di lavoro</th>
+                    <th scope="col" class="text-left width-10">Data inizio validità</th>
+                    <th scope="col" class="text-left width-10">Data fine validità </th>
+                    <th scope="col" class="text-left width-10">Stato</th>
+                    <th scope="col" class="text-left">Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in positions">
+                    <td>
+                        <span class="badge bg-theme">  {{item.department.key}}</span>
+                    </td>
+                    <td>
+                        {{item.workPlace.key}}
+                    </td>
+                    <td class="text-left">{{item.startDate | date:"dd/MM/yyyy"}}</td>
+                    <td class="text-left">{{item.endDate | date:"dd/MM/yyyy"}}</td>
+
+                    <td class="text-left">
+                        <span class="badge bg-danger-darken" data-ng-if="!item.isActive">Non attivo</span>
+                        <span class="badge bg-success-darken" data-ng-if="item.isActive">Attivo</span>
+                    </td>
+                    <td class="text-left">
+                        <a href="employees/edit/{{data.id}}/positions/edit/{{item.id}}"
+                           class="btn btn-default btn-sm" title="Modifica contratto" data-jquery-tooltip>Modifica</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

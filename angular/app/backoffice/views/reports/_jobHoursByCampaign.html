@@ -1,0 +1,35 @@
+﻿<section class="panel">
+    <header class="panel-heading sm">
+        <h2><strong >Report dipendenti CallCenter</strong> </h2>
+    </header>
+    <div class="panel-body">
+        <p>
+            Distinta delle ore erogate raggruppate per dipendente e campagna. Si avvisa che vengono considerate solo le registrazioni complete ossià quelle presentano un orario di ingresso e uscita.
+        </p>
+        <div class="row">
+            <div class="col-lg-10">
+                <div data-jquery-daterangepicker
+                     data-start-date="filters.startDate"
+                     data-end-date="filters.endDate"
+                     class="btn btn-success">
+                    <i class="fa fa-calendar"></i>
+                    <span ng-if="filters.startDate">
+                        Dal {{filters.startDate |  date : 'dd/MM/yyyy'}} al {{filters.endDate |  date : 'dd/MM/yyyy' }}
+                    </span>
+                    <span ng-if="filters.startDate == null">
+                        &nbsp;Selezionare un periodo... &nbsp; &nbsp;
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-primary"
+                        type="button" 
+                        data-download-file-name="Distinta ore erogate.xml"
+                        data-download-file="getJobHoursByCampaign()">
+                    Genera report
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+

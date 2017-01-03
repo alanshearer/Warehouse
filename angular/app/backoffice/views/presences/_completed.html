@@ -1,0 +1,58 @@
+﻿<h3>Ingressi e uscite</h3>
+<table class="table table-bordered table-striped" id="table-presenti">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Dipendente</th>
+            <th scope="col" class="text-center">Data e ora di ingresso</th>
+            <th scope="col" class="text-center">Data e ora di uscita</th>
+            <th scope="col" class="text-center" ng-if="currentUser.companyIsCallCenter">Campagna</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in present">
+            <td>{{item.employeeName + ' ' + item.employeeSurname + ' [' + item.employeeInternalCode + ']'}}</td>
+            <td>{{item.enterTime | date:"dd/MM/yyyy"}}&nbsp;&nbsp;<strong>{{item.enterTime | date:"HH:mm" : "UTC"}}</strong></td>
+            <td>{{item.exitTime | date:"dd/MM/yyyy"}}&nbsp;&nbsp;<strong>{{item.exitTime | date:"HH:mm"}}</strong></td>
+            <td>{{item.selectedCampaignName}}</td>
+            <td class="text-center">
+                <a class="btn btn-default btn-sm" data-ng-click="deletePresence(item)">Elimina</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="5">
+                <label class="color">Totale presenti: <strong>{{present.length}} </strong></label>
+            </th>
+        </tr>
+    </tfoot>
+</table>
+<h3>Assenze</h3>
+<table class="table table-bordered table-striped" id="table-assenti">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Dipendente</th>
+            <th scope="col" class="text-center">Tipo</th>
+            <th scope="col" class="text-center">Note</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in absences">
+            <td>{{item.employeeName}}</td>
+            <td>{{item.typeName}}</td>
+            <td>{{item.motivation}}</td>
+              <td class="text-center">
+                <a class="btn btn-default btn-sm" data-ng-click="deleteAbsence(item)">Elimina</a>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4">
+                <label class="color">Totale assenti: <strong>{{absences.length}} </strong></label>
+            </th>
+        </tr>
+    </tfoot>
+</table>

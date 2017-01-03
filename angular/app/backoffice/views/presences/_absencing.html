@@ -1,0 +1,116 @@
+﻿<div class="row-fluid">
+    <div class="row">
+        <div class="col-lg-5">
+            <section class="panel">
+                <header class="panel-heading xs">
+                    <h2>Dipendenti non ancora presenti</h2>
+                </header>
+                <div class="panel-tools" align="left">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input class="form-control" type="text" name="presentsFilter" maxlength="20"
+                                   data-jquery-popover data-content="Filtra per nome / cognome / codice dipendente"
+                                   ng-model="notPresentFilterForAbsencing.search">
+                        </div>
+                        <div class="col-lg-6 align-lg-right">
+                            <select data-jquery-selectpicker-live="getDepartments()"
+                                    name="presentsFilterByDepartment"
+                                    data-style="btn-theme-inverse"
+                                    ng-model="notPresentFilterForAbsencing.departmentId"
+                                    data-width="auto"
+                                    data-live-search="true"
+                                    ng-options="g.value as g.key for g in departments">
+                                <option value="">Filtra per reparto...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row"  ng-if="currentUser.companyIsCallCenter">
+                        <div class="col-lg-6">
+                            <select 
+                                data-jquery-selectpicker-live="getCampaigns()"
+                                name="presentsFilterByCampaign"
+                                data-style="btn-theme-inverse"
+                                ng-model="notPresentFilterForAbsencing.campaignId"
+                                data-width="auto"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in campaigns">
+                                <option value="">Filtra per campagna...</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 align-lg-right">
+                            <select
+                                data-jquery-selectpicker-live="getTeamLeaders()"
+                                name="presentsFilterByTeamLeader"
+                                data-style="btn-theme-inverse"
+                                ng-model="notPresentFilterForAbsencing.teamLeaderId"
+                                data-width="auto"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in teamLeaders">
+                                <option value="">Filtra per team leader...</option>
+                            </select>
+                        </div>
+                
+                    </div>
+                </div>
+
+                <button class="btn btn-info btn-block" type="button"
+                    ng-repeat="item in notPresentToShow"
+                    ng-click="setAbsencing(item)">
+                    {{item.employeeName + ' ' + item.employeeSurname + ' (' + item.employeeInternalCode + ')'}}
+                </button>
+
+            </section>
+        </div>
+        <div class="col-lg-7">
+            <section class="panel">
+                <header class="panel-heading xs">
+                    <h2><i class="fa fa-times-circle-o"></i>&nbsp;&nbsp;Dipendenti assenti</h2>
+                </header>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Dipendente</th>
+                            <th scope="col" class="text-center">Data</th>
+                            <th scope="col" class="text-center">Tipo</th>
+                            <th scope="col" class="text-center">Note</th>
+                            <th scope="col" class="text-center"></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in absencing">
+
+                            <td>{{item.employeeName + ' ' + item.employeeSurname + ' [' + item.employeeInternalCode + ']'}}</td>
+                            <td data-form-group>
+                                <input
+                                    class="form-control"
+                                    name="date"
+                                    ng-model="item.date"
+                                    data-jquery-dateinputmask></td>
+                            <td data-form-group>
+                                <select name="type"
+                                    data-width="auto"
+                                    data-container='body'
+                                    data-style="btn-theme-inverse"
+                                    ng-model="item.typeId"
+                                    data-jquery-selectpicker-live="getAbsenceTypes()"
+                                    data-live-search="true"
+                                    ng-options="o.value as o.key for o in absenceTypes"
+                                    required>
+                                    <option value="">Seleziona...</option>
+                                </select></td>
+                            <td data-form-group>
+                                <textarea class="form-control" name="note" ng-model="item.motivation" maxlength="255" rows="1"></textarea></td>
+                            <td><a class="btn btn-close" title="" href="javascript:void(0)" data-original-title="Rimuovi" ng-click="removeAbsencing(item)">
+                                <i class="fa fa-times"></i>
+                            </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,111 @@
+﻿<div class="row" ng-controller="tablesCtrl">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading sm">
+                <h2><strong>Tabelle</strong> </h2>
+            </header>
+            <div class="panel-body">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('identitydocument')">
+                                Documenti di identità
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('contracttype')">
+                                Tipologie contratto
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('contractclosingtype')">
+                                Motivazioni chiusura contratto
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('attachmenttype')">
+                                Tipologie allegati
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('absencetype')">
+                                Tipologie assenze
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('campaigntype')">
+                                Tipologie campagne
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" data-toggle="tab" ng-click="setTable('brand')">
+                                Brand
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active">
+                            <section class="panel no-margin-padding">
+                                <div class="panel-body no-margin-padding">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-left">
+                                                    Nome*
+                                                </th>
+                                                <th data-ng-show="table =='contractclosingtype'">
+                                                    Descrizione
+                                                </th>
+                                                <th class="width-30">
+                                                    Azioni
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in items" ng-form="itemForm">
+                                                <!--<td data-form-group style="width: 20%">
+                                                    <input class="form-control" type="text" name="code" ng-model="item.code" ng-disabled="!item.isEdit && !item.isNew" maxlength="4" max="4">
+                                                </td>-->
+                                                <td data-form-group>
+                                                    <input class="form-control"
+                                                           type="text" name="name"
+                                                           required ng-model="item.name"
+                                                           ng-disabled="!item.isEdit && !item.isNew" maxlength="50" max="4">
+                                                </td>
+                                                <td data-form-group data-ng-show="table =='contractclosingtype'">
+                                                    <input class="form-control" type="text"
+                                                           name="description"
+                                                           ng-model="item.description"
+                                                           ng-disabled="!item.isEdit && !item.isNew" maxlength="400" max="4">
+                                                </td>
+                                                <td nowrap>
+                                                    <a class="btn btn-warning btn-sm fx-fade-right" href="javascript:void(0)" ng-click="editItem(item)" ng-if="item.id > 0 && !item.isEdit ">Modifica</a>
+                                                    <a class="btn btn-danger btn-sm  fx-fade-right" href="javascript:void(0)" ng-click="removeItem(item)" ng-if="item.isEdit">Elimina</a>
+                                                    <a class="btn btn-theme-inverse btn-sm fx-fade-right" href="javascript:void(0)" ng-click="saveItem(item)" ng-if="item.isEdit || item.isNew" data-ng-disabled="itemForm.$invalid">Salva</a>
+                                                    <a class="btn btn-default btn-sm fx-fade-right" href="javascript:void(0)" ng-click="cancel(item)" ng-if="item.isEdit || item.isNew">Annulla</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <label class="color color-primary" ng-cloak>Totale elementi: <strong>{{items.length}}</strong> </label>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="addItem()">
+                                                        Aggiungi
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

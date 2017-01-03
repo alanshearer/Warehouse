@@ -1,0 +1,50 @@
+﻿<form name="formEmployeeRegistrations" novalidate>
+    <section class="panel">
+        <header class="panel-heading sm">
+            <h2><strong>Report Dipendente</strong> </h2>
+        </header>
+        <div class="panel-body">
+            <p>
+                Elenco delle presenze e assenze per un determinato dipendente. La selezione del periodo e del dipendente sono obbligatori.
+            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    <div data-jquery-daterangepicker
+                         data-start-date="filters.startDate"
+                         data-end-date="filters.endDate"
+                         data-required="true"
+                         class="btn btn-success">
+                        <i class="fa fa-calendar"></i>
+                        <span ng-if="filters.startDate">
+                            Dal {{filters.startDate |  date : 'dd/MM/yyyy'}} al {{filters.endDate |  date : 'dd/MM/yyyy' }}
+                        </span>
+                        <span ng-if="filters.startDate == null">
+                            &nbsp;Selezionare un periodo... &nbsp; &nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <select data-jquery-selectpicker-live="getEmployees()"
+                            name="employeeId"
+                            data-style="btn-theme-inverse"
+                            ng-model="filters.employeeId"
+                            data-width="auto"
+                            required=""
+                            data-live-search="true"
+                            ng-options="g.value as g.key for g in employees">
+                        <option value="">Seleziona un dipendente...</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary"
+                            type="button"
+                            data-ng-disabled="!formEmployeeRegistrations.$valid"
+                            data-download-file-name="Elenco registrazioni dipendente.xml"
+                            data-download-file="getEmployeeRegistrations()">
+                        Genera report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

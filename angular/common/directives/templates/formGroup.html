@@ -1,0 +1,11 @@
+﻿<div class="form-group" 
+     data-ng-cloak
+     ng-class="{'has-error': isInvalid && (isDirty || isSubmitted), 'has-success': !isInvalid && (isDirty || isSubmitted) }">
+    
+    <label data-ng-class="getLeftClass()" for="{{forLabel}}" ng-if="label != null">
+        {{label}}
+        <span class="required" ng-if="isRequired">*</span>
+    </label>
+    <div data-ng-class="getRightClass()" data-transclude>
+    </div>
+</div>

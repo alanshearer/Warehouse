@@ -1,0 +1,26 @@
+﻿<form name="formOra" novalidate="novalidate" data-ng-submit="ok(formOra)">
+    <div class="modal-header bg-inverse bd-inverse-darken">
+        <h2 class="modal-title">Imposta orario</h2>
+        <!--<p>
+            Di seguito la lista dei partecpanti. Per aggiungere un nuovo partecipante cliccare sull'apposito pulsante
+        </p>-->
+    </div>
+    <div class="modal-body">
+        <div data-form-group data-label="Ora">
+            <input class="form-control input-sm"
+                   name="date"
+                   required
+                   ng-model="date"
+                   data-jquery-timeinputmask>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary"
+                type="submit"
+                href="javascript:void(0)">
+            Imposta ora
+        </button>
+        <button class="btn btn-danger" ng-click="cancel()">Annulla</button>
+    </div>
+
+</form>

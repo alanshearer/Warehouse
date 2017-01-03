@@ -1,0 +1,189 @@
+﻿[
+    {
+        "version": "2.1.0",
+        "date": "2016-12-20T12:30:00.643+02:00",
+        "changes": {
+            "Report": [
+                "Aggiunto turnover per reparto",
+                "Report registrazioni mancanti o incomplete, realizzabili per anno e per mese",
+                "Aggiunta tooltip informativi"
+            ],
+            "Bug Fix": [
+                "Visualizzazione dipendenti non attivi nella pagina Registrazioni",
+                "Ripristinato filtro 'Visualizza solo dipendenti attivi' nella pagina Dipendenti",
+                "Data fine contratto allineata con collocazioni e campagne associate",
+                "Aggiunta la verifica delle date di fine collocazione alla chiusura del contratto",
+                "Visualizzazione corretta del Team Leader nel report dei dipendenti"
+            ],
+            "Futures": [
+                "Aggiunta quicklist Brand e Tipologie campagna",
+                "Aggiunta grafico per Registrazioni incomplete",
+                "Aggiunta widget per il turnover positivo e negativo del mese corrente",
+                "Aggiunta paginazione a pagina registrazioni",
+                "Info sui grafici della dashboard",
+                "Aggiunta gestione dei ruoli"
+            ]
+        }
+    },
+    {
+        "version": "1.7.1",
+        "date": "2016-11-23T12:30:00.643+02:00",
+        "changes": {
+            "Report": [
+                "Report aggregati per turnover",
+                "Report aggregati per assenteismo",
+                "Filtri automatici per colonna",
+                "Supporto ai PDF"
+            ],
+            "Bug Fix": [
+                "Selezione Responsabile nei filtri di ricerca",
+                "Vari bug sui report"
+            ],
+            "Futures": [ 
+                "Modifiche alla sezione What's New - aggiunta categoria changelog"
+            ]
+        }
+    },
+    {
+        "version": "1.7.0",
+        "date": "2016-11-18T12:30:00.643+02:00",
+        "changes": {
+            "Report": ["Report per assenteismo e turnover"],
+            "Dashboard": [
+                "Grafici per campagne e reparti",
+                "Widget per dipendenti con contratto attivo"
+            ]
+        }
+    },
+    {
+        "version": "1.6.4",
+        "date": "2015-03-14T13:30:00.643+02:00",
+        "changes": {
+            "Bug fix": [
+                "Fix bug salvataggio contratti",
+                "Fix bug selezione data in gestione presenze"
+            ]
+        }
+    },
+    {
+        "version": "1.6.3",
+        "date": "2015-03-06T20:30:00.643+02:00",
+        "changes": {
+            "Futures": ["Associazioni operatori a campagne: aggiunti controlli di validità, bugfix e miglioramento ux"]
+        }
+    },
+    {
+        "version": "1.6.2",
+        "date": "2015-03-05T18:30:00.643+02:00",
+        "changes": {
+            "Futures": [
+                "Gestione presenze: tasto applica per operazioni di ingresso e uscita multiple",
+                "Report assenteismo operatori"
+            ]
+        }
+    },
+    {
+        "version": "1.6.1",
+        "date": "2015-02-23T18:00:00.643+02:00",
+        "changes": {
+            "Futures": [
+                "Gestione presenze: aggiunta funzionalità di riepilogo operazioni completate",
+                "Creazione dipendente: tutte le sezioni sono visibili e compilabili"
+            ]
+        }
+    },
+    {
+        "version": "1.6",
+        "date": "2015-02-23T18:00:00.643+02:00",
+        "changes": {
+            "Futures": ["Reports"],
+            "Bug fix": [
+                "Fix bug inserimento uscite",
+                "Fix bug inserimento assenze"
+            ]
+        }
+    },
+    {
+        "version": "1.5.1",
+        "date": "2015-02-17T09:00:00.643+02:00",
+        "changes": {
+            "Futures": [
+                "Filtri dipendenti nel modulo registrazione",
+                "Visualizzazione operazioni in sospeso"
+            ],
+            "Bug fix": ["Fix bug salvataggio dipendenti"]
+        }
+    },
+    {
+        "version": "1.5",
+        "date": "2015-02-10T18:00:00.643+02:00",
+        "changes": {
+            "Futures": ["Modulo registrazione ingressi/uscite/assenze"]
+        }
+    },
+    {
+        "version": "1.4",
+        "date": "2015-02-05T15:00:00.643+02:00",
+        "changes": {
+            "Futures": [
+                "Nuova gestione associazione campagne al dipendente",
+                "Aggiunto filtro per filtrare tra campagne attive/non attive",
+                "Reso più visibile il codice dipendente"
+            ],
+            "Bug fix": ["Fix bug campagne"]
+        }
+    },
+    {
+        "version": "1.3.2",
+        "date": "2015-01-29T22:00:00.643+02:00",
+        "changes": {
+            "Bug fix": ["Rimossa per il TeamLeader la possibilità di avere più di 1 campagna associata", "Fix bug creazione campagna"]
+        }
+    },
+    {
+        "version": "1.3.1",
+        "date": "2015-01-28T19:00:00.643+02:00",
+        "changes": {
+            "Bug fix": ["Correzione bugs gestione contratti dipendenti"]
+        }
+    },
+    {
+        "version": "1.3",
+        "date": "2015-01-27T21:00:00.643+02:00",
+        "changes": {
+            "Futures": ["Gestione contratti dipendente", "Gestione tipi di assenze"],
+            "Bug fix": ["Corretto bug luogo di nascita dipendente"]
+        }
+    },
+    {
+        "version": "1.2",
+        "date": "2015-01-20T21:00:00.643+02:00",
+        "changes": {
+            "Futures": [
+                "Funzionalità di associazione dei dipendenti alle campagne",
+                "Aggiunto codice dipendente autogenerato",
+                "Divisione in tabs della pagina per la gestione del dipendente"
+            ],
+            "Bug fix": ["Modificato ordinamento lista nazioni: Italia e Albania compaiono in testa"]
+        }
+    },
+    {
+        "version": "1.1",
+        "date": "2015-01-18T21:00:00.643+02:00",
+        "changes": {
+            "Futures": [
+                "Gestione dipendenti",
+                "Gestione contratti",
+                "Generazione reparti per modulo Call Center",
+                "Gestione campagne"
+            ]
+        }
+    },
+    {
+        "version": "1.0",
+        "date": "2015-01-03T00:00:00.643+02:00",
+        "changes": {
+            "Futures": ["Creazione applicazione principale bpoint versione 1.0"]
+        }
+    }
+]

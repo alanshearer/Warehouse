@@ -1,0 +1,16 @@
+﻿<select name="kvpSelectElement"
+        data-style="btn-default btn-sm"
+        ng-model="current.value"
+        data-width="{{width || 'auto'}}"
+        data-live-search="true"
+        data-ng-change="change()"
+        data-jquery-selectpicker-live="getItems()"
+        data-ng-options="g.value as g.key for g in items"
+        data-ng-disabled="disabled || false"
+        data-ng-required="required || false">
+    <option value="">Seleziona...</option>
+</select>
+<!--<span>
+    <input type="hidden" ng-if="current.value == item.value && item.description" ng-repeat="item in items" value="{{item.description}}" />
+</span>-->
+

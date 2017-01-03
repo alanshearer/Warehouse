@@ -1,0 +1,274 @@
+﻿
+<form name="companyForm"
+      class="form-horizontal"
+      novalidate="novalidate"
+      data-form-submit="save()"
+      data-ng-controller="companyManageCtrl">
+    <section class="panel panel-themes borders bd-gray">
+        <header class="panel-heading sm">
+            <h2><strong>Gestione azienda</strong> </h2>
+        </header>
+        <div class="panel-tools">
+            <ul>
+                <li>
+                    <button type="submit" class="btn btn-info btn-transparent">
+                        <i class="fa fa-save"></i>
+                        Salva
+                    </button>
+                </li>
+                <li ng-if="data.id > 0">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                        <i class="fa fa-trash-o"></i>
+                        Elimina
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable" data-tabbablesections="tabbableOptions">
+                <ul class="nav nav-tabs" data-jquery-tabdrop>
+                    <li>
+                        <a>
+                            DATI GENERALI
+                            <span data-form-errors-count="formTabInfoGenerali"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div data-form-group data-label="Ragione sociale">
+                                    <input class="form-control input-sm" type="text" name="name" required ng-model="data.name" max="100" maxlength="100">
+                                </div>
+                                <div data-form-group data-label="Partita Iva">
+                                    <input class="form-control input-sm" type="text" name="piva" required ng-model="data.piva" max="11" maxlength="11">
+                                </div>
+                                <div data-form-group data-label="Codice fiscale">
+                                    <input class="form-control input-sm" type="text" name="fiscalCode" ng-model="data.fiscalCode" max="16" maxlength="16">
+                                </div>
+                                <div data-form-group data-label="Indirizzo">
+                                    <input class="form-control input-sm" type="text" name="lineAddress" ng-model="data.lineAddress" max="100" maxlength="100" required>
+                                </div>
+                                <div data-form-group data-label="Civico">
+                                    <input class="form-control input-sm" type="text" name="streetNumber" ng-model="data.streetNumber" max="10" maxlength="10">
+                                </div>
+                                <country-selector data-country-id="data.countryId"
+                                                  data-country-name="data.countryName"
+                                                  data-province-id="data.provinceId"
+                                                  data-province-name="data.provinceName"
+                                                  data-municipality-id="data.municipalityId"
+                                                  data-municipality-name="data.municipalityName"
+                                                  ng-required="true"
+                                                  data-postalcode="data.postalCode">
+                                </country-selector>
+                                <div data-form-group data-label="Telefono">
+                                    <input class="form-control input-sm" type="tel" name="telephone" ng-model="data.telephone" max="20" maxlength="20">
+                                </div>
+
+                                <div data-form-group data-label="Fax">
+                                    <input class="form-control input-sm" type="tel" name="fax" ng-model="data.fax" max="20" maxlength="20">
+                                </div>
+
+                                <div data-form-group data-label="Mobile">
+                                    <input class="form-control input-sm" type="tel" name="mobile" ng-model="data.mobile" max="20" maxlength="20">
+                                </div>
+                                <div data-form-group data-label="Indirizzo e-mail">
+                                    <input class="form-control input-sm" type="email" name="email" ng-model="data.email" max="255" maxlength="255">
+                                </div>
+                                <div data-form-group data-label="Sito internet">
+                                    <input class="form-control input-sm" type="text" name="http" ng-model="data.http" max="255" maxlength="255">
+                                </div>
+
+                                <div data-form-group data-label="Valuta">
+                                    <select name="currency"
+                                            data-width="auto"
+                                            data-container='body'
+                                            data-style="btn-default btn-sm"
+                                            ng-model="data.currency"
+                                            data-jquery-selectpicker-live="getCurrencies()"
+                                            data-live-search="true"
+                                            ng-options="o.value as o.key for o in currencies">
+                                        <option value="">Seleziona...</option>
+                                    </select>
+                                </div>
+
+                                <div data-form-group data-label="Annotazioni">
+                                    <textarea class="form-control input-sm" name="note" ng-model="data.note" maxlength="400" rows="4"></textarea>
+                                </div>
+                                <div data-form-group data-label="Moduli abilitati">
+                                    <label class="color">
+                                        Selezionare dalla lista sottostante i moduli abilitati per l'azienda corrente.<span class="color-primary fx-fade-left" ng-if="data.statesIds.length>0">
+                                                                                                                          Totale moduli selezionati: <strong>{{data.modulesIds.length}}</strong>
+                                                                                                                      </span>
+                                    </label>
+                                    <checkbox-list data-source-items="modules"
+                                                   data-destination-items="data.modulesIds"
+                                                   data-item-propertyvalue="id"
+                                                   data-item-propertyname="name"
+                                                   data-item-propertyselected="selected">
+
+                                    </checkbox-list>
+                                </div>
+                                <div data-form-group data-label="Abilitata">
+                                    <ul class="iCheck" data-color="red">
+                                        <li>
+                                            <input type="checkbox" name="isEnabled" ng-model="data.isEnabled" data-jquery-icheck>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-1">
+
+                            </div>
+                            <div class="col-lg-5">
+                                <entity-information data-entity="data"></entity-information>
+                            </div>
+                        </div>
+                        
+
+                        <hr />
+                        <section class="panel panel-default borders bd-gray">
+                            <header class="panel-heading xs">
+                                <h2><strong>Moduli abilitati</strong> </h2>
+                            </header>
+                            <div class="panel-tools">
+                                <ul>
+                                    <li>
+                                        <a class="btn btn-theme btn-transparent" href="javascript:void(0)" ng-click="addDepartment()" title="Aggiungi reparto" data-jquery-tooltip>
+                                            <i class="fa fa-plus-square"></i>
+                                            <span>Aggiungi reparto</span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    Di seguito l'elenco dei reparti per l'azienda.
+                                    Si avvisa che per eliminare definitivamente le voci già esistenti è necessario contrassegnarle con l'opzione al lato e confermare con il pulsante [Salva] situato in fondo al presente modulo.
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table table-condensed table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <th class="text-left">
+                                                    Nome
+                                                </th>
+                                                <th class="text-left">
+                                                    Elimina
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in data.departments" ng-class="{'deletedrow': item.isDeleted}">
+                                                <td class="text-right">
+                                                    <span>
+                                                        <i ng-class="{'fa fa-pencil text-info': item.id > 0 && !item.isDeleted , 'fa fa-star text-warning': item.id == 0 && !item.isDeleted, 'fa fa-trash-o text-danger': item.isDeleted}"></i>
+                                                        {{$index + 1}}
+                                                    </span>
+                                                </td>
+                                                <td ng-form="departmentForm" data-form-group>
+                                                    <input class="form-control input-sm" name="departmentname" required ng-model="item.name" ng-disabled="item.isDeleted || item.isReadonly">
+                                                </td>
+                                                <td data-form-group>
+                                                    <ul class="iCheck" ng-if="item.id > 0">
+                                                        <li>
+                                                            <input type="checkbox" name="departmentIsDeleted" ng-model="item.isDeleted" data-jquery-icheck ng-disabled="item.isDeleted || item.isReadonly">
+                                                        </li>
+                                                    </ul>
+                                                    <a class="btn btn-default btn-sm" ng-if="item.id==0" href=" javascript:void(0)" ng-click="removeDepartment(item)">Elimina</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" ng-cloak>
+                                                    <label class="color color-primary">Totale reparti: <strong>{{data.departments.length}}</strong> </label>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="panel panel-default borders bd-gray">
+                            <header class="panel-heading xs">
+                                <h2><strong>Elenco posti di lavoro</strong> </h2>
+                            </header>
+                            <div class="panel-tools">
+                                <ul>
+                                    <li>
+                                        <a class="btn btn-theme btn-transparent" href="javascript:void(0)" ng-click="addworkPlace()" title="Aggiungi posto di lavoro" data-jquery-tooltip>
+                                            <i class="fa fa-plus-square "></i>
+                                            <span>Aggiungi posto di lavoro</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-condensed table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <th class="text-left">
+                                                    Nome
+                                                </th>
+                                                <th class="text-left">
+                                                    Elimina
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="workPlace in data.workPlaces" ng-class="{'deletedrow': workPlace.isDeleted}">
+                                                <td class="text-right">
+                                                    <span>
+                                                        <i ng-class="{'fa fa-pencil text-info': workPlace.id > 0 && !workPlace.isDeleted , 'fa fa-star text-warning': workPlace.id == 0 && !workPlace.isDeleted, 'fa fa-trash-o text-danger': workPlace.isDeleted}"></i>
+                                                        {{$index + 1}}
+                                                    </span>
+                                                </td>
+                                                <td ng-form="workPlaceForm" data-form-group>
+                                                    <input class="form-control input-sm" name="workPlaceName" required ng-model="workPlace.name" ng-disabled="workPlace.isDeleted">
+                                                </td>
+                                                <td data-form-group>
+                                                    <ul class="iCheck" ng-if="workPlace.id > 0">
+                                                        <li>
+                                                            <input type="checkbox" name="workPlaceIsDeleted" ng-model="workPlace.isDeleted" data-jquery-icheck ng-disabled="workPlace.isDeleted">
+                                                        </li>
+                                                    </ul>
+                                                    <a class="btn btn-default btn-sm" ng-if="workPlace.id==0" href=" javascript:void(0)" ng-click="removeworkPlace(item)">Elimina</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" ng-cloak>
+                                                    <label class="color color-primary">Totale posti di lavoro: <strong>{{data.workPlaces.length}}</strong> </label>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+
+

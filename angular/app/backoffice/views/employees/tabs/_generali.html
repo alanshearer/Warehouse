@@ -1,0 +1,136 @@
+﻿
+<div class="row">
+    <div class="col-lg-6">
+        <div data-form-group data-label="Codice" data-ng-show="data.internalCode != null">
+            <span class="badge bg-theme">{{data.internalCode}}</span>
+        </div>
+        <div data-form-group data-label="Nome">
+            <input class="form-control input-sm"
+                   type="text"
+                   name="name"
+                   required
+                   ng-model="data.name"
+                   maxlength="100">
+        </div>
+        <div data-form-group data-label="Cognome">
+            <input class="form-control input-sm" type="text" name="surname" required ng-model="data.surname" maxlength="100">
+        </div>
+        <div data-form-group data-label="Codice fiscale">
+            <input class="form-control input-sm " type="text" name="fiscalCode"
+                   ng-model="data.fiscalCode"
+                   max="16" maxlength="16">
+        </div>
+      
+        <div data-form-group data-label="Data di nascita">
+            <input class="form-control input-sm"
+                   name="birthDate"
+                   ng-model="data.birthDate"
+                   data-jquery-dateinputmask>
+        </div>
+        <country-selector data-country-id="data.birthCountryId"
+                          data-country-name="data.birthCountryName"
+                          data-province-id="data.birthProvinceId"
+                          data-province-name="data.birthProvinceName"
+                          data-municipality-id="data.birthPlaceId"
+                          data-municipality-name="data.birthPlaceName"
+                          data-showpostalcode="false">
+        </country-selector>
+        <div data-form-group data-label="Sesso">
+            <select class="form-control btn-sm"
+                    name="gender"
+                    ng-model="data.gender"
+                    data-width="auto"
+                    required
+                    data-ng-options="o.id as o.name for o in genderItems"
+                    data-style="btn-default btn-sm"
+                    data-jquery-selectpicker>
+                <option value="">Seleziona...</option>
+            </select>
+        </div>
+        <!--<div data-form-group data-label="Disabilitato">
+            <ul class="iCheck">
+                <li>
+                    <input type="checkbox"
+                           disabled
+                           name="disabled"
+                           ng-model="data.disabled"
+                           data-jquery-icheck>
+                </li>
+            </ul>
+        </div>-->
+        <div data-form-group data-label="Annotazioni">
+            <textarea class="form-control input-sm" name="note"
+                      data-auto-grow
+                      ng-model="data.note" maxlength="500" rows="4"></textarea>
+        </div>
+        <div data-form-group data-label="&nbsp;">
+            <p class="form-control-static color-theme">
+                <strong>
+                    RESIDENZA
+                </strong>
+            </p>
+        </div>
+        <div data-form-group data-label="Indirizzo">
+            <input class="form-control input-sm" type="text" name="lineAddress" ng-model="data.lineAddress" max="100" maxlength="100">
+        </div>
+        <div data-form-group data-label="Civico">
+            <input class="form-control input-sm" type="text" name="streetNumber" ng-model="data.streetNumber" max="10" maxlength="10">
+        </div>
+        <country-selector data-country-id="data.countryId"
+                          data-country-name="data.countryName"
+                          data-province-id="data.provinceId"
+                          data-province-name="data.provinceName"
+                          data-municipality-id="data.municipalityId"
+                          data-municipality-name="data.municipalityName"
+                          data-postalcode="data.postalCode">
+        </country-selector>
+        <div data-form-group data-label="&nbsp;">
+            <p class="form-control-static color-theme">
+                <strong>
+                    RECAPITI
+                </strong>
+            </p>
+        </div>
+        <div data-form-group data-label="Telefono">
+            <input class="form-control input-sm" type="tel" name="telephone" ng-model="data.telephone" max="20" maxlength="20">
+        </div>
+        <div data-form-group data-label="Fax">
+            <input class="form-control input-sm" type="tel" name="fax" ng-model="data.fax" max="20" maxlength="20">
+        </div>
+
+        <div data-form-group data-label="Mobile" >
+            <input class="form-control input-sm"
+                   type="tel"
+                   name="mobile"
+                   ng-model="data.mobile"
+                   data-ng-maxlength="20">
+        </div>
+        <div data-form-group data-label="Indirizzo e-mail">
+            <input class="form-control input-sm" type="email" name="email" ng-model="data.email" max="255" maxlength="255">
+        </div>
+        <div data-form-group data-label="&nbsp;">
+            <p class="form-control-static color-theme">
+                <strong>
+                    DOCUMENTO DI RICONOSCIMENTO
+                </strong>
+            </p>
+        </div>
+        <div data-form-group
+             data-ng-form="tipoDocumentoForm"
+             data-label="Tipo documento">
+            <kvp-select data-items="documentTypes"
+                        data-action="getDocumentTypes()"
+                        data-current="data.documentType">
+            </kvp-select>
+        </div>
+        <div data-form-group data-label="Numero documento">
+            <input class="form-control input-sm" type="text" name="documentNumber" ng-model="data.documentNumber" max="20" maxlength="20">
+        </div>
+    </div>
+    <div class="col-lg-1">
+
+    </div>
+    <div class="col-lg-5">
+        <entity-information data-entity="data"></entity-information>
+    </div>
+</div>

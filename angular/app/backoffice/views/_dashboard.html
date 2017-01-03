@@ -1,0 +1,103 @@
+﻿<div data-ng-controller="dashboardCtrl">
+    <div class="row">
+        <div class="col-md-2" data-ng-if="employeeWithoutContract">
+            <div class="well bg-info">
+                <div class="widget-tile">
+                    <section>
+                        <h5><strong>DIPENDENTI NON ATTIVI</strong> </h5>
+                        <h2>{{employeeWithoutContract}}</h2>
+                    </section>
+                    <div class="hold-icon"><i class="fa fa-users"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" data-ng-if="employeeWithContract">
+            <div class="well bg-info">
+                <div class="widget-tile">
+                    <section>
+                        <h5><strong>DIPENDENTI ATTIVI</strong> </h5>
+                        <h2>{{employeeWithContract}}</h2>
+                    </section>
+                    <div class="hold-icon"><i class="fa fa-users"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" data-ng-if="withnotvalidposition">
+            <div class="well bg-warning">
+                <div class="widget-tile">
+                    <section>
+                        <h5><strong>DIPENDENTI DA CONTROLLARE</strong> </h5>
+                        <h2>{{withnotvalidposition}}</h2>
+                    </section>
+                    <div class="hold-icon"><i class="fa fa-users"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" data-ng-if="currentmonthpositiveturnover">
+            <div class="well bg-success">
+                <div class="widget-tile">
+                    <section>
+                        <h5><strong>TURNOVER POSITIVO</strong> </h5>
+                        <h2>{{currentmonthpositiveturnover}}</h2>
+                    </section>
+                    <div class="hold-icon"><i class="fa fa-users"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2" data-ng-if="currentmonthnegativeturnover">
+            <div class="well bg-danger">
+                <div class="widget-tile">
+                    <section>
+                        <h5><strong>TURNOVER NEGATIVO</strong> </h5>
+                        <h2>{{currentmonthnegativeturnover}}</h2>
+                    </section>
+                    <div class="hold-icon"><i class="fa fa-users"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4" data-ng-if="departmentactiveemployees">
+            <div class="well bg-info">
+                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{departmentactiveemployees.description}}" data-jquery-tooltip></i></label></div>
+                <div class="widget-tile">
+                    <highchart-ext id="departmentactiveemployeesgraph" title="Dipendenti per reparto" data="departmentactiveemployees" y-axis-title="Dipendenti"></highchart-ext>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8" data-ng-if="campaignactiveemployees">
+            <div class="well bg-info">
+                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{campaignactiveemployees.description}}" data-jquery-tooltip></i></label></div>
+                <div class="widget-tile">
+                    <highchart-ext id="campaignactiveemployeesgraph" title="Dipendenti per campagna" data="campaignactiveemployees" y-axis-title="Dipendenti"></highchart-ext>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4" data-ng-if="incompleteandmissingregistrations">
+            <div class="well bg-info">
+                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{incompleteandmissingregistrations.description}}" data-jquery-tooltip></i></label></div>
+                    <div class="widget-tile">
+                    <highchart-ext id="incompleteandmissingregistrationsgraph" title="Registrazioni non completate" data="incompleteandmissingregistrations" y-axis-title="Dipendenti"></highchart-ext>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col-md-4" data-ng-if="negativeturnover">
+            <div class="well bg-info">
+                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{negativeturnover.description}}" data-jquery-tooltip></i></label></div>
+                <div class="widget-tile">
+                    <highchart-ext id="negativeturnovergraph" title="Turnover negativo" data="negativeturnover" y-axis-title="Dipendenti"></highchart-ext>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" data-ng-if="positiveturnover">
+            <div class="well bg-info">
+                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{positiveturnover.description}}" data-jquery-tooltip></i></label></div>
+                <div class="widget-tile">
+                    <highchart-ext id="positiveturnovergraph" title="Turnover positivo" data="positiveturnover" y-axis-title="Dipendenti"></highchart-ext>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

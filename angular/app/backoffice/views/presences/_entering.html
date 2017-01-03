@@ -1,0 +1,137 @@
+﻿<div class="row">
+    <div class="col-lg-5">
+        <section class="panel">
+            <header class="panel-heading xs">
+                <h2>Dipendenti non ancora presenti</h2>
+            </header>
+            <div class="panel-tools">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <input class="form-control" type="text" name="presentsFilter" maxlength="20"
+                            data-jquery-popover data-content="Filtra per nome / cognome / codice dipendente"
+                            ng-model="notPresentFilterForEntering.search">
+                    </div>
+                    <div class="col-lg-6">
+                        <select data-jquery-selectpicker-live="getDepartments()"
+                            name="notPresentsFilterByDepartment"
+                            data-style="btn-theme-inverse"
+                            ng-model="notPresentFilterForEntering.departmentId"
+                            data-width="auto"
+                            data-live-search="true"
+                            ng-options="g.value as g.key for g in departments">
+                            <option value="">Filtra per reparto...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" ng-if="currentUser.companyIsCallCenter">
+                    <div class="col-lg-6">
+                        <select
+                            data-jquery-selectpicker-live="getCampaigns()"
+                            name="notPresentsFilterByCampaign"
+                            data-style="btn-theme-inverse"
+                            ng-model="notPresentFilterForEntering.campaignId"
+                            data-width="auto"
+                            data-live-search="true"
+                            ng-options="g.value as g.key for g in campaigns">
+                            <option value="">Filtra per campagna...</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <select
+                            data-jquery-selectpicker-live="getTeamLeaders()"
+                            name="notPresentsFilterByTeamLeader"
+                            data-style="btn-theme-inverse"
+                            ng-model="notPresentFilterForEntering.teamLeaderId"
+                            data-width="auto"
+                            data-live-search="true"
+                            ng-options="g.value as g.key for g in teamLeaders">
+                            <option value="">Filtra per team leader...</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="btn btn-info btn-block" type="button"
+                ng-repeat="item in notPresentToShow"
+                ng-click="setEntering(item)">
+                {{item.employeeName + ' ' + item.employeeSurname + ' (' + item.employeeInternalCode + ')'}}
+            </button>
+
+        </section>
+    </div>
+    <div class="col-lg-7">
+        <section class="panel">
+            <header class="panel-heading xs">
+                <h2><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Dipendenti in ingresso</h2>
+            </header>
+            <div class="panel-tools">
+                <div class="row">
+                    <div class="align-lg-center col-lg-3">
+                        <input class="form-control"
+                            data-width="auto"
+                            name="time"
+                            ng-model="time"
+                            data-jquery-timeinputmask>
+                    </div>
+                    <div class="col-lg-3">
+                        <button class="btn btn-theme-inverse btn-block" type="button"
+                            ng-click="setTimeForEntering(time)"
+                            ng-disabled="entering.length==0">
+                            Applica&nbsp;&nbsp;<i class="fa fa-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Dipendente</th>
+                        <th scope="col" class="text-center">Data e ora di ingresso</th>
+                        <th scope="col" class="text-center" ng-if="currentUser.companyIsCallCenter">Campagna</th>
+                        <th scope="col" class="text-center"></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in entering">
+                        <td>{{item.employeeName + ' ' + item.employeeSurname + ' [' + item.employeeInternalCode + ']'}}</td>
+                        <td class="text-left pull-left">
+                            <div data-form-group class="text-left">
+                                <input
+                                    class="form-control"
+                                    data-width="auto"
+                                    name="enterDate"
+                                    ng-model="item.enterTime"
+                                    data-date-format=""
+                                    data-jquery-datetimeinputmask>
+                            </div>
+                        </td>
+                        <td class="text-left">
+                            <div ng-if="currentUser.companyIsCallCenter && item.employeeType == 2" class="text-left">
+                                <select data-jquery-selectpicker-live="getCampaigns(item)"
+                                    name="campaign"
+                                    data-style="btn-theme-inverse"
+                                    ng-model="item.selectedCampaignId"
+                                    data-width="auto"
+                                    data-live-search="true"
+                                    ng-options="g.value as g.key for g in item.campaigns"
+                                    required>
+                                    <option value="">Seleziona...</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <a class="btn btn-close text-right" title="" href="javascript:void(0)" data-original-title="Rimuovi" ng-click="removeEntering(item)">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </section>
+
+    </div>
+</div>

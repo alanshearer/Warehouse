@@ -1,0 +1,10 @@
+﻿<div class="row">
+    <div class="col-sm-3 fx-fade-left" ng-repeat="item in sourceItems">
+        <ul class="iCheck" data-color="red">
+            <li>
+                <input type="checkbox" name="item[{{$index}}][itemPropertyselected]" ng-model="item[itemPropertyselected]" ng-change="selectedChanged(item)" data-jquery-icheck>
+                <label>{{item[itemPropertyname]}}</label>
+            </li>
+        </ul>
+    </div>
+</div>

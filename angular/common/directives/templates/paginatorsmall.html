@@ -1,0 +1,29 @@
+﻿<div>
+    <div data-ng-transclude>
+
+    </div>
+    <ul class="pager">
+        <li><button class="btn btn-default btn-xs" ng-disabled="(currentPage == 1)" ng-click="selectPage(1)"><i class="fa fa-angle-double-left"></i> prima </button></li>
+        <li><button class="btn btn-default btn-xs" ng-disabled="(currentPage == 1)" ng-click="selectPage(currentPage - 1)"><i class="fa fa-angle-left"></i> precedente</button></li>
+        <li>
+            <label class="btn color no-hover">Pagina:&nbsp;<strong>{{currentPage}}</strong>&nbsp;di&nbsp;<strong>{{pageCount}}</strong></label>
+        </li>
+        <li><button class="btn btn-default btn-xs" ng-disabled="(currentPage == pageCount)" ng-click="selectPage(currentPage + 1)"> successiva <i class="fa fa-angle-right"></i></button></li>
+        <li><button class="btn btn-default btn-xs" ng-disabled="(currentPage == pageCount)" ng-click="selectPage(pageCount)"> ultima<i class="fa fa-angle-double-right"></i> </button></li>
+
+        <li>
+            <div class=" pull-right ">
+                <select class="btn dropdown-toggle btn-xs btn-default"
+                        data-ng-model="pageSize"
+                        data-ng-change="changePageSize(pageSize)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+
+        </li>
+    </ul>
+</div>

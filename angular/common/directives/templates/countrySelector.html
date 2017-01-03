@@ -1,0 +1,52 @@
+﻿
+<div data-form-group data-label="Stato">
+    <select data-jquery-selectpicker-live="getCountries()"
+            name="countryId"
+            data-style="btn-default btn-sm"
+            ng-required="required"
+            ng-model="countryId"
+            data-width="auto"
+            data-live-search="true"
+            ng-change="changeCountry()"
+            ng-options="item.value as item.key for item in countries"
+            ng-disabled="disabled">
+        <option value="">Seleziona...</option>
+    </select>
+</div>
+<div data-form-group data-label="Provincia">
+    <select data-jquery-selectpicker-live="getProvinces()"
+            name="provinceId"
+            data-style="btn-default btn-sm"
+            ng-required="required"
+            ng-model="provinceId"
+            data-width="auto"
+            ng-change="changeProvince()"
+            data-live-search="true"
+            ng-options="item.id as item.name group by item.region for item in provinces | orderBy:'region'"
+            ng-disabled="disabled">
+        <option value="">Seleziona...</option>
+    </select>
+</div>
+<div data-form-group data-label="Comune">
+    <select name="municipalityId"
+            data-style="btn-default btn-sm"
+            ng-required="required"
+            ng-model="municipalityId"
+            data-width="auto"
+            data-live-search="true"
+            ng-change="changeMunicipality(municipalityId)"
+            ng-options="o.value as o.key for o in municipalities | orderBy:'key'"
+            data-jquery-selectpicker-live="getMunicipalities()"
+            ng-disabled="disabled">
+        <option value="">Seleziona...</option>
+    </select>   
+</div>
+<div data-form-group data-label="Cap" data-ng-show="showpostalcode != 'false'">
+    <input class="form-control input-sm"
+           type="text"
+           maxlength="5"
+           name="postalcode"
+           ng-required="required"
+           ng-model="postalcode"
+           ng-disabled="disabled">
+</div>

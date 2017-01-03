@@ -1,0 +1,379 @@
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="registrationCtrl">
+    <header class="panel-heading sm">
+        <h2><strong>Registrazioni</strong></h2>
+    </header>
+    <div class="panel-body">
+        <paginator data-page-size="{{pageSize}}"
+                   data-resource-url="{{resourceUrl}}"
+                   data-page-count="pageCount"
+                   data-items="items"
+                   data-current-page="currentPage"
+                   data-total-items="totalItems"
+                   data-filters="filters">
+            <form name="filterForm"
+                  data-ng-submit="find(registrationForm, filterForm)"
+                  novalidate="novalidate">
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="help-block no-margin-padding small uppercase bold">Data</span>
+                        <input class="form-control input-sm"
+                               name="date"
+                               ng-model="filters.date"
+                               data-jquery-datepicker>
+                    </div>
+                    <div class="col-xs-3">
+                        <span class="help-block no-margin-padding small uppercase bold">Dipendente</span>
+                        <div class="input-icon right">
+                            <i class="fa fa-search ico"
+                               data-jquery-popover
+                               data-trigger="hover"
+                               data-placement="bottom"
+                               title="Ricerca per dipendente"
+                               data-content="La ricerca viene eseguita per i campi Nome, Cognome e codice"></i>
+                            <input type="text" name="term" class="form-control input-sm" ng-model="filters.term" placeholder="Cerca" />
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <span class="help-block no-margin-padding small uppercase bold">Reparto</span>
+                        <select data-jquery-selectpicker-live="getDepartments()"
+                                name="departmentId"
+                                data-style="btn-default btn-sm"
+                                ng-model="filters.departmentId"
+                                data-width="100%"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in departments">
+                            <option value="">Seleziona...</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-3">
+                        <span class="help-block no-margin-padding small uppercase bold">Campagna</span>
+                        <select data-jquery-selectpicker-live="getCampaigns()"
+                                name="campaignId"
+                                data-style="btn-default btn-sm"
+                                ng-model="filters.campaignId"
+                                data-width="100%"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in campaigns">
+                            <option value="">Seleziona...</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span class="help-block no-margin-padding small uppercase bold">Team leader</span>
+                        <select data-jquery-selectpicker-live="getTeamLeaders()"
+                                name="teamLeaderId"
+                                data-style="btn-default btn-sm"
+                                ng-model="filters.teamLeaderId"
+                                data-width="100%"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in teamLeaders">
+                            <option value="">Seleziona...</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-3">
+                        <span class="help-block no-margin-padding small uppercase bold">Tipo registrazione</span>
+                        <select data-jquery-selectpicker
+                                name="registrationType"
+                                data-style="btn-default btn-sm"
+                                ng-model="filters.registrationType"
+                                data-width="100%"
+                                data-live-search="true">
+                            <option value="">Tutte...</option>
+                            <option value="1">Da completare</option>
+                            <option value="2">Completate</option>
+                            <option value="3">Entrata senza uscita</option>
+                            <option value="4">Assenze</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6">
+                        <span class="help-block no-margin-padding small uppercase bold">&nbsp;</span>
+                        <!--<button type="submit" class="btn btn-theme btn-sm pull-right btn-block">Avvia ricerca</button>-->
+                    </div>
+                </div>
+            </form>
+
+            <!--<div class="alert alert-danger" data-ng-if="filterForm.$dirty">
+                <strong>AVVISO: </strong> Attenzione sono stati modificati i criteri di ricerca. Per rendere effettiva la ricerca cliccare sul pulsante <span class="text-primary"><i class="fa fa-search"></i></span>
+            </div>-->
+            <div class="alert alert-warning" data-ng-if="registrationForm.$dirty">
+                <strong>AVVISO: </strong> Attenzione sono state apportate delle modifiche alle registrazioni. Si ricorda che per confermare i dati è necessario cliccare sul pulsante <span class="text-primary"><i class="fa fa-save"></i></span>
+            </div>
+            <form name="registrationForm"
+                  class="form-horizontal"
+                  novalidate="novalidate"
+                  data-form-submit="save(registrationForm)">
+
+                <section class="panel panel-default borders bd-gray" data-ng-show="items">
+                    <header class="panel-heading xs">
+                        <h2><strong>Registrazioni del: </strong>{{items[0].date | date:'dd/MM/yyyy'}}</h2>
+                    </header>
+                    <div class="panel-tools" align="left">
+                        <ul>
+                            <li>
+                                <button type="submit"
+                                        class="btn btn-theme"
+                                        title="Salva registrazioni"
+                                        data-jquery-tooltip>
+                                    <i class="fa fa-save"></i>
+                                </button>
+                            </li>
+                            <li><a href="javascript:void(0)" data-ng-click="expandAll()" class="btn btn-default" title="Espandi tutto" data-jquery-tooltip><i class="fa fa-indent"></i></a></li>
+                            <li><a href="javascript:void(0)" data-ng-click="collapseAll()" class="btn btn-default" title="Chiudi tutto" data-jquery-tooltip><i class="fa fa-outdent"></i></a></li>
+                            <li><a href="javascript:void(0)" data-ng-click="selectAll()" class="btn btn-default" title="Seleziona tutto" data-jquery-tooltip><i class="fa fa-square"></i></a></li>
+                            <li><a href="javascript:void(0)" data-ng-click="deselectAll()" class="btn btn-default" title="Deseleziona tutto" data-jquery-tooltip><i class="fa  fa-square-o"></i></a></li>
+                            <li>
+                                <a href="javascript:void(0)" data-ng-disabled="getSelected().length == 0" data-ng-click="setEntranceDate(registrationForm)" class="btn btn-default" title="Imposta orario di INGRESSO per le voci selezionate" data-jquery-tooltip>
+                                    <i class="fa fa-sign-in"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-ng-disabled="getSelected().length == 0" data-ng-click="setExitDate(registrationForm)" class="btn btn-default" title="Imposta orario di USCITA per le voci selezionate" data-jquery-tooltip>
+                                    <i class="fa fa-sign-out"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-ng-disabled="getSelected().length == 0" data-ng-click="setAbsence(registrationForm)" class="btn btn-default" title="Imposta ASSENZA per le voci selezionate" data-jquery-tooltip>
+                                    <i class="fa fa-code"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body no-margin-padding">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="width-100 text-left">Nome e cognome dipendente</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in items"
+                                    data-ng-init="item.collapsed = true; registrationForm.$dirty = false;"
+                                    data-ng-class="{'row-expanded': !item.collapsed}">
+                                    <td class="align-top">
+                                        <a href="javascript:void(0)" data-ng-click="item.collapsed = false" class="text-success"><i class="fa fa-plus-square" data-ng-if="item.collapsed == null || item.collapsed == true"></i></a>
+                                        <a href="javascript:void(0)" data-ng-click="item.collapsed = true" class="text-danger"><i class="fa fa-minus-square" data-ng-if="item.collapsed == false"></i></a>
+                                    </td>
+                                    <td>
+                                        <a class=" btn btn-link uppercase no-margin-padding" href="javascript:void(0)" data-ng-click="item.collapsed = !item.collapsed">
+                                            <strong>
+                                                {{item.employee.key}}
+                                            </strong>
+                                        </a>
+                                        <table ng-table="" class="table table-condensed" data-ng-if="item.collapsed == false">
+                                            <tbody>
+                                                <tr data-ng-repeat-start="ca in item.campaignsAssociations">
+                                                    <td>
+                                                        <span><strong>CAMPAGNA:</strong> <span class="uppercase badge"> {{ca.campaign.key}}</span></span>
+                                                        <span data-ng-if="ca.teamLeader"> - <strong>TEAMLEADER:</strong> <span class="uppercase badge">    {{ca.teamLeader.key}}</span></span>
+                                                    </td>
+                                                </tr>
+                                                <tr data-ng-repeat-end data-ng-class="{'row-selected': ca.isSelected}">
+                                                    <td>
+                                                        <table class="table table-condensed table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                    </th>
+                                                                    <th class="text-center width-10">
+                                                                        Entrata
+                                                                    </th>
+                                                                    <th class="text-center width-10">
+                                                                        Uscita
+                                                                    </th>
+                                                                    <th class="text-center width-5">
+                                                                        Assente
+                                                                    </th>
+                                                                    <th class="text-left width-10">
+                                                                        Tipo assenza
+                                                                    </th>
+                                                                    <th class="text-left width-10">
+                                                                        Posto di lavoro
+                                                                    </th>
+                                                                    <th class="text-left width-55">
+                                                                        Motivazione
+                                                                    </th>
+                                                                    <th>
+                                                                        <button type="button" class="btn btn-xs btn-primary" data-ng-click="addRegistration(ca, item)">aggiungi</button>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr data-ng-repeat="det in ca.details" data-ng-class="{'row-selected': det.isSelected}">
+                                                                    <td data-form-group class="text-left">
+                                                                        <ul class="iCheck">
+                                                                            <li>
+                                                                                <input type="checkbox"
+                                                                                       name="isSelected"
+                                                                                       data-checkboxclass="icheckbox_flat-yellow"
+                                                                                       ng-model="det.isSelected"
+                                                                                       data-ignore-dirty
+                                                                                       data-jquery-icheck>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </td>
+                                                                    <td class="text-center" data-form-group>
+                                                                        <input class="form-control input-sm"
+                                                                               name="enterTime"
+                                                                               data-ng-disabled="det.isAbsence"
+                                                                               ng-model="det.enterTime"
+                                                                               data-jquery-timeinputmask>
+                                                                    </td>
+                                                                    <td class="text-center" data-form-group>
+                                                                        <input class="form-control input-sm"
+                                                                               name="exitTime"
+                                                                               data-ng-disabled="det.isAbsence"
+                                                                               ng-model="det.exitTime"
+                                                                               data-jquery-timeinputmask>
+                                                                    </td>
+                                                                    <td data-form-group class="text-left">
+                                                                        <ul class="iCheck">
+                                                                            <li>
+                                                                                <input type="checkbox"
+                                                                                       name="isActive"
+                                                                                       ng-model="det.isAbsence"
+                                                                                       data-jquery-icheck>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </td>
+                                                                    <td data-form-group data-ng-form="absenceType{{$index}}">
+                                                                        <kvp-select data-items="det.absencetypes"
+                                                                                    data-action="getAbsenceTypes()"
+                                                                                    data-width="100%"
+                                                                                    data-required="det.isAbsence"
+                                                                                    data-disabled="!det.isAbsence"
+                                                                                    data-current="det.absenceType"></kvp-select>
+                                                                    </td>
+                                                                    <td data-form-group data-ng-form="workPlaceForm{{$index}}">
+                                                                        <kvp-select data-items="workPlaces"
+                                                                                    data-action="getWorkPlaces()"
+                                                                                    data-width="100%"
+                                                                                    data-select-style="btn-default btn-sm"
+                                                                                    data-current="det.workPlace"></kvp-select>
+                                                                    </td>
+                                                                    <td data-form-group>
+                                                                        <input class="form-control input-sm"
+                                                                               name="motivation"
+                                                                               data-ng-disabled="!det.isAbsence"
+                                                                               maxlength="255"
+                                                                               ng-model="det.absenceMotivation">
+                                                                    </td>
+                                                                    <td>
+                                                                        <button ng-if="('\'SysAdmin\' || \'Supervisor\'' | hasRole)"
+                                                                                type="button" class="btn btn-xs btn-danger" data-ng-click="removeRegistration(ca, det)">
+                                                                            rimuovi
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td class="align-top">
+                                        <i class="fa fa-check-circle text-success" data-jquery-tooltip data-ng-if="isCompleted(item)" title="Sono state inserite tutte le registrazioni per il dipendente {{item.employee.key}}"></i>
+                                        <i class="fa fa-warning text-warning" data-jquery-tooltip data-ng-if="!isCompleted(item)" title="Attenzione non sono state ancora completate le registrazioni per il dipendente {{item.employee.key}}"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </form>
+        </paginator>
+    </div>
+</section>
+
+<!--<div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading sm">
+                <h2><strong>Gestione</strong> presenze</h2>
+            </header>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-3 ">
+                        <div class="input-group align-lg-left">
+                            <input class="form-control"
+                                   name="date"
+                                   ng-model="date"
+                                   data-jquery-datepicker>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 align-lg-right">
+                        <div class="row">
+                            <span class="help-block col-lg-8 align-lg-left" ng-show="entering.length > 0 || exiting.length > 0 || absencing.length > 0">Operazioni in corso:&nbsp;&nbsp;
+                                <span class="badge bg-success">{{entering.length}}</span> ingressi,&nbsp;
+                                <span class="badge bg-danger">{{exiting.length}}</span> uscite,&nbsp;
+                                <span class="badge bg-inverse">{{absencing.length}}</span> assenze.
+                            </span>
+                            <span class="help-block col-lg-4 align-lg-right" ng-show="notPresent.length>0">Operazioni in sospeso:&nbsp;&nbsp;
+                                <span class="badge bg-warning">{{notPresent.length}}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <form name="presenceForm" class="form-horizontal" novalidate="novalidate" ng-submit="save()">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="javascript:void(0)" data-toggle="tab" data-target="#tab-ingressi" data-ng-click="showSaveButton(true)"><i class="fa fa-sign-in"></i>&nbsp;Ingressi</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-toggle="tab" data-target="#tab-uscite" data-ng-click="showSaveButton(true)"><i class="fa fa-sign-out"></i>&nbsp;Uscite</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-toggle="tab" data-target="#tab-assenze" data-ng-click="showSaveButton(true)"><i class="fa fa-times-circle-o"></i>&nbsp;Assenze</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" data-toggle="tab" data-target="#tab-operazionicompletate" data-ng-click="showSaveButton(false)"><i class="fa fa-list"></i>&nbsp;Operazioni completate</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div id="tab-ingressi" class="tab-pane fade in active">
+                                <ng-include src="'/app/backoffice/views/presences/_entering.html'"></ng-include>
+                            </div>
+
+                            <div id="tab-uscite" class="tab-pane fade in">
+                                <ng-include src="'/app/backoffice/views/presences/_exiting.html'"></ng-include>
+                            </div>
+
+                            <div id="tab-assenze" class="tab-pane fade in">
+                                <ng-include src="'/app/backoffice/views/presences/_absencing.html'"></ng-include>
+                            </div>
+                            <div id="tab-operazionicompletate" class="tab-pane fade in">
+                                <ng-include src="'/app/backoffice/views/presences/_completed.html'"></ng-include>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group" data-ng-show="saveButtonVisible">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-theme-inverse" ng-disabled="entering.length == 0 && exiting.length==0 && absencing.length == 0 || presenceForm.$invalid">Salva</button>
+                            <a class="btn btn-inverse" href="">Annulla</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>-->

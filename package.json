@@ -23,5 +23,7 @@
     "ng-annotate-loader": "^0.1.1",
     "sw-precache": "^4.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "del": "^2.2.2"
+  }
 }

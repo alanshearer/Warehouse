@@ -1,0 +1,104 @@
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="usersCtrl">
+    <header class="panel-heading sm">
+        <h2><strong>Elenco</strong> utenti </h2>
+    </header>
+    <div class="panel-tools" align="left">
+        <ul>
+            <li>
+                <a href="users/create" class="btn btn-theme btn-transparent" title="Aggiungi nuovo utente" data-jquery-tooltip>
+                    <i class="fa fa-plus-square"></i>
+                    Nuovo
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='utenti.xml' data-jquery-tooltip title="Download file xls">
+                    <i class="fa fa-file-excel-o"></i>
+                    Esporta in excel
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <paginator data-page-size="{{pageSize}}"
+                   data-resource-url="{{resourceUrl}}"
+                   data-items="items"
+                   data-cachekey="employeelist"
+                   data-filters="filters"
+                   data-total-items="totalItems">
+            <div class="panel-group margin-bottom-5">
+                <div class="panel panel-default borders bd-gray">
+                    <header class="panel-heading" style="padding:0 10px">
+                        <a data-toggle="collapse" data-target="#collapseOne" data-jquery-collapse href="javascript:void(0)">
+                            <i class="collapse-caret fa fa-angle-down"></i>
+                            <strong>
+                                <span><i class="fa fa-filter text-muted"></i></span>
+                                FILTRI DI RICERCA
+                            </strong>
+                        </a>
+                    </header>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body bg-white-darken">
+                            <form novalidate="" name="filterItemsForm" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="input-icon right">
+                                            <i class="fa fa-search ico"
+                                               title="Ricerca libera"></i>
+                                            <input type="text" name="term" class="form-control input-sm"
+                                                    ng-model="filters.term" placeholder="Cerca" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <ul class="iCheck">
+                                            <li>
+                                                <input type="checkbox" name="isEnabled" ng-model="filters.isEnabled" data-jquery-icheck>
+                                                <label>Visualizza solo aziende attive</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-left" data-sorter="username">Nome utente</th>
+                        <th scope="col" class="text-left hidden-xs" data-sorter="name">Nome</th>
+                        <th scope="col" class="text-left hidden-xs hidden-sm" data-sorter="surname">Cognome</th>
+                        <th scope="col" class="text-left hidden-xs" data-sorter="email">E-Mail</th>
+                        <th scope="col" class="text-left hidden-xs" data-sorter="role">Ruolo</th>
+                        <th scope="col" class="text-left hidden-xs hidden-sm" data-sorter="lastAccessDate">Ultimo accesso</th>
+                        <th scope="col" class="hidden-sm hidden-xs" data-sorter="isDisable">Abilitato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <td>
+                            <a class="btn btn-link uppercase no-margin-padding" href="users/edit/{{item.id}}"><strong>{{item.userName}}</strong></a>
+                        </td>
+                        <td class="hidden-xs">{{item.name}}</td>
+                        <td class="hidden-xs hidden-sm">{{item.surname}}</td>
+                        <td class="hidden-xs">{{item.eMail}}</td>
+                        <td class="hidden-xs">{{item.role | roleName}}</td>
+                        <td class="hidden-sm hidden-xs">{{item.lastAccessDate | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+                        <td class="hidden-xs hidden-sm text-center">
+                            <i class="fa fa-circle text-danger" ng-if="item.isDisable"></i>
+                            <i class="fa fa-circle text-success" ng-if="item.isDisable == null || item.isDisable == false"></i>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot ng-if="pageCount > 1">
+                    <tr>
+                        <th colspan="8">
+                            <label class="color">Pagina: <strong>{{currentPage}}</strong> di <strong>{{pageCount}}</strong> - Totale elementi: <strong> {{totalItems}} </strong></label>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </paginator>
+    </div>
+</section>
+

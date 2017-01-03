@@ -1,0 +1,120 @@
+﻿<div class="row-fluid">
+    <div class="row">
+        <div class="col-lg-5">
+            <section class="panel">
+                <header class="panel-heading xs">
+                    <h2>Dipendenti presenti</h2>
+                </header>
+
+                <div class="panel-tools" >
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input class="form-control" type="text" name="presentsFilter" maxlength="20"
+                                data-jquery-popover data-content="Filtra per nome / cognome / codice dipendente"
+                                ng-model="presentFilterForExiting.search">
+                        </div>
+                        <div class="col-lg-6">
+                            <select data-jquery-selectpicker-live="getDepartments()"
+                                name="presentsFilterByDepartment"
+                                data-style="btn-theme-inverse"
+                                ng-model="presentFilterForExiting.departmentId"
+                                data-width="auto"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in departments">
+                                <option value="">Filtra per reparto...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="currentUser.companyIsCallCenter">
+                        <div class="col-lg-6">
+                            <select
+                                data-jquery-selectpicker-live="getCampaigns()"
+                                name="presentsFilterByCampaign"
+                                data-style="btn-theme-inverse"
+                                ng-model="presentFilterForExiting.campaignId"
+                                data-width="auto"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in campaigns">
+                                <option value="">Filtra per campagna...</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <select
+                                data-jquery-selectpicker-live="getTeamLeaders()"
+                                name="presentsFilterByTeamLeader"
+                                data-style="btn-theme-inverse"
+                                ng-model="presentFilterForExiting.teamLeaderId"
+                                data-width="auto"
+                                data-live-search="true"
+                                ng-options="g.value as g.key for g in teamLeaders">
+                                <option value="">Filtra per team leader...</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button class="btn btn-info btn-block" type="button"
+                    ng-repeat="item in presentToShow"
+                    ng-click="setExiting(item)">
+                    {{item.employeeName + ' ' + item.employeeSurname + ' (' + item.employeeInternalCode + ')'}}
+                </button>
+            </section>
+        </div>
+        <div class="col-lg-7">
+            <section class="panel">
+                <header class="panel-heading xs">
+                    <h2><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Dipendenti in uscita</h2>
+                </header>
+                 <div class="panel-tools">
+                <div class="row">
+                    <div class="align-lg-center col-lg-3">
+                        <input class="form-control"
+                            data-width="auto"
+                            name="time"
+                            ng-model="time"
+                            data-jquery-timeinputmask>
+                    </div>
+                    <div class="col-lg-3">
+                        <button class="btn btn-theme-inverse btn-block" type="button"
+                            ng-click="setTimeForExiting(time)"
+                            ng-disabled="exiting.length==0">
+                            Applica&nbsp;&nbsp;<i class="fa fa-arrow-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">Dipendente</th>
+                            <th scope="col" class="text-center">Data e ora di uscita</th>
+                            <th scope="col" class="text-center"></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in exiting">
+                            <td>{{item.employeeName + ' ' + item.employeeSurname + ' [' + item.employeeInternalCode + ']  - INGRESSO: ' + (item.enterTime | date:'HH:mm') }}</td>
+                            <td>
+                                <div class="col-lg-12" data-form-group>
+                                    <input class="form-control"
+                                        data-width="auto"
+                                        name="exitTime"
+                                        ng-model="item.exitTime"
+                                        data-jquery-datetimeinputmask>
+                                </div>
+                            </td>
+                            <td><a class="btn btn-close" title="" href="javascript:void(0)" data-original-title="Rimuovi" ng-click="removeExiting(item)">
+                                <i class="fa fa-times"></i>
+                            </a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </div>
+
+
+</div>

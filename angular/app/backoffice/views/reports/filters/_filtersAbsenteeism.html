@@ -1,0 +1,44 @@
+﻿<!--<div data-form-group label="Periodo">
+    <div data-jquery-daterangepicker
+         data-start-date="filters.startDate"
+         data-end-date="filters.endDate"
+         class="btn btn-success">
+        <i class="fa fa-calendar"></i>
+        <span ng-if="filters.startDate">
+            Dal {{filters.startDate |  date : 'dd/MM/yyyy'}} al {{filters.endDate |  date : 'dd/MM/yyyy' }}
+        </span>
+        <span ng-if="filters.startDate == null">
+            &nbsp;Selezionare un periodo... &nbsp; &nbsp;
+        </span>
+    </div>
+    <button ng-if="filters.startDate != null" class="btn btn-danger" ng-click="resetDateRange()"><i class="glyphicon glyphicon-remove"></i></button>
+</div>-->
+<div class="row">
+    <div class="col-md-3">
+        <div data-form-group label="Anno">
+            <kvp-select data-items="years"
+                        data-action="httpgetsimulate()"
+                        data-required="true"
+                        data-current="filtersA.year"
+                        data-ng-init="updateyears()"></kvp-select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div data-form-group label="Tipologia di Report">
+            <kvp-select data-items="absenteeismReports"
+                        data-action="getAvailableAbsenteeismReports()"
+                        data-required="true"
+                        data-current="filtersA.absenteeismReportId"></kvp-select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div data-form-group label="Formato">
+            <kvp-select data-items="reportFormatTypes"
+                        data-action="httpgetsimulate()"
+                        data-required="true"
+                        data-current="filtersA.reportFormatTypeId"></kvp-select>
+        </div>
+    </div>
+</div>
+
+

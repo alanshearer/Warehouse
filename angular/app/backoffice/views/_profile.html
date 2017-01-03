@@ -1,0 +1,50 @@
+﻿
+<div class="row" ng-controller="userManageCtrl">
+    <div class="col-lg-12">
+
+        <form name="accountForm" class="form-horizontal" novalidate="novalidate" ng-submit="save()">
+
+            <section class="panel">
+                <header class="panel-heading sm">
+                    <h2><strong>Profilo</strong> utente </h2>
+                    <label class="color"> Informazioni generali</label>
+                </header>
+                <div class="panel-body">
+                    <div class="row-fluid">
+                        <div class="col-lg-12">
+                            <div data-form-group data-label="Username">
+                                <input class="form-control" type="text" value="" name="username" required ng-model="data.username" disabled>
+                            </div>
+                            <div data-form-group data-label="Nome">
+                                <input class="form-control" type="text" name="name" required ng-model="data.name">
+                            </div>
+                            <div data-form-group data-label="Cognome">
+                                <input class="form-control" type="text" name="surname" required ng-model="data.surname">
+                            </div>
+                            <div data-form-group data-label="Indirizzo e-mail">
+                                <input class="form-control" type="email" name="email" id="email" required ng-model="data.eMail">
+                            </div>
+                            <div class="form-group" ng-cloak ng-if="data.lastChangePasswordDate != null">
+                                <label class="control-label  col-md-3">Ultimo cambio password</label>
+                                <div class=" col-md-9">
+                                    {{data.lastChangePasswordDate | date : 'dd/MM/yyyy HH:mm:ss'}}
+                                </div>
+                            </div>
+                            <div class="form-group" ng-cloak ng-show="data.passwordDay > 0">
+                                <label class="control-label col-md-3">Prossimo cambio password</label>
+                                <div class="col-md-9">
+                                    Il prossimo cambio password è previsto a partire dalla data: {{ getNextChangePasswordDate() | date : 'dd/MM/yyyy HH:mm:ss' }}
+                                </div>
+                            </div>
+                            <div class="form-group offset">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-theme-inverse" ng-disabled="accountForm.$invalid">Conferma i tuoi dati</button>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,166 @@
+﻿<div ng-controller="reportsCtrl" data-ng-cloak>
+    <div class="row">
+        <div class="col-lg-12" ng-show="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'HrManager\'' | hasRole)">
+            <form name="formreport1" novalidate data-ng-submit="executeOperators()">
+                <section class="panel panel-themes borders bd-gray">
+                    <header class="panel-heading sm">
+                        <h2><strong>REPORT OPERATORI</strong></h2>
+                        <!--<label class="color" data-ng-if="report.description != null">{{report.description}}</label>-->
+                    </header>
+                    <div class="panel-body">
+                        <div ng-include="'/app/backoffice/views/reports/filters/_filtersOperators.html'"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <span>
+                            <button type="submit"
+                                    class="btn btn-theme"
+                                    data-ng-disabled="formreport1.$invalid">
+                                Esegui
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <label><i class="fa fa-info-circle fa-2x ico" title="Vengono esclusi i dipendenti che non hanno contratti attivi" data-jquery-popup></i></label>
+                        </span> 
+                    </div>
+                </section>
+            </form>
+        </div>
+        <div class="col-lg-12" ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'HrManager\'' | hasRole)">
+            <form name="formreport2" novalidate data-ng-submit="executeEmployees()">
+                <section class="panel panel-themes borders bd-gray">
+                    <header class="panel-heading sm">
+                        <h2><strong>REPORT DIPENDENTI</strong></h2>
+                        <!--<label class="color" data-ng-if="report.description != null">{{report.description}}</label>-->
+                    </header>
+                    <div class="panel-body">
+                        <div ng-include="'/app/backoffice/views/reports/filters/_filtersEmployees.html'"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <span>
+                            <button type="submit"
+                                    class="btn btn-theme"
+                                    data-ng-disabled="formreport2.$invalid">
+                                Esegui
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <label><i class="fa fa-info-circle fa-2x ico" title="Vengono esclusi i dipendenti che non hanno contratti attivi" data-jquery-popup></i></label>
+                        </span>                             
+                    </div>
+                </section>
+            </form>
+        </div>
+        <div class="col-lg-12" ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'HrManager\'' | hasRole)">
+            <form name="formreport3" novalidate data-ng-submit="executeEmployeesSheet()">
+                <section class="panel panel-themes borders bd-gray">
+                    <header class="panel-heading sm">
+                        <h2><strong>SCHEDA DIPENDENTE</strong></h2>
+                    </header>
+                    <div class="panel-body">
+                        <div ng-include="'/app/backoffice/views/reports/filters/_filtersSheet.html'"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <span>
+                            <button type="submit"
+                                    class="btn btn-theme"
+                                    data-ng-disabled="formreport3.$invalid">
+                                Esegui
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <label><i class="fa fa-info-circle fa-2x ico" title="Vengono esclusi i dipendenti che non hanno contratti attivi" data-jquery-popup></i></label>
+                        </span>                              
+                    </div>
+                </section>
+            </form>
+        </div>
+        <div class="col-lg-12" ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'HrManager\' || \'FloorManager\'' | hasRole)">
+            <form name="formreport4" novalidate data-ng-submit="executeAbsenteeismReport()">
+                <section class="panel panel-themes borders bd-gray">
+                    <header class="panel-heading sm">
+                        <h2><strong>REPORT ASSENTEISMO</strong></h2>
+                    </header>
+                    <div class="panel-body">
+                        <div ng-include="'/app/backoffice/views/reports/filters/_filtersAbsenteeism.html'"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <span>
+                            <button type="submit"
+                                    class="btn btn-theme"
+                                    data-ng-disabled="formreport4.$invalid">
+                                Esegui
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <label>
+                                <i class="fa fa-info-circle fa-2x ico"
+                                   title="{{absenteeismReportDescription}}"
+                                   original-title="Il report viene realizzato interrogando il DB al fine di ottenere la lista delle assenze e delle presenze in un determinato periodo."
+                                   data-jquery-popup></i>
+                            </label>
+                        </span>                 
+                    </div>
+                </section>
+            </form>
+        </div>
+        <div class="col-lg-12" ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'HrManager\' || \'FloorManager\'' | hasRole)">
+            <form name="formreport5" novalidate data-ng-submit="executeTurnoverReport()">
+                <section class="panel panel-themes borders bd-gray">
+                    <header class="panel-heading sm">
+                        <h2><strong>REPORT TURNOVER</strong></h2>
+                    </header>
+                    <div class="panel-body">
+                        <div ng-include="'/app/backoffice/views/reports/filters/_filtersTurnover.html'"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <span>
+                            <button type="submit"
+                                    class="btn btn-theme"
+                                    data-ng-disabled="formreport5.$invalid">
+                                Esegui
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <label>
+                                <i class="fa fa-info-circle fa-2x ico"
+                                   title="{{turnoverReportDescription}}"
+                                   original-title="Il report viene realizzato interrogando il DB al fine di ottenere la lista dei dipendenti in ingresso e in uscita (viene presa come riferimento la data di inizio e fine contratto) in un determinato periodo."
+                                   data-jquery-popup></i>
+                            </label>
+                        </span>
+                    </div>
+                </section>
+            </form>
+        </div>
+        <div class="col-lg-12" ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)">
+            <form name="formreport6" novalidate data-ng-submit="executeRegistrationErrorsReport()">
+                <section class="panel panel-themes borders bd-gray">
+                    <header class="panel-heading sm">
+                        <h2><strong>REPORT ERRORI REGISTRAZIONE</strong></h2>
+                    </header>
+                    <div class="panel-body">
+                        <div ng-include="'/app/backoffice/views/reports/filters/_filtersRegistrationErrors.html'"></div>
+                    </div>
+                    <div class="panel-footer">
+                        <span>
+                            <button type="submit"
+                                    class="btn btn-theme"
+                                    data-ng-disabled="formreport6.$invalid">
+                                Esegui
+                                <i class="fa fa-play"></i>
+                            </button>
+                        </span>
+                        <span class="pull-right">
+                            <label><i class="fa fa-info-circle fa-2x ico" title="Vengono esclusi i dipendenti che non hanno contratti attivi" data-jquery-popup></i></label>
+                        </span>                
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>

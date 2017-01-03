@@ -1,0 +1,17 @@
+﻿<!--<iframe src="../../../../../sink.html" name="sink" style="display:none"></iframe>-->
+<form name="form_signin" class="form-signin" ng-controller="signinCtrl" novalidate ng-submit="signin()" data-form-autofill-fix>
+    <section>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-user"></i></div>
+            <input type="text" class="form-control" name="username" placeholder="Username" ng-model="credential.username" required>
+        </div>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+            <input type="password" class="form-control" name="password" placeholder="Password" ng-model="credential.password" required>
+        </div>
+        <button class="btn btn-lg btn-theme-inverse btn-block" type="submit" ng-disabled="form_signin.$invalid">Accedi</button>
+    </section>
+    <section class="clearfix">
+        <a href="javascript:void(0)" class="pull-right help theme-inverse" ng-click="changeView('ResetPassword')">Password dimenticata? </a>
+    </section>
+</form>

@@ -1,0 +1,109 @@
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="campaignsCtrl">
+    <header class="panel-heading sm">
+        <h2><strong>Elenco</strong> campagne </h2>
+    </header>
+    <div class="panel-tools" align="left">
+        <ul>
+            <li>
+                <a href="campaigns/create" class="btn btn-theme btn-transparent" title="Aggiungi nuova campagna" data-jquery-tooltip>
+                    <i class="fa fa-plus-square"></i>
+                    Nuovo
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='campagne.xml' data-jquery-tooltip title="Download file xls">
+                    <i class="fa fa-file-excel-o"></i>
+                    Esporta in excel
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <paginator data-page-size="{{pageSize}}"
+                   data-resource-url="{{resourceUrl}}"
+                   data-page-count="pageCount"
+                   data-items="items"
+                   data-current-page="currentPage"
+                   data-total-items="totalItems"
+                   data-filters="filters">
+
+            <div class="panel-group margin-bottom-5">
+                <div class="panel panel-default borders bd-gray">
+                    <header class="panel-heading" style="padding:0 10px">
+                        <a data-toggle="collapse" data-target="#collapseOne" data-jquery-collapse href="javascript:void(0)">
+                            <i class="collapse-caret fa fa-angle-down"></i>
+                            <strong>
+                                <span><i class="fa fa-filter text-muted"></i></span>
+                                FILTRI DI RICERCA
+                            </strong>
+                        </a>
+                    </header>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body bg-white-darken">
+                            <form novalidate="" name="filterItemsForm" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <span class="help-block">Cerca per nome</span>
+                                        <div class="input-icon right">
+                                            <i class="fa fa-search ico"
+                                               title="Ricerca libera"></i>
+                                            <input type="text" name="term" class="form-control input-sm"
+                                                   ng-model="filters.term" placeholder="Cerca" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="help-block">Stato</span>
+                                        <select name="isActive"
+                                                data-style="btn btn-default btn-sm"
+                                                data-jquery-selectpicker
+                                                ng-model="filters.isActive">
+                                            <option value="true">Attive</option>
+                                            <option value="false">Non Attive</option>
+                                            <option value="">Tutte</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-9">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <!--<th scope="col" class="text-left width-5" data-sorter="code">Codice</th>-->
+                        <th scope="col" class="text-left" data-sorter="name">Nome</th>
+                        <th scope="col" class="text-center width-5" data-sorter="startdate">Inizio</th>
+                        <th scope="col" class="text-center width-5" data-sorter="enddate">Fine</th>
+                        <th scope="col" class="text-left" data-sorter="brand">Brand</th>
+                        <th scope="col" class="text-left" data-sorter="campaignType">Tipologia</th>
+
+                        <th scope="col" class="text-center width-5">Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <!--<td class="">
+                            <span class="badge bg-primary">{{item.code}}</span>
+                        </td>-->
+                        <td>
+                            <a class="btn btn-link uppercase no-margin-padding" href="campaigns/edit/{{item.id}}"><strong>{{item.name}}</strong></a>
+                        </td>
+                        <td class="text-center">{{item.startDate | date: "dd/MM/yyyy"}}</td>
+                        <td class="text-center">{{item.endDate | date: "dd/MM/yyyy"}}</td>
+                        <td>{{item.brand.key}}</td>
+                        <td>{{item.campaignType.key}}</td>
+                        <td class="text-center">
+                            <span class="badge bg-danger-darken" data-ng-if="!item.isActive">Non attivo</span>
+                            <span class="badge bg-success-darken" data-ng-if="item.isActive">Attivo</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </paginator>
+    </div>
+</section>
+
+

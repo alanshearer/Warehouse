@@ -1,0 +1,108 @@
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="companiesCtrl">
+    <header class="panel-heading sm">
+        <h2><strong>Elenco</strong> aziende </h2>
+    </header>
+    <div class="panel-tools" align="left">
+        <ul>
+            <li>
+                <a href="companies/create" class="btn btn-theme btn-transparent" title="Aggiungi nuova azienda" data-jquery-tooltip>
+                    <i class="fa fa-plus-square"></i>
+                    Nuova
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='aziende.xml' data-jquery-tooltip title="Download file xls">
+                    <i class="fa fa-file-excel-o"></i>
+                    Esporta in excel
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <paginator data-page-size="{{pageSize}}"
+                   data-resource-url="{{resourceUrl}}"
+                   data-items="items"
+                   data-cachekey="employeelist"
+                   data-filters="filters"
+                   data-total-items="totalItems">
+            <div class="panel-group margin-bottom-5">
+                <div class="panel panel-default borders bd-gray">
+                    <header class="panel-heading" style="padding:0 10px">
+                        <a data-toggle="collapse" data-target="#collapseOne" data-jquery-collapse href="javascript:void(0)">
+                            <i class="collapse-caret fa fa-angle-down"></i>
+                            <strong>
+                                <span><i class="fa fa-filter text-muted"></i></span>
+                                FILTRI DI RICERCA
+                            </strong>
+                        </a>
+                    </header>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body bg-white-darken">
+                            <form novalidate="" name="filterItemsForm" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="input-icon right">
+                                            <i class="fa fa-search ico"
+                                               title="Ricerca libera"></i>
+                                            <input type="text" name="term" class="form-control input-sm"
+                                                   ng-model="filters.term" placeholder="Cerca" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <ul class="iCheck">
+                                            <li>
+                                                <input type="checkbox" name="isEnabled" ng-model="filters.isEnabled" data-jquery-icheck>
+                                                <label>Visualizza solo utenti attivi</label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" data-sorter="name" class="text-left">Nome</th>
+                        <th scope="col" class="text-left hidden-xs ">Partita Iva</th>
+                        <th scope="col" class="hidden-xs text-left">Indirizzo</th>
+                        <th scope="col" class="hidden-sm hidden-xs text-left">Cap</th>
+                        <th scope="col" class="text-left hidden-xs ">Comune</th>
+                        <th scope="col" class="hidden-sm hidden-xs text-left">Provincia</th>
+                        <th scope="col">Abilitato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <td>
+                            <a class="btn btn-link uppercase no-margin-padding" href="companies/edit/{{item.id}}"><strong>{{item.name}}</strong></a>
+                        </td>
+                        <td class="hidden-xs">{{item.piva}}</td>
+                        <td class="hidden-xs">{{item.lineAddress}}</td>
+                        <td class="hidden-sm hidden-xs">{{item.postalCode}}</td>
+                        <td class="hidden-xs">{{item.municipalityName}}</td>
+                        <td class="hidden-sm hidden-xs">{{item.province}}</td>
+                        <td class="text-center">
+                            <i class="fa fa-circle text-danger" ng-if="!item.isEnabled"></i>
+                            <i class="fa fa-circle text-success" ng-if="item.isEnabled == true"></i>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr ng-if="pageCount > 1">
+                        <th colspan="8">
+                            <label class="color">Pagina: <strong>{{currentPage}}</strong> di <strong>{{pageCount}}</strong> - Totale elementi: <strong> {{totalItems}} </strong></label>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </paginator>
+    </div>
+</section>
+
+
+
+
+

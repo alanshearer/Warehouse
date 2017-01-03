@@ -1,0 +1,4 @@
+﻿<ul class="pager" ng-if="pageCount > 1">
+    <li><button class="btn btn-theme-inverse" ng-disabled="(currentPage == 1)" ng-click="selectPage(currentPage - 1)"><i class="fa fa-angle-left"></i> Pagina precedente</button></li>
+    <li><button class="btn btn-theme-inverse" ng-disabled="(currentPage == pageCount)" ng-click="selectPage(currentPage + 1)">Pagina successiva <i class="fa fa-angle-right"></i></button></li>
+</ul>

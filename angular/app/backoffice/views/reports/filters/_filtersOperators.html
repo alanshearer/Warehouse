@@ -1,0 +1,15 @@
+﻿<div data-form-group label="Periodo">
+    <div data-jquery-daterangepicker
+         data-start-date="filtersO.startDate"
+         data-end-date="filtersO.endDate"
+         class="btn btn-success">
+        <i class="fa fa-calendar"></i>
+        <span ng-if="filtersO.startDate">
+            Dal {{filtersO.startDate |  date : 'dd/MM/yyyy'}} al {{filtersO.endDate |  date : 'dd/MM/yyyy' }}
+        </span>
+        <span ng-if="filtersO.startDate == null">
+            &nbsp;Selezionare un periodo... &nbsp; &nbsp;
+        </span>
+    </div>
+    <button type="button" ng-if="filtersO.startDate != null" class="btn btn-danger" ng-click="resetDateRange(filtersO)"><i class="glyphicon glyphicon-remove"></i></button>
+</div>

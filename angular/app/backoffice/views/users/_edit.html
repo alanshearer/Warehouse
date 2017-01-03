@@ -1,0 +1,214 @@
+﻿<form name="userForm"
+      class="form-horizontal"
+      novalidate="novalidate"
+      data-form-submit="save()"
+      data-ng-controller="userManageCtrl">
+    <section class="panel panel-themes borders bd-gray">
+        <header class="panel-heading sm">
+            <h2><strong>Gestione utente</strong> </h2>
+        </header>
+        <div class="panel-tools">
+            <ul>
+                <li>
+                    <button type="submit" class="btn btn-info btn-transparent">
+                        <i class="fa fa-save"></i>
+                        Salva
+                    </button>
+                </li>
+                <li ng-if="data.id > 0">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                        <i class="fa fa-trash-o"></i>
+                        Elimina
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable" data-tabbablesections="tabbableOptions">
+                <ul class="nav nav-tabs" data-jquery-tabdrop>
+                    <li>
+                        <a>
+                            DATI GENERALI
+                            <span data-form-errors-count="formTabInfoGenerali"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div data-form-group data-label="Ruolo">
+                                    <select name="role" data-width="auto" data-style="btn-default btn-sm" required ng-model="data.role" data-jquery-selectpicker ng-options="o as (o | roleName) for o in roles" ng-change="getEntitiesForRoleType()">
+                                        <option value="">Seleziona...</option>
+                                    </select>
+                                </div>
+                                <div data-form-group data-label="Username">
+                                    <input class="form-control input-sm" type="text" value="" name="username" required ng-model="data.userName" ng-disabled="data.id > 0">
+                                </div>
+                                <div data-form-group data-label="Nome">
+                                    <input class="form-control input-sm" type="text" name="name" required ng-model="data.name">
+                                </div>
+                                <div data-form-group data-label="Cognome">
+                                    <input class="form-control input-sm" type="text" name="surname" required ng-model="data.surname">
+                                </div>
+                                <div data-form-group data-label="Indirizzo e-mail">
+                                    <input class="form-control input-sm" type="email" name="email" id="email" required ng-model="data.eMail">
+                                    <span data-ng-if="data.id == null" class="help-block">Il presente indirizzo e-mail verrà utilizzato per inviare le credenziali di accesso una volta confermato i dati.</span>
+                                </div>
+                                <div data-form-group data-label="Scadenza password (GG)">
+                                    <input class="form-control input-sm" type="number" name="passwordday" ng-model="data.passwordDay" min="0" max="100">
+                                </div>
+                                <div class="form-group" ng-cloak ng-if="data.lastChangePasswordDate != null">
+                                    <label class="control-label col-md-4">Ultimo cambio password</label>
+                                    <div class="col-md-8">
+                                        <label class="color"> {{data.lastChangePasswordDate | date : 'dd/MM/yyyy HH:mm:ss'}}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-cloak ng-if="data.passwordDay > 0 && data.lastChangePasswordDate !=null">
+                                    <label class="control-label  col-md-4">Prossimo cambio password</label>
+                                    <div class="col-md-8">
+                                        <label class="color"> Il prossimo cambio password è previsto a partire dalla data: {{ getNextChangePasswordDate() | date : 'dd/MM/yyyy HH:mm:ss' }}</label>
+                                    </div>
+                                </div>
+                               
+
+                                <div data-form-group data-label="Annotazioni">
+                                    <textarea class="form-control input-sm" name="note" rows="4" ng-model="data.note" maxlength="400"></textarea>
+                                </div>
+                                <div data-form-group data-label="Disabilitato">
+                                    <ul class="iCheck">
+                                        <li>
+                                            <input type="checkbox" name="isDisable" ng-model="data.isDisable" data-jquery-icheck>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-1">
+
+                            </div>
+                            <div class="col-lg-5">
+                                <entity-information data-entity="data"></entity-information>
+                            </div>
+                        </div>
+                        <hr/>
+                        <section class="panel panel-default borders bd-gray" ng-if="(data.role == 1 || data.role == 4) && currentUser.lastUsedCompanyId == null">
+                            <header class="panel-heading xs">
+                                <h2><strong >Elenco aziende associate </strong></h2>
+                            </header>
+                            <div class="panel-body">
+                                <table class="table table-condensed table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="width-2">
+                                            </th>
+                                            <th class="text-left">
+                                                Azienda *
+                                            </th>
+                                            <th class="text-left">
+                                                Azioni
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="detail in data.companiesRights" ng-form="associatedCompanyForm">
+                                            <td class="text-right">
+                                                {{$index + 1}}
+                                            </td>
+                                            <td data-form-group>
+                                                <select name="company"
+                                                        data-width="100%"
+                                                        data-container='body'
+                                                        data-style="btn-default btn-sm"
+                                                        ng-required="true"
+                                                        ng-model="detail.companyId"
+                                                        data-jquery-selectpicker-live="getCompanies()"
+                                                        data-live-search="true"
+                                                        ng-options="o.value as o.key for o in companies">
+                                                    <option value="">Seleziona...</option>
+                                                </select>
+                                            </td>
+                                            <td data-form-group>
+                                                <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="removeCompany(detail)">Elimina</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2" ng-cloak>
+                                                <label class="color color-primary">Totale aziende associate: <strong>{{data.companiesRights.length}}</strong> </label>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="addCompany()">
+                                                    Aggiungi
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </section>
+                        <section class="panel panel-default borders bd-gray" ng-if="data.role == 8">
+                            <header class="panel-heading xs">
+                                <h2><strong>Elenco campagne associate </strong></h2>
+                            </header>
+                            <div class="panel-body">
+                                <table class="table table-condensed table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="width-2">
+                                            </th>
+                                            <th class="text-left">
+                                                Campagna *
+                                            </th>
+                                            <th class="text-left">
+                                                Azioni
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="detail in data.campaignsRights" ng-form="associatedCampaignForm">
+                                            <td class="text-right">
+                                                {{$index + 1}}
+                                            </td>
+                                            <td data-form-group>
+                                                <select name="campaign"
+                                                        data-width="100%"
+                                                        data-container='body'
+                                                        data-style="btn-default btn-sm"
+                                                        ng-required="true"
+                                                        ng-model="detail.campaignId"
+                                                        data-jquery-selectpicker-live="getCampaigns()"
+                                                        data-live-search="true"
+                                                        ng-options="o.value as o.key for o in campaigns">
+                                                    <option value="">Seleziona...</option>
+                                                </select>
+                                            </td>
+                                            <td data-form-group>
+                                                <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="removeCampaign(detail)">Elimina</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2" ng-cloak>
+                                                <label class="color color-primary">Totale aziende associate: <strong>{{data.campaignsRights.length}}</strong> </label>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="addCampaign()">
+                                                    Aggiungi
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+

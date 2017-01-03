@@ -1,0 +1,98 @@
+﻿
+
+<form name="employeeForm"
+      class="form-horizontal"
+      novalidate="novalidate"
+      data-form-submit="save()"
+      data-ng-controller="employeeCtrl">
+    <section class="panel panel-themes borders bd-gray">
+        <header class="panel-heading sm">
+            <h2><strong>Gestione dipendente</strong> </h2>
+        </header>
+        <div class="panel-tools">
+            <ul>
+                <li>
+                    <button type="submit" class="btn btn-info btn-transparent">
+                        <i class="fa fa-save"></i>
+                        Salva
+                    </button>
+
+                </li>
+
+                <li ng-if="data.id > 0">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                        <i class="fa fa-trash-o"></i>
+                        Elimina
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable" data-tabbablesections="tabbableOptions">
+                <ul class="nav nav-tabs" data-jquery-tabdrop>
+                    <li>
+                        <a>
+                            DATI PERSONALI
+                            <span data-form-errors-count="formTabInfoGenerali"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            CONTRATTI
+                            <span data-form-errors-count="formTabContract"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            COLLOCAZIONI
+                            <span data-form-errors-count="formTabPosition"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
+                        <div data-static-include="/app/backoffice/views/employees/tabs/_generali.html">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" data-ng-form="formTabContract">
+                        <div data-ng-if="tabbableOptions.tabs[1].loaded == true"
+                             data-static-include="/app/backoffice/views/employees/tabs/_contracts.html">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" data-ng-form="formTabPosition">
+                        <div data-ng-if="tabbableOptions.tabs[2].loaded == true"
+                             data-static-include="/app/backoffice/views/employees/tabs/collocazione/_collocazione.html">
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+
+        </div>
+    </section>
+</form>
+
+
+
+
+<!--<div data-ng-controller="employeeCtrl">
+    <form name="employeeForm" class="form-horizontal" novalidate="novalidate" data-form-submit="save()">
+        <section class="panel">
+            <header class="panel-heading sm">
+                <h2><strong>GESTIONE DIPENDENTE</strong>: {{data.name}} {{data.surname}}</h2>
+                <span class="pull-right" data-form-errors-count="employeeForm"></span>
+            </header>
+            <div class="panel-body">
+               
+            </div>
+        </section>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-theme-inverse">Salva</button>
+                <button type="button" class="btn btn-danger" ng-if="data.id > 0 " ng-click="delete()">Elimina</button>
+                <a class="btn btn-inverse" href="employees">Annulla</a>
+            </div>
+        </div>
+    </form>
+</div>-->
+
