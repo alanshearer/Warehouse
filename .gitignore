@@ -10,5 +10,6 @@ public/build
 public/views
 public/app
 public/common
-public/contents
+public/content
 public/configuration
+public/references

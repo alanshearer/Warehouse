@@ -27,10 +27,19 @@ class AuthController extends Controller
         } catch (\JWTException $e) {
             return response()->error('Could not create token', 500);
         }
-
         $user = Auth::user();
-
-        return response()->success(compact('user', 'token'));
+        
+        $compositetoken = new \App\Models\Auth\IToken();
+        $compositetoken->accesstoken = $token;
+        $compositetoken->tokentype = 'base';
+        $compositetoken->identity = new \App\Models\Auth\IUser();
+        $compositetoken->identity->id=$user->id;
+        $compositetoken->identity->name=$user->firstname;
+        $compositetoken->identity->surname=$user->lastname;
+        $compositetoken->identity->roleName='SysAdmin';
+        $compositetoken->identity->lastAccessDate=(new \DateTime())->format('Y-m-d H:i:s');
+        
+        return response()->success($compositetoken);
     }
 
     public function register(Request $request)
