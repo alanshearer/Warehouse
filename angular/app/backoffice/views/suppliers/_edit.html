@@ -58,27 +58,15 @@
                                            ng-model="supplier.address"
                                            required>
                                 </div>                         
-                                <div data-form-group data-label="Città">
-                                        <input class="form-control input-sm"
-                                           data-width="auto"
-                                           name="city"
-                                           ng-model="supplier.city"
-                                           required>
-                                </div>
-                                <div data-form-group data-label="Provincia">
-                                        <input class="form-control input-sm"
-                                           data-width="auto"
-                                           name="county"
-                                           ng-model="supplier.county"
-                                           required>
-                                </div>                                
-                                <div data-form-group data-label="Stato">
-                                        <input class="form-control input-sm"
-                                           data-width="auto"
-                                           name="country"
-                                           ng-model="supplier.country"
-                                           required>
-                                </div>
+                                <country-selector data-country-id="supplier.countryId"
+                                                  data-country-name="supplier.countryName"
+                                                  data-province-id="supplier.provinceId"
+                                                  data-province-name="supplier.provinceName"
+                                                  data-municipality-id="supplier.municipalityId"
+                                                  data-municipality-name="supplier.municipalityName"
+                                                  ng-required="true"
+                                                  data-postalcode="supplier.postalCode">
+                                </country-selector>
                             </div>
                         </div>
                         <section class="panel panel-default borders bd-gray">

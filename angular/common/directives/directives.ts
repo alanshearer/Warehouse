@@ -343,7 +343,7 @@
                         scope.countryId = scope.countries[0].value;
                     }
                     scope.getCountries = () => {
-                        $http.get(Global.Configuration.serviceHost + 'municipalities/countries', { cache: true }).success((result: any[]) => {
+                        $http.get(Global.Configuration.serviceHost + 'locations/countries', { cache: true }).success((result: any[]) => {
                             scope.countries = result;
                         }).catch((error: any) => { $log.error(error); });
                     }
@@ -368,7 +368,7 @@
                     scope.changeMunicipality = (mId: number) => {
                         scope.postalcode = null;
                         if (mId > 0) {
-                            $http.get(Global.Configuration.serviceHost + 'municipalities/' + mId, { cache: true }).success((result: any) => {
+                            $http.get(Global.Configuration.serviceHost + 'locations/cities/' + mId, { cache: true }).success((result: any) => {
                                 scope.postalcode = result.postalCode;
                             }).catch((error: any) => { $log.error(error); });
                         }
@@ -377,7 +377,7 @@
                     scope.getProvinces = () => {
                         //scope.municipalities = [];
                         if (angular.isDefined(scope.countryId) && scope.countryId > 0) {
-                            $http.get(Global.Configuration.serviceHost + 'municipalities/provinces/' + scope.countryId, { cache: true }).success((result: any[]) => {
+                            $http.get(Global.Configuration.serviceHost + 'locations/counties/' + scope.countryId, { cache: true }).success((result: any[]) => {
                                 scope.provinces = result;
                             }).catch((error: any) => { $log.error(error); });
                         }
@@ -385,7 +385,7 @@
 
                     scope.getMunicipalities = () => {
                         if (angular.isDefined(scope.provinceId) && scope.provinceId > 0) {
-                            $http.get(Global.Configuration.serviceHost + 'municipalities/summary/' + scope.provinceId, { cache: true }).success((result: any[]) => {
+                            $http.get(Global.Configuration.serviceHost + 'locations/citiesforcounty/' + scope.provinceId, { cache: true }).success((result: any[]) => {
                                 scope.municipalities = result;
                             }).catch((error: any) => { $log.error(error); });
                         }

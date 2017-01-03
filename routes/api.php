@@ -105,3 +105,10 @@ Route::get('suppliers/{id}', 'SupplierController@get');
 Route::post('suppliers','SupplierController@create');
 Route::put('suppliers/{id}','SupplierController@update');    
 Route::delete('suppliers/{id}','SupplierController@delete');
+
+Route::get('locations/countries', 'LocationController@countries');
+Route::get('locations/cities/{id}', 'LocationController@cities');
+Route::get('locations/counties/{id}', 'LocationController@counties');
+Route::get('locations/citiesforcounty/{id}', 'LocationController@citiesforcounty');
+
+
