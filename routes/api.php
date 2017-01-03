@@ -36,11 +36,11 @@ Route::post('categories','CategoryController@create');
 Route::put('categories/{id}','CategoryController@update');    
 Route::delete('categories/{id}','CategoryController@delete');
 
-Route::get('incominglots', 'IncominglotController@index');
-Route::get('incominglots/{id}', 'IncominglotController@get');
-Route::post('incominglots','IncominglotController@create');
-Route::put('incominglots/{id}','IncominglotController@update');    
-Route::delete('incominglots/{id}','IncominglotController@delete');
+Route::get('orders', 'OrderController@index');
+Route::get('orders/{id}', 'OrderController@get');
+Route::post('orders','OrderController@create');
+Route::put('orders/{id}','OrderController@update');    
+Route::delete('orders/{id}','OrderController@delete');
 
 Route::get('lots', 'LotController@index');
 Route::get('lots/{id}', 'LotController@get');
