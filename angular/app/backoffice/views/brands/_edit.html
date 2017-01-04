@@ -1,0 +1,74 @@
+﻿<form name="brandForm"
+      class="form-horizontal"
+      novalidate="novalidate"
+      data-form-submit="save()"
+      data-ng-controller="brandCtrl">
+    <section class="panel panel-themes borders bd-gray">
+        <header class="panel-heading sm">
+            <h2><strong>Gestione marchio</strong> </h2>
+        </header>
+        <div class="panel-tools">
+            <ul>
+                <li>
+                    <button type="submit" class="btn btn-info btn-transparent">
+                        <i class="fa fa-save"></i>
+                        Salva
+                    </button>
+                </li>
+                <li ng-if="brand.id > 0">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                        <i class="fa fa-trash-o"></i>
+                        Elimina
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable" data-tabbablesections="tabbableOptions">
+                <ul class="nav nav-tabs" data-jquery-tabdrop>
+                    <li>
+                        <a>
+                            DATI GENERALI
+                            <span data-form-errors-count="formTabInfoGenerali"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div data-form-group data-label="Nome">
+                                        <input class="form-control input-sm"
+                                           data-width="auto"
+                                           name="name"
+                                           ng-model="brand.name"
+                                           required>
+                                </div>
+                                <div data-form-group data-label="Descrizione">
+                                        <input class="form-control input-sm"
+                                           data-width="auto"
+                                           name="description"
+                                           ng-model="brand.description"
+                                           required>
+                                </div>                                       
+                                <div data-form-group data-label="Note">
+                                        <input class="form-control input-sm"
+                                           data-width="auto"
+                                           name="note"
+                                           ng-model="brand.note"
+                                           required>
+                                </div>                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+
+                </div>
+                <div class="col-lg-5">
+                    <entity-information data-entity="data"></entity-information>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

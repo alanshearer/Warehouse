@@ -101,14 +101,16 @@ Route::delete('users/{id}','UserController@delete');
 
 Route::get('suppliers/{page}/{elements}/{orderby?}/{desc?}', 'SupplierController@search');
 Route::get('suppliers', 'SupplierController@index');
+Route::get('suppliers/xls', 'SupplierController@xls');
 Route::get('suppliers/{id}', 'SupplierController@get');
 Route::post('suppliers','SupplierController@create');
 Route::put('suppliers/{id}','SupplierController@update');    
 Route::delete('suppliers/{id}','SupplierController@delete');
 
 Route::get('locations/countries', 'LocationController@countries');
-Route::get('locations/cities/{id}', 'LocationController@cities');
 Route::get('locations/counties/{id}', 'LocationController@counties');
-Route::get('locations/citiesforcounty/{id}', 'LocationController@citiesforcounty');
+Route::get('locations/cities/{id}', 'LocationController@cities');
+Route::get('locations/city/{id}', 'LocationController@city');
+
 
 

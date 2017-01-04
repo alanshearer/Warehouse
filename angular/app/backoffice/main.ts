@@ -175,6 +175,11 @@
                     roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
                     label: 'Nuovo'
                 })
+
+
+                /*
+                 * CONTROLLER NUOVA APP
+                 */
                 .when('/suppliers', {
                     templateUrl: "/app/backoffice/views/suppliers/_list.html",
                     roles: "'SysAdmin' || 'HrManager'",
@@ -201,6 +206,38 @@
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuovo ruolo'
                 })
+                .when('/categories', {
+                    templateUrl: "/app/backoffice/views/categories/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione categorie'
+                }).when('/categories/edit/:id', {
+                    templateUrl: "/app/backoffice/views/categories/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica categoria'
+                }).when('/categories/create', {
+                    templateUrl: "/app/backoffice/views/categories/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuova categoria'
+                })
+                .when('/brands', {
+                    templateUrl: "/app/backoffice/views/brands/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione marchi'
+                }).when('/brands/edit/:id', {
+                    templateUrl: "/app/backoffice/views/brands/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica marchio'
+                }).when('/brands/create', {
+                    templateUrl: "/app/backoffice/views/brands/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo marchio'
+                })
+                /*
+                 * FINE CONTROLLER NUOVA APP
+                 */
+
+
+
                 .when('/registrations', {
                     templateUrl: "/app/backoffice/views/presences/_edit.html",
                     roles: "'Backoffice' || 'SysAdmin' || 'DataEntry' || 'HrManager'",

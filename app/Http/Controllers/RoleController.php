@@ -22,7 +22,7 @@ class RoleController extends Controller {
     
     public function kvp(Request $request) {
         $roles = Role::all()->map(function ($item, $key) {
-            return ["key" => $item->name, "value" => $item->id];
+            return $item->kvp();
         }); 
         return response()->json($roles);
     }

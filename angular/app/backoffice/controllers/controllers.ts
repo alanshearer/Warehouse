@@ -90,13 +90,24 @@ module BackOfficeApp.Controllers {
         .constant('campaignsUrl', Global.Configuration.serviceHost + 'campaigns/')
         .constant('dashboardUrl', Global.Configuration.serviceHost + 'dashboard/')
         .constant('employeesUrl', Global.Configuration.serviceHost + 'employees/')
+        
+        /*
+         * COSTANTI NUOVA APP
+         */
         .constant('suppliersUrl', Global.Configuration.serviceHost + 'suppliers/')
+        .constant('categoriesUrl', Global.Configuration.serviceHost + 'categories/')
+        .constant('brandsUrl', Global.Configuration.serviceHost + 'brands/')
         .constant('rolesUrl', Global.Configuration.serviceHost + 'roles/')
+        /*
+         * FINE COSTANTI NUOVA APP
+         */
+        
         .constant('catalogsUrl', Global.Configuration.serviceHost + 'catalogs/')
         .constant('configurationsUrl', Global.Configuration.serviceHost + 'configurations/')
         .constant('reportsUrl', Global.Configuration.serviceHost + 'reports/')
         .constant("listActiveClass", "btn-primary")
         .constant("listPageSize", 10)
+        
         .controller('mainCtrl', ($scope: IMainViewModel, $rootScope: angular.IRootScopeService, $filter: angular.IFilterService, $location: angular.ILocationService, $route: angular.route.IRouteService,
             notification: Notification.INotificationService, authentication: u.IAuthenticationService<dto.IUserToken>, caching: Caching.ICachingService, breadcrumbs: any, $http: angular.IHttpService, usersUrl: string) => {
 
@@ -251,10 +262,6 @@ module BackOfficeApp.Controllers {
             }
         }).controller('employeeCampaignsCtrl', ($scope: any, $http: angular.IHttpService, companiesUrl: string, catalogsUrl: string, employeesUrl: string,
             campaignsUrl: string, notification: Notification.INotificationService) => {
-
-
-
-
         }).controller('employeesCtrl', ($scope: any, $http: angular.IHttpService, $q: angular.IQService, employeesUrl: string, listPageSize: number, companiesUrl: string, campaignsUrl: string) => {
             $scope.pageSize = listPageSize;
             $scope.resourceUrl = employeesUrl;
@@ -273,7 +280,12 @@ module BackOfficeApp.Controllers {
                 $http.get(employeesUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
-        }).controller('suppliersCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+        })
+        
+        
+        
+        
+        .controller('suppliersCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
             suppliersUrl: string) => {
 
             $scope.pageSize = listPageSize;
@@ -283,6 +295,30 @@ module BackOfficeApp.Controllers {
             $scope.downloadXls = () => {
                 var deffered = $q.defer();
                 $http.get(suppliersUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+        }).controller('categoriesCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+            categoriesUrl: string) => {
+
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = categoriesUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(categoriesUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve([data]); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+        }).controller('brandsCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+            brandsUrl: string) => {
+
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = brandsUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(brandsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
         }).controller('rolesCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
@@ -297,7 +333,19 @@ module BackOfficeApp.Controllers {
                 $http.get(rolesUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
-        }).controller('userManageCtrl', ($scope: any, $http: angular.IHttpService, $location: angular.ILocationService, $log: angular.ILogService,
+        })
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        .controller('userManageCtrl', ($scope: any, $http: angular.IHttpService, $location: angular.ILocationService, $log: angular.ILogService,
             $resource: angular.resource.IResourceService, $routeParams: angular.route.IRouteParamsService, authentication: Authentication.IAuthenticationService<dto.IUserToken>, usersUrl: string, notification: Notification.INotificationService) => {
 
             $scope.isProfile = $location.path().indexOf('/profile') >= 0;
@@ -638,26 +686,26 @@ module BackOfficeApp.Controllers {
             $scope.redirectToPage = () => {
                 $location.path('suppliers');
             }
-        }).controller('roleCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            rolesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+        }).controller('supplierCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            suppliersUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
 
-            var roleId = $routeParams['id'];
+            var supplierId = $routeParams['id'];
+            
+            var supplierResource = $resource<dto.IContract>(suppliersUrl + ':id', { id: angular.isDefined(supplierId) ? supplierId : '@supplier.id' }, { save: { method: supplierId != null ? "PUT" : "POST" } });
 
-            var roleResource = $resource<dto.IContract>(rolesUrl + ':id', { id: angular.isDefined(roleId) ? roleId : '@role.id' }, { save: { method: roleId != null ? "PUT" : "POST" } });
-
-            if (angular.isDefined(roleId)) {
-                roleResource.get((result: dto.IContract) => {
-                    $scope.role = result;
-                    breadcrumbs.options = { 'Modifica ruolo': 'Modifica ruolo: ' + $scope.role.name };
+            if (angular.isDefined(supplierId)) {
+                supplierResource.get((result: dto.IContract) => {
+                    $scope.supplier = result;
+                    breadcrumbs.options = { 'Modifica fornitore': 'Modifica fornitore: ' + $scope.supplier.name };
                 });
             } else {
-                $scope.role = new roleResource();
+                $scope.supplier = new supplierResource();
             }
 
             $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare il ruolo?').then((success: boolean) => {
+                notification.showConfirm('Sei sicuro di voler eliminare il fornitore?').then((success: boolean) => {
                     if (success) {
-                        roleResource.delete(() => {
+                        supplierResource.delete(() => {
                             $window.history.back();
                         });
                     }
@@ -665,14 +713,87 @@ module BackOfficeApp.Controllers {
             };
 
             $scope.save = () => {
-                (<any>$scope.role).$save().then((result: any) => {
-                    notification.showNotify('Ruolo ' + result.name, 'Salvataggio ruolo ' + result.name + ' eseguito con successo!');
+                (<any>$scope.supplier).$save().then((result: any) => {
+                    notification.showNotify('Fornitore ' + result.name, 'Salvataggio fornitore ' + result.name + ' eseguito con successo!');
                     $scope.redirectToPage();
                 });
             }
 
             $scope.redirectToPage = () => {
-                $location.path('/roles');
+                $location.path('suppliers');
+            }
+        }).controller('categoryCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            categoriesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+
+            var categoryId = $routeParams['id'];
+
+            var categoryResource = $resource<dto.IContract>(categoriesUrl + ':id', { id: angular.isDefined(categoryId) ? categoryId : '@category.id' }, { save: { method: categoryId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(categoryId)) {
+                categoryResource.get((result: dto.IContract) => {
+                    $scope.category = result;
+                    breadcrumbs.options = { 'Modifica categoria': 'Modifica categoria: ' + $scope.category.name };
+                });
+            } else {
+                $scope.category = new categoryResource();
+            }
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare la categoria?').then((success: boolean) => {
+                    if (success) {
+                        categoryResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.save = () => {
+                (<any>$scope.category).$save().then((result: any) => {
+                    notification.showNotify('Categoria ' + result.name, 'Salvataggio categoria ' + result.name + ' eseguito con successo!');
+                    $scope.redirectToPage();
+                });
+            }
+
+            $scope.redirectToPage = () => {
+                $location.path('/categories');
+            }
+
+        }).controller('brandCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            brandsUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+
+            var brandId = $routeParams['id'];
+
+            var brandResource = $resource<dto.IContract>(brandsUrl + ':id', { id: angular.isDefined(brandId) ? brandId : '@brand.id' }, { save: { method: brandId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(brandId)) {
+                brandResource.get((result: dto.IContract) => {
+                    $scope.brand = result;
+                    breadcrumbs.options = { 'Modifica marchio': 'Modifica marchio: ' + $scope.brand.name };
+                });
+            } else {
+                $scope.brand = new brandResource();
+            }
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare il marchio?').then((success: boolean) => {
+                    if (success) {
+                        brandResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.save = () => {
+                (<any>$scope.brand).$save().then((result: any) => {
+                    notification.showNotify('Cateogoria ' + result.name, 'Salvataggio marchio ' + result.name + ' eseguito con successo!');
+                    $scope.redirectToPage();
+                });
+            }
+
+            $scope.redirectToPage = () => {
+                $location.path('/brands');
             }
 
         }).controller('employeePositionCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,

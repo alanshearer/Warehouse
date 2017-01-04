@@ -368,8 +368,8 @@
                     scope.changeMunicipality = (mId: number) => {
                         scope.postalcode = null;
                         if (mId > 0) {
-                            $http.get(Global.Configuration.serviceHost + 'locations/cities/' + mId, { cache: true }).success((result: any) => {
-                                scope.postalcode = result.postalCode;
+                            $http.get(Global.Configuration.serviceHost + 'locations/city/' + mId, { cache: true }).success((result: any) => {
+                                scope.postalcode = result.postalcode;
                             }).catch((error: any) => { $log.error(error); });
                         }
                     }
@@ -385,7 +385,7 @@
 
                     scope.getMunicipalities = () => {
                         if (angular.isDefined(scope.provinceId) && scope.provinceId > 0) {
-                            $http.get(Global.Configuration.serviceHost + 'locations/citiesforcounty/' + scope.provinceId, { cache: true }).success((result: any[]) => {
+                            $http.get(Global.Configuration.serviceHost + 'locations/cities/' + scope.provinceId, { cache: true }).success((result: any[]) => {
                                 scope.municipalities = result;
                             }).catch((error: any) => { $log.error(error); });
                         }

@@ -27,7 +27,6 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
-
         Schema::create('regions', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();

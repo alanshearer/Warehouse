@@ -113,6 +113,7 @@
                             <li ng-if="('\'SysAdmin\'' | hasRole)"><a ng-href="/#/admin/configuration"> Configurazione di sistema</a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-clock-o"></i> Ruoli </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-clock-o"></i> Utenti </a></li>
+                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/categories"><i class="icon fa fa-clock-o"></i> Categorie </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-clock-o"></i> Marche </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/typologies"><i class="icon fa fa-clock-o"></i> Tipologie </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/models"><i class="icon fa fa-clock-o"></i> Modelli </a></li>
