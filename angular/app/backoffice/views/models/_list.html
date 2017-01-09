@@ -1,17 +1,17 @@
-﻿<section class="panel panel-themes borders bd-gray" ng-controller="brandsCtrl">
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="modelsCtrl">
     <header class="panel-heading sm">
-        <h2><strong>Elenco</strong> marche </h2>
+        <h2><strong>Elenco</strong> modelli </h2>
     </header>
     <div class="panel-tools" align="left">
         <ul>
             <li>
-                <a href="/#/brands/create" class="btn btn-theme btn-transparent" title="Aggiungi nuova marca" data-jquery-tooltip>
+                <a href="/#/models/create" class="btn btn-theme btn-transparent" title="Aggiungi nuovo modello" data-jquery-tooltip>
                     <i class="fa fa-plus-square"></i>
                     Nuovo
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='marche.xlsx' data-jquery-tooltip title="Download file xls">
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='modelli.xlsx' data-jquery-tooltip title="Download file xls">
                     <i class="fa fa-file-excel-o"></i>
                     Esporta in excel
                 </a>
@@ -48,7 +48,7 @@
                                                data-trigger="hover"
                                                data-placement="bottom"
                                                title="Ricerca libera"
-                                               data-content="La ricerca viene eseguita per i campi Nome e Descrizione marca"></i>
+                                               data-content="La ricerca viene eseguita per i campi Nome e Partita Iva modello"></i>
                                             <input type="text" name="term" class="form-control input-sm" ng-model="filters.term" placeholder="Cerca" />
                                         </div>
                                     </div>
@@ -60,7 +60,7 @@
                                                        data-ignore-dirty
                                                        ng-model="filters.isActive" data-jquery-icheck>
                                                 <label>
-                                                    Visualizza solo marche attivi
+                                                    Visualizza solo modelli attivi
                                                 </label>
                                             </li>
                                         </ul>
@@ -76,15 +76,19 @@
                     <tr>
                         <th scope="col" data-sorter="name" class="text-left width-20">Nome</th>
                         <th scope="col" data-sorter="description" class="text-left width-15">Descrizione</th>
+                        <th scope="col" class="text-left" data-sorter="brand">Brand</th>
+                        <th scope="col" class="text-left" data-sorter="category">Categoria</th>                        
                         <th scope="col" class="text-center width-5">Stato</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in items">
-                        <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/brands/edit/{{item.id}}"><strong>{{item.name}}</strong></a></td>
+                        <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/models/edit/{{item.id}}"><strong>{{item.name}}</strong></a></td>
                         <td class="">
                             {{item.description}}
                         </td>
+                        <td class="">{{item.brand.key}}</td>
+                        <td class="">{{item.category.key}}</td>
                         <td class="text-center">
                             <span class="badge bg-danger-darken" data-ng-if="!item.enabled">Non attivo</span>
                             <span class="badge bg-success-darken" data-ng-if="item.enabled">Attivo</span>

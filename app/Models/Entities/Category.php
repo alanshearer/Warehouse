@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
-class Product extends Model
+class Category extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,8 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'model_id', 'note', 'price', 'externalid', 'productstate_id'
+        'name', 'description', 'note'
     ];
+    
+        
 }

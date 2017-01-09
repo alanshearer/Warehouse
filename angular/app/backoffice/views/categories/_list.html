@@ -1,6 +1,6 @@
 ﻿<section class="panel panel-themes borders bd-gray" ng-controller="categoriesCtrl">
     <header class="panel-heading sm">
-        <h2><strong>Elenco</strong> cateogorie </h2>
+        <h2><strong>Elenco</strong> categorie </h2>
     </header>
     <div class="panel-tools" align="left">
         <ul>
@@ -11,7 +11,7 @@
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='categorie.xml' data-jquery-tooltip title="Download file xls">
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name="categorie.xls" data-download-file-type="xls" data-jquery-tooltip title="Download file xls">
                     <i class="fa fa-file-excel-o"></i>
                     Esporta in excel
                 </a>
@@ -60,7 +60,7 @@
                                                        data-ignore-dirty
                                                        ng-model="filters.isActive" data-jquery-icheck>
                                                 <label>
-                                                    Visualizza solo categorie attive
+                                                    Visualizza solo categorie attivi
                                                 </label>
                                             </li>
                                         </ul>
@@ -75,21 +75,19 @@
                 <thead>
                     <tr>
                         <th scope="col" data-sorter="name" class="text-left width-20">Nome</th>
-                        <th scope="col" data-sorter="vatcode" class="text-left width-15">Descrizione</th>
-                        <th scope="col" data-sorter="country" class="text-center width-5">Stato</th>
+                        <th scope="col" data-sorter="description" class="text-left width-15">Descrizione</th>
+                        <th scope="col" class="text-center width-5">Stato</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in items">
-                        <td class="">
-                            <a class="btn btn-link uppercase no-margin-padding" href="categories/edit/{{item.id}}"><strong>{{item.name}}</strong></a>
-                        </td>
+                        <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/categories/edit/{{item.id}}"><strong>{{item.name}}</strong></a></td>
                         <td class="">
                             {{item.description}}
                         </td>
                         <td class="text-center">
-                            <span class="badge bg-danger-darken" data-ng-if="item.deleted_at !== null">Non attivo</span>
-                            <span class="badge bg-success-darken" data-ng-if="item.deleted_at === null">Attivo</span>
+                            <span class="badge bg-danger-darken" data-ng-if="!item.enabled">Non attivo</span>
+                            <span class="badge bg-success-darken" data-ng-if="item.enabled">Attivo</span>
                         </td>  
                     </tr>
                 </tbody>

@@ -1,8 +1,8 @@
 ﻿<form name="categoryForm"
-      class="form-horizontal"
-      novalidate="novalidate"
-      data-form-submit="save()"
-      data-ng-controller="categoryCtrl">
+       class="form-horizontal"
+       novalidate="novalidate"
+       data-form-submit="save()"
+       data-ng-controller="categoryCtrl">
     <section class="panel panel-themes borders bd-gray">
         <header class="panel-heading sm">
             <h2><strong>Gestione categoria</strong> </h2>
@@ -37,27 +37,27 @@
                     <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
                         <div class="row">
                             <div class="col-lg-6">
-                                <div data-form-group data-label="Nome o Ragione sociale">
-                                        <input class="form-control input-sm"
+                                <div data-form-group data-label="Nome">
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="name"
                                            ng-model="category.name"
                                            required>
                                 </div>
                                 <div data-form-group data-label="Descrizione">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
-                                           name="descrizione"
-                                           ng-model="category.descrizione"
-                                           required>
-                                </div>                                       
+                                           name="description"
+                                           ng-model="category.description"
+                                           >
+                                </div>    
                                 <div data-form-group data-label="Note">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="note"
                                            ng-model="category.note"
-                                           required>
-                                </div>                         
+                                           >
+                                </div>  
                             </div>
                         </div>
                     </div>

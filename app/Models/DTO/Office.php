@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\DTO;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
-class Officetype extends Model
+class Office extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class Officetype extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'address', 'city', 'country', 'county', 'officetype_id'
     ];
 }

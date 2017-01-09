@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\DTO;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
-class Brand extends Model
+class Productstate extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class Brand extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'note'
+        'name', 'description'
     ];
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="it" ng-app="backofficeApp">
     <head>
-        <base href="/#/" />
-        <meta charset="utf-8">
+<!--        <base href="/#/" />-->
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="-1">

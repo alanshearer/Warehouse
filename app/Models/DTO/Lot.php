@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\DTO;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
-class Productstate extends Model
+class Lot extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,6 @@ class Productstate extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'document', 'origin_id', 'destination_id'
     ];
 }

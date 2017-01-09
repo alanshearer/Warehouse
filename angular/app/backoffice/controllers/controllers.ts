@@ -787,7 +787,7 @@ module BackOfficeApp.Controllers {
 
             $scope.save = () => {
                 (<any>$scope.brand).$save().then((result: any) => {
-                    notification.showNotify('Cateogoria ' + result.name, 'Salvataggio marchio ' + result.name + ' eseguito con successo!');
+                    notification.showNotify('Marchio ' + result.name, 'Salvataggio marchio ' + result.name + ' eseguito con successo!');
                     $scope.redirectToPage();
                 });
             }

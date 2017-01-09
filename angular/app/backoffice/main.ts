@@ -222,15 +222,15 @@
                 .when('/brands', {
                     templateUrl: "/app/backoffice/views/brands/_list.html",
                     roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Gestione marchi'
+                    label: 'Gestione marche'
                 }).when('/brands/edit/:id', {
                     templateUrl: "/app/backoffice/views/brands/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Modifica marchio'
+                    label: 'Modifica marca'
                 }).when('/brands/create', {
                     templateUrl: "/app/backoffice/views/brands/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Nuovo marchio'
+                    label: 'Nuova marca'
                 })
                 /*
                  * FINE CONTROLLER NUOVA APP
