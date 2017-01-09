@@ -5,15 +5,14 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 
-class ResponseMacroServiceProvider extends ServiceProvider
-{
+class ResponseMacroServiceProvider extends ServiceProvider {
+
     /**
      * Bootstrap the application services.
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot() {
 //        Response::macro('success', function ($data) {
 //            return Response::json([
 //                'errors'  => false,
@@ -23,15 +22,12 @@ class ResponseMacroServiceProvider extends ServiceProvider
         Response::macro('success', function ($data) {
             return Response::json($data);
         });
-        
+
         Response::macro('error', function ($message, $status = 400) {
             return Response::json([
-                'message'         => $status.' error',
-                'errors'          => [
-                'message'         => [$message],
-            ],
-                'status_code'     => $status,
-            ], $status);
+                        'message' => $message,
+                        'statusCode' => $status,
+                            ], $status);
         });
     }
 
@@ -40,8 +36,8 @@ class ResponseMacroServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         //
     }
+
 }
