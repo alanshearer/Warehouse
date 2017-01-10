@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Location;
+namespace App\Models\Entities\Location;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
@@ -16,11 +16,6 @@ class City extends Model {
     ];
 
     public function county() {
-        return $this->belongsTo('App\Models\Location\County');
+        return $this->belongsTo('App\Models\Entities\Location\County');
     }
-
-    public function kvp() {
-        return ["key" => $this->name, "value" => $this->id];
-    }
-
 }

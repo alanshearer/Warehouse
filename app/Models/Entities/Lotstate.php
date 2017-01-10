@@ -14,4 +14,5 @@ class Lotstate extends Model
     protected $fillable = [
         'name', 'description'
     ];
+
 }

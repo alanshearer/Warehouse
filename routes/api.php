@@ -42,6 +42,15 @@ Route::post('brands','BrandController@create');
 Route::put('brands/{id}','BrandController@update');    
 Route::delete('brands/{id}','BrandController@delete');
 
+Route::get('offices/{page}/{elements}/{orderby?}/{desc?}', 'OfficeController@search');
+Route::get('offices', 'OfficeController@index');
+Route::get('offices/xls', 'OfficeController@xls');
+Route::get('offices/kvp', 'OfficeController@kvp');
+Route::get('offices/{id}', 'OfficeController@get');
+Route::post('offices','OfficeController@create');
+Route::put('offices/{id}','OfficeController@update');    
+Route::delete('offices/{id}','OfficeController@delete');
+
 Route::get('orders', 'OrderController@index');
 Route::get('orders/{id}', 'OrderController@get');
 Route::post('orders','OrderController@create');
@@ -66,11 +75,7 @@ Route::post('models','ModelController@create');
 Route::put('models/{id}','ModelController@update');    
 Route::delete('models/{id}','ModelController@delete');
 
-Route::get('offices', 'OfficeController@index');
-Route::get('offices/{id}', 'OfficeController@get');
-Route::post('offices','OfficeController@create');
-Route::put('offices/{id}','OfficeController@update');    
-Route::delete('offices/{id}','OfficeController@delete');
+
 
 Route::get('officetypes', 'OfficetypeController@index');
 Route::get('officetypes/{id}', 'OfficetypeController@get');

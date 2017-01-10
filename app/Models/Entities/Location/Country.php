@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Location;
+namespace App\Models\Entities\Location;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
@@ -16,15 +16,11 @@ class Country extends Model {
     ];
 
     public function regions() {
-        return $this->hasMany('App\Models\Location\Region');
+        return $this->hasMany('App\Models\Entities\Location\Region');
     }
 
     public function counties() {
-        return $this->hasManyThrough('App\Models\Location\County', 'App\Models\Location\Region');
-    }
-
-    public function kvp() {
-        return ["key" => $this->name, "value" => $this->id];
+        return $this->hasManyThrough('App\Models\Entities\Location\County', 'App\Models\Entities\Location\Region');
     }
 
 }

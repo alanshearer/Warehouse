@@ -17,6 +17,7 @@ class Category extends Model {
     ];
 
     public function __construct(Entity $entity) {
+        $this->id = $entity->id;
         $this->name = $entity->name;
         $this->description = $entity->description;
         $this->note = $entity->note;

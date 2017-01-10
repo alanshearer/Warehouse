@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\DTO;
+namespace App\Models\DTO\Location;
 
 use Illuminate\Database\Eloquent\Model as Model;
-use App\Models\Entities\Role as Entity;
+use App\Models\Entities\Location\Country as Entity;
 
-class Role extends Model {
+class Country extends Model {
 
     /**
      * The attributes that are mass assignable.
@@ -13,15 +13,19 @@ class Role extends Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'code', 'uic_id'
     ];
 
     public function __construct(Entity $entity) {
         $this->id = $entity->id;
         $this->name = $entity->name;
-        $this->description = $entity->description;
-        $this->note = $entity->note;
+        $this->code = $entity->code;
+        $this->uic_id = $entity->uic_id;
         $this->enabled = $entity->deleted_at == null ? true : false;
+    }
+
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
     }
 
 }

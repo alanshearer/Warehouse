@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\City\Country;
-use App\Models\City\County;
-use App\Models\City\Region;
-use App\Models\City\City;
+use App\Models\Entities\Location\Country;
+use App\Models\Entities\Location\County;
+use App\Models\Entities\Location\Region;
+use App\Models\Entities\Location\City;
 
 class CitiesTableSeeder extends Seeder {
 

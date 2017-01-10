@@ -3,15 +3,25 @@
 namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Office extends Model
-{
+class Office extends Model {
+
+    use SoftDeletes;
+
+    protected $softDeletes = true;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'address', 'city', 'country', 'county', 'officetype_id'
+        'name', 'address', 'city_id', 'postalcode', 'officetype_id'
     ];
+
+    public function city() {
+        return $this->belongsTo('App\Models\Entities\Location\City', 'city_id', 'id');
+    }
+
 }

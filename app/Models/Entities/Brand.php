@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model as Model;
 
 class Brand extends Model
 {
+    use Illuminate\Database\Eloquent\SoftDeletes;
+    protected $softDeletes = true;
     /**
      * The attributes that are mass assignable.
      *

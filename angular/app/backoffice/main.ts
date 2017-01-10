@@ -183,15 +183,41 @@
                 .when('/suppliers', {
                     templateUrl: "/app/backoffice/views/suppliers/_list.html",
                     roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Gestione contratti'
+                    label: 'Gestione fornitori'
                 }).when('/suppliers/edit/:id', {
                     templateUrl: "/app/backoffice/views/suppliers/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Modifica contratto'
+                    label: 'Modifica fornitore'
                 }).when('/suppliers/create', {
                     templateUrl: "/app/backoffice/views/suppliers/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Nuovo contratto'
+                    label: 'Nuovo fornitore'
+                })
+                .when('/offices', {
+                    templateUrl: "/app/backoffice/views/offices/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione uffici'
+                }).when('/offices/edit/:id', {
+                    templateUrl: "/app/backoffice/views/offices/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica ufficio'
+                }).when('/offices/create', {
+                    templateUrl: "/app/backoffice/views/offices/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo ufficio'
+                })                
+                .when('/warehouses', {
+                    templateUrl: "/app/backoffice/views/warehouses/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione magazzini'
+                }).when('/warehouses/edit/:id', {
+                    templateUrl: "/app/backoffice/views/warehouses/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica magazzino'
+                }).when('/warehouses/create', {
+                    templateUrl: "/app/backoffice/views/warehouses/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo magazzino'
                 })
                 .when('/roles', {
                     templateUrl: "/app/backoffice/views/roles/_list.html",

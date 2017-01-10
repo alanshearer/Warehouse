@@ -11,7 +11,7 @@ use \Excel;
 class CategoryController extends Controller {
 
     public function index(Request $request) {
-        $dtos = self::createDTOArray(Entity::all());
+        $dtos = self::toDTOArray(Entity::all());
         return response()->success($dtos);
     }
 
@@ -22,79 +22,64 @@ class CategoryController extends Controller {
         $type = $request->desc == 'true' ? 'desc' : 'asc';
         $term = $request->term ?? '';
         $isActive = $request->isActive ?? false;
-        $paginateditems = Entity::where('name', 'LIKE', '%' . $term . '%')
+
+        $paginateditems = Entity::withTrashed()
+                ->where(function ($query) use($term) {
+                    $query->where('name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('description', 'LIKE', '%' . $term . '%');
+                })
+                ->where(function ($query) use ($isActive) {
+                    if ($isActive) {
+                        $query->whereNull('deleted_at');
+                    }
+                })
                 ->orderBy($orderby, $type)
                 ->paginate($elements, null, '', $page);
-        $paginateditems->setCollection(self::createDTOArray($paginateditems->getCollection()));
-        return response()->json($paginateditems);
+        $paginateditems->setCollection(self::toDTOArray($paginateditems->getCollection()));
+        return response()->success($paginateditems);
     }
 
     public function kvp() {
-        $categories = Entity::all()->map(function ($item, $key) {
-            return $item->kvp();
-        });
-        return response()->json($categories);
+        $kvps = self::toKVPArray(Entity::all());
+        return response()->success($kvps);
     }
 
     public function get($id) {
-        $entity = Entity::find($id);
-        $dto = self::createDTO($entity);
-        return response()->json($dto);
+        $entity = Entity::withTrashed()->find($id);
+        $dto = self::toDTO($entity);
+        return response()->success($dto);
     }
 
     public function create(Request $request) {
-        $entity = Entity::create(self::createEntity($request));
+        $entity = Entity::create(self::toEntity($request));
         return response()->success($entity);
     }
 
     public function update(Request $request, $id) {
-        $entity = Entity::find($id);
-        $entity->fill(self::createEntity($request));
+        $entity = Entity::withTrashed()->find($id);
+        $entity->fill(self::toEntity($request));
         $entity->save();
         return response()->success($entity);
     }
 
     public function delete($id) {
-        $category = Entity::find($id);
-        $category->delete();
-        return response()->json('deleted');
+        $entity = Entity::find($id);
+        $entity->delete();
+        return response()->success(true);
     }
 
-    public function xls(Request $request) {
-        $orderby = isset($request->orderby) ? $request->orderby : 'name';
-        $type = $request->desc == 'true' ? 'desc' : 'asc';
-        $term = $request->term ?? '';
-        $isActive = $request->isActive ?? false;
-        $items = Entity::where('name', 'LIKE', '%' . $term . '%')
-                ->orderBy($orderby, $type)
-                ->get()
-                ->map(function ($item, $key) {
-            return new DTO($item);
-        });
-
-        Excel::create('file', function($excel) use($items) {
-            $excel->sheet('foglio', function($sheet) use($items) {
-                $sheet->setOrientation('portrait');
-                $sheet->fromArray($items);
-               
-            });
-        })->store('xls');
-        return self::file_get_contents_utf8(storage_path('exports\file.xls'));
-        //print($file);
-       //return response()->json($items);
-    }
-    
-    public function file_get_contents_utf8($fn) {
-     $content = file_get_contents($fn);
-      return mb_convert_encoding($content, 'UTF-8',
-          mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
-}
-
-    private function createDTO($entity) {
+    private function toDTO($entity) {
         return new DTO($entity);
     }
 
-    private function createEntity($dto) {
+    private function toKVP($entity) {
+        return [
+            'key' => $entity->name,
+            'value' => $entity->id
+        ];
+    }
+
+    private function toEntity($dto) {
         return [
             'name' => $dto->name,
             'description' => $dto->description,
@@ -102,9 +87,15 @@ class CategoryController extends Controller {
         ];
     }
 
-    private function createDTOArray($entities) {
+    private function toDTOArray($entities) {
         return $entities->map(function ($entity, $key) {
-                    return self::createDTO($entity);
+                    return self::toDTO($entity);
+                });
+    }
+
+    private function toKVPArray($entities) {
+        return $entities->map(function ($entity, $key) {
+                    return self::toKVP($entity);
                 });
     }
 

@@ -2,14 +2,26 @@
 
 namespace App\Models\DTO;
 
+use Illuminate\Database\Eloquent\Model as Model;
+use App\Models\Entities\Brand as Entity;
 
-class Brand 
-{
-  public function __construct(App\Models\Entities\Brand $entity) {
-      $dto = new Brand();
-      $dto->name = $entity->name;
-      $dto->description = $entity->description;
-      $dto->note = $entity->note;
-      $dto->enabled = $entity->deleted_at == null ? true : false;   
-  }
+class Brand extends Model {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'description', 'note'
+    ];
+
+    public function __construct(Entity $entity) {
+        $this->id = $entity->id;
+        $this->name = $entity->name;
+        $this->description = $entity->description;
+        $this->note = $entity->note;
+        $this->enabled = $entity->deleted_at == null ? true : false;
+    }
+
 }

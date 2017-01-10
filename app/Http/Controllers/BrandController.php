@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Brand;
+use App\Models\Entities\Brand as Entity;
+use App\Models\DTO\Brand as DTO;
 use \Excel;
 
 class BrandController extends Controller {
 
     public function index(Request $request) {
-        $brands = Brand::all();
-        return response()->json($brands);
+        $dtos = self::toDTOArray(Entity::all());
+        return response()->success($dtos);
     }
 
     public function search(Request $request) {
@@ -21,65 +22,81 @@ class BrandController extends Controller {
         $type = $request->desc == 'true' ? 'desc' : 'asc';
         $term = $request->term ?? '';
         $isActive = $request->isActive ?? false;
-        $paginateditems = Brand::where('name', 'LIKE', '%' . $term . '%')
+
+        $paginateditems = Entity::withTrashed()
+                ->where(function ($query) use($term) {
+                    $query->where('name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('description', 'LIKE', '%' . $term . '%');
+                })
+                ->where(function ($query) use ($isActive) {
+                    if ($isActive) {
+                        $query->whereNull('deleted_at');
+                    }
+                })
                 ->orderBy($orderby, $type)
                 ->paginate($elements, null, '', $page);
-//        $items = $paginateditems->getCollection()->map(function ($item, $key) {
-//            return $item->short();
-//        });
-//        $paginateditems->setCollection($items);
-        return response()->json($paginateditems);
+        $paginateditems->setCollection(self::toDTOArray($paginateditems->getCollection()));
+        return response()->success($paginateditems);
     }
-    public function kvp($id) {
-        $brands = Brand::all()->map(function ($item, $key) {
-            return $item->kvp();
-        });
-        return response()->json($brands);
+
+    public function kvp() {
+        $kvps = self::toKVPArray(Entity::all());
+        return response()->success($kvps);
     }
-    
+
     public function get($id) {
-        $brand = Brand::find($id)->short();
-        return response()->json($brand);
+        $entity = Entity::withTrashed()->find($id);
+        $dto = self::toDTO($entity);
+        return response()->success($dto);
     }
 
     public function create(Request $request) {
-        $brand = Brand::create($request->all());
-        return response()->json($brand);
+        $entity = Entity::create(self::toEntity($request));
+        return response()->success($entity);
     }
 
     public function update(Request $request, $id) {
-        $brand = Brand::find($id);
-        $brand->fill($request->all());
-        $brand->save();
-        return response()->json($brand);
+        $entity = Entity::withTrashed()->find($id);
+        $entity->fill(self::toEntity($request));
+        $entity->save();
+        return response()->success($entity);
     }
 
     public function delete($id) {
-        $brand = Brand::find($id);
-        $brand->delete();
-        return response()->json('deleted');
+        $entity = Entity::find($id);
+        $entity->delete();
+        return response()->success(true);
     }
 
-    public function xls(Request $request) {
-        $orderby = isset($request->orderby) ? $request->orderby : 'name';
-        $type = $request->desc == 'true' ? 'desc' : 'asc';
-        $term = $request->term ?? '';
-        $isActive = $request->isActive ?? false;
-        $items = Brand::where('name', 'LIKE', '%' . $term . '%')
-                ->orderBy($orderby, $type)
-                ->get()
-                ->map(function ($item, $key) {
-            return $item->short();
-        });
-        return Excel::create('Laravel Excel', function($excel) use($items) {
+    private function toDTO($entity) {
+        return new DTO($entity);
+    }
 
-            $excel->sheet('Excel sheet', function($sheet) use($items) {
+    private function toKVP($entity) {
+        return [
+            'key' => $entity->name,
+            'value' => $entity->id
+        ];
+    }
 
-                $sheet->setOrientation('landscape');
-                $sheet->with($items);
-            });
-        })->download('xlsx');
-        //return response()->json($items);
+    private function toEntity($dto) {
+        return [
+            'name' => $dto->name,
+            'description' => $dto->description,
+            'note' => $dto->note,
+        ];
+    }
+
+    private function toDTOArray($entities) {
+        return $entities->map(function ($entity, $key) {
+                    return self::toDTO($entity);
+                });
+    }
+
+    private function toKVPArray($entities) {
+        return $entities->map(function ($entity, $key) {
+                    return self::toKVP($entity);
+                });
     }
 
 }
