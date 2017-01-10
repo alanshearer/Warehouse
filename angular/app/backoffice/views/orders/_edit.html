@@ -1,0 +1,256 @@
+﻿<form name="modelForm"
+       class="form-horizontal"
+       novalidate="novalidate"
+       data-form-submit="save()"
+       data-ng-controller="modelCtrl">
+    <section class="panel panel-themes borders bd-gray">
+        <header class="panel-heading sm">
+            <h2><strong>Gestione modello</strong> </h2>
+        </header>
+        <div class="panel-tools">
+            <ul>
+                <li>
+                    <button type="submit" class="btn btn-info btn-transparent">
+                        <i class="fa fa-save"></i>
+                        Salva
+                    </button>
+                </li>
+                <li ng-if="model.id > 0 && model.enabled">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                        <i class="fa fa-trash-o"></i>
+                        Elimina
+                    </button>
+                </li>
+                <li ng-if="model.id > 0 && !model.enabled">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="restore()">
+                        <span class="fa-stack">
+                            <i class="fa fa-trash-o fa-stack-1x"></i>
+                            <i class="fa fa-times fa-stack-1x"></i>
+                        </span>
+                        Ripristina
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable" data-tabbablesections="tabbableOptions">
+                <ul class="nav nav-tabs" data-jquery-tabdrop>
+                    <li>
+                        <a>
+                            DATI GENERALI
+                            <span data-form-errors-count="formTabInfoGenerali"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div data-form-group data-label="Data">
+                                    <input class="form-control input-sm" data-width="auto"
+                                           name="date"
+                                           ng-model="model.date"
+                                           required
+                                           data-jquery-dateinputmask>
+                                </div>
+                                <div data-form-group data-label="Fornitore *">
+                                    <kvp-select data-items="suppliers"
+                                                data-action="getSuppliers()"
+                                                data-required="true"
+                                                data-current="model.brand">
+                                    </kvp-select>
+                                </div>
+                                <div data-form-group data-label="Note">
+                                    <input class="form-control input-sm"
+                                           data-width="auto"
+                                           name="note"
+                                           ng-model="model.note"
+                                           >
+                                </div>    
+                            </div>
+                        </div>
+                        <section class="panel panel-default borders bd-gray" data-ng-show="true">
+                            <header class="panel-heading xs">
+                                <h2><strong>CAMPAGNE ASSOCIATE</strong></h2>
+                            </header>
+                            <div class="panel-body no-margin-padding">
+                                <div class="panel-tools">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)" data-ng-click="addAssociation()" class="btn btn-info btn-transparent">
+                                                <i class="fa fa-plus-square"></i>
+                                                Associa nuova campagna
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="dataTables_filter row">
+                                        <div class="col-md-3">
+                                            <span class="help-block no-margin-padding small"><strong>STATO</strong></span>
+                                            <select name="isActive"
+                                                    data-style="btn-default btn-sm"
+                                                    data-jquery-selectpicker
+                                                    ng-model="filters.isActive">
+                                                <option value="true">Attive</option>
+                                                <option value="false">Non Attive</option>
+                                                <option value="">Tutte</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="text-left width-20">Campagna</th>
+                                                    <th scope="col" class="text-left width-10">Inizio campagna</th>
+                                                    <th scope="col" class="text-left width-10">Fine campagna</th>
+                                                    <th scope="col" class="text-left width-10">Inizio validità</th>
+                                                    <th scope="col" class="text-left width-10">Fine validità</th>
+                                                    <th scope="col" class="text-left width-20">Responsabile</th>
+                                                    <th scope="col" class="text-center width-5 hidden-sm hidden-xs" nowrap="">
+                                                        Presenze&nbsp;
+                                                        <i class="fa fa-info-circle" data-jquery-popover data-trigger="hover" title="Totale presenze" data-content="Numero di presenze registrate per la campagna indicata. Si ricorda che se sono presenti delle registrazioni associate la campagna non può essere più rimossa"></i>
+                                                    </th>
+                                                    <th scope="col" class="text-center width-5 hidden-sm hidden-xs" nowrap="">
+                                                        Assenze&nbsp;
+                                                        <i class="fa fa-info-circle" data-jquery-popover data-trigger="hover" title="Totale assenze" data-content="Numero di assenze registrate per la campagna indicata. Si ricorda che se sono presenti delle registrazioni associate la campagna non può essere più rimossa"></i>
+                                                    </th>
+                                                    <th scope="col" class="width-5 hidden-sm hidden-xs" nowrap="">
+                                                        Stato
+                                                        &nbsp;
+                                                        <i class="fa fa-info-circle" data-jquery-popover data-trigger="hover" title="Stato campagna" data-content="Lo stato viene calcolato in base al periodo di validità e la data corrente. Per disattivare una campagna è necessario indicare la data corrente nel periodo di fine validità"></i>
+                                                    </th>
+                                                    <th scope="col" class=" width-5">Azioni</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in data.campaignAssociations| filter:{isActive: filters.isActive}" data-ng-form="formCampaignAssociation_{{$index}}">
+                                                    <td data-from-group data-ng-form="campaignForm{{$index}}" class="align-top">
+                                            <kvp-select data-items="campaigns"
+                                                        data-action="getCampaigns()"
+                                                        data-width="100%"
+                                                        data-select-style="btn-default btn-sm"
+                                                        data-required="true"
+                                                        data-change="item.personInCharge = null; item.personInCharge = null"
+                                                        data-current="item.campaign"></kvp-select>
+                                            </td>
+                                            <td class="text-left">
+                                                {{item.campaignItem.startDate| date:'dd/MM/yyyy'}}
+                                            </td>
+                                            <td class="text-left">
+                                                {{item.campaignItem.endDate| date:'dd/MM/yyyy'}}
+                                            </td>
+                                            <td data-form-group>
+                                                <input class="form-control input-sm"
+                                                       data-width="auto"
+                                                       name="startDate"
+                                                       ng-model="item.startDate"
+                                                       data-jquery-dateinputmask
+                                                       required>
+                                            </td>
+                                            <td data-form-group>
+                                                <input class="form-control input-sm"
+                                                       data-width="auto"
+                                                       name="endDate"
+                                                       data-ng-model="item.endDate"
+                                                       data-ng-blur="editCampaignAssociationEndDate()"
+                                                       data-jquery-dateinputmask>
+                                            </td>
+                                            <td data-form-group data-ng-form="personInChargeForm{{$index}}">
+
+                                            <kvp-select data-items="item.personInCharges"
+                                                        data-ng-show="item.noPersonInCharge == null || item.noPersonInCharge == false"
+                                                        data-required="item.noPersonInCharge == null || item.noPersonInCharge == false"
+                                                        data-action="getPersonInCharge(item)"
+                                                        data-width="100%"
+                                                        data-select-style="btn-default btn-sm"
+                                                        data-disabled="item.campaign.value == null"
+                                                        data-current="item.personInCharge"></kvp-select>
+                                            <ul class="iCheck">
+                                                <li>
+                                                    <input type="checkbox"
+                                                           name="noPersonInCharge"
+                                                           ng-model="item.noPersonInCharge" data-jquery-icheck>
+                                                    <label>
+                                                        Nessun responsabile
+                                                    </label>
+                                                </li>
+                                            </ul>
+
+                                            </td>
+                                            <td class="text-center hidden-sm hidden-xs">
+                                                {{item.presencesCount}}
+                                            </td>
+                                            <td class="text-center hidden-sm hidden-xs">
+                                                {{item.absencesCount}}
+                                            </td>
+                                            <td class="text-center hidden-sm hidden-xs" data-form-group>
+                                                <span data-ng-if="getIsActive(item) != null">
+                                                    <span class="badge bg-danger-darken" data-ng-if="!getIsActive(item)">Non attivo</span>
+                                                    <span class="badge bg-success-darken" data-ng-if="getIsActive(item)">Attivo</span>
+                                                </span>
+                                            </td>
+                                            <td class="align-top">
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="removeAssociation(item)"
+                                                        data-ng-disabled="item.presencesCount > 0 || item.absencesCount > 0">
+                                                    Rimuovi
+                                                </button>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+
+                </div>
+                <div class="col-lg-5">
+                    <entity-information data-entity="data"></entity-information>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+
+
+
+<!--<div class="row" ng-controller="modelCtrl">
+    <div class="col-lg-12">
+        <form name="modelForm"
+              class="form-horizontal"
+              novalidate="novalidate"
+              data-form-submit="save()">
+
+            <section class="panel">
+                <header class="panel-heading sm">
+                    <h2><strong>Gestione</strong> modello </h2>
+                    <div data-form-count="modelForm" class="pull-right">
+
+                    </div>
+                </header>
+                <div class="panel-body">
+
+                </div>
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-primary">
+                                Salva
+                            </button>
+                            <button type="button" class="btn btn-danger" ng-click="delete()" data-ng-if="data.id > 0">Elimina</button>
+                            <button type="button" data-ng-click="redirectToPage()" class="btn btn-inverse">Annulla</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>-->

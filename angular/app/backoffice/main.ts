@@ -205,7 +205,7 @@
                     templateUrl: "/app/backoffice/views/offices/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuovo ufficio'
-                })                
+                })
                 .when('/warehouses', {
                     templateUrl: "/app/backoffice/views/warehouses/_list.html",
                     roles: "'SysAdmin' || 'HrManager'",
@@ -283,6 +283,32 @@
                     templateUrl: "/app/backoffice/views/products/_edit.html",
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuovo prodotto'
+                })
+                .when('/orders', {
+                    templateUrl: "/app/backoffice/views/orders/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione ordini'
+                }).when('/orders/edit/:id', {
+                    templateUrl: "/app/backoffice/views/orders/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica ordine'
+                }).when('/orders/create', {
+                    templateUrl: "/app/backoffice/views/orders/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo ordine'
+                })
+                .when('/shippings', {
+                    templateUrl: "/app/backoffice/views/shippings/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione spedizioni'
+                }).when('/shippings/edit/:id', {
+                    templateUrl: "/app/backoffice/views/shippings/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica spedizione'
+                }).when('/shippings/create', {
+                    templateUrl: "/app/backoffice/views/shippings/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuova spedizione'
                 })
                 /*
                  * FINE CONTROLLER NUOVA APP

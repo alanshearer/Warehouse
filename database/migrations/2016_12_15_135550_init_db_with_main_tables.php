@@ -153,7 +153,7 @@ class InitDbWithMainTables extends Migration {
             $table->timestamps();
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
-            $table->date('birthDate')->nullable();
+            $table->date('birthdate')->nullable();
             $table->string('email')->unique();
             $table->string('username')->unique();
             $table->string('password');
@@ -184,6 +184,17 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('product_id')->references('id')->on('products');
             $table->softDeletes();
         });
+        
+        Schema::create('offices_products', function(Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->date('date');
+            $table->integer('office_id')->unsigned();
+            $table->integer('product_id')->unsigned();
+            $table->foreign('office_id')->references('id')->on('offices');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->softDeletes();
+        });
 
         Schema::create('lots_lotstates', function(Blueprint $table) {
             $table->increments('id');
@@ -211,7 +222,8 @@ class InitDbWithMainTables extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name')->unique();
+            $table->date('date');
+            $table->string('note')->nullable();
             $table->binary('document')->nullable();
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');

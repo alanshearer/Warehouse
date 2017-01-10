@@ -101,6 +101,8 @@ module BackOfficeApp.Controllers {
         .constant('officesUrl', Global.Configuration.serviceHost + 'offices/')
         .constant('modelsUrl', Global.Configuration.serviceHost + 'models/')
         .constant('productsUrl', Global.Configuration.serviceHost + 'products/')
+        .constant('ordersUrl', Global.Configuration.serviceHost + 'orders/')
+        .constant('shippingsUrl', Global.Configuration.serviceHost + 'shippings/')
         /*
          * FINE COSTANTI NUOVA APP
          */
@@ -398,6 +400,19 @@ module BackOfficeApp.Controllers {
             $scope.downloadXls = () => {
                 var deffered = $q.defer();
                 $http.get(productsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+        })
+        .controller('ordersCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+            ordersUrl: string) => {
+
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = ordersUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(ordersUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
         })
@@ -998,6 +1013,138 @@ module BackOfficeApp.Controllers {
             $scope.redirectToPage = () => {
                 $location.path('/warehouses');
             }
+
+        })
+        .controller('orderCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            employeesUrl: string, suppliersUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
+
+            var positionId = $routeParams['id'];
+            var employeeId = $routeParams['employeeId'];
+
+            $scope.employeeSelected = employeeId != null;
+
+            var positionResource = $resource<dto.IContract>(employeesUrl + 'position/:id', { id: angular.isDefined(positionId) ? positionId : '@positionId' }, { save: { method: positionId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(positionId)) {
+                positionResource.get((result: dto.IContract) => {
+                    $scope.data = result;
+                });
+            } else {
+                $scope.data = new positionResource();
+                $scope.data.employee = {
+                    value: employeeId
+                };
+            }
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare la collocazione del dipendente?').then((success: boolean) => {
+                    if (success) {
+                        positionResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.$watch('data.department.value', (value: number) => {
+                if ($scope.data && $scope.data.department && value) {
+                    $scope.data.department.type = null;
+                    $http.get(companiesUrl + 'department/' + value, <any>{ headers: { 'No-Loading': true } }).success((result: dto.IDepartment) => {
+                        $scope.data.department.type = result.type;
+                    });
+                }
+            });
+
+            $scope.getPersonsInCharge = () => { return $http.get(employeesUrl + 'personsincharge', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getDepartments = () => { return $http.get(companiesUrl + 'departments', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getWorkPlaces = () => { return $http.get(companiesUrl + 'workplaces', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getPersonInCharge = (item: dto.ICampaignAssociation) => {
+                var departmentType = 0;
+                if ($scope.data.department.type == dto.DepartmentTypeDto.Operator)
+                    departmentType = dto.DepartmentTypeDto.TeamLeader;
+                else if ($scope.data.department.type == dto.DepartmentTypeDto.TeamLeader)
+                    departmentType = dto.DepartmentTypeDto.FloorManager;
+                else
+                    departmentType = dto.DepartmentTypeDto.Generic;
+
+                return $http.get(employeesUrl + 'personsincharge/?departmentType=' + departmentType + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
+
+                //if ($scope.data.department.type == dto.DepartmentTypeDto.Operator) {
+                //    return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.TeamLeader + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
+                //}
+
+                //if ($scope.data.department.type == dto.DepartmentTypeDto.TeamLeader) {
+                //    return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.FloorManager + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
+                //}
+
+                //return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.Generic + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
+            };
+
+            $scope.getGenericEmployees = () => {
+                return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.Generic, <any>{ headers: { 'No-Loading': true } });
+            };
+
+            $scope.getCampaigns = () => { return $http.get(campaignsUrl + 'summary', <any>{ headers: { 'No-Loading': true } }); }
+
+            $scope.save = () => {
+                (<any>$scope.data).$save().then((result: any) => {
+                    notification.showNotify('Collocazione', 'Salvataggio eseguito con successo!');
+                    $window.history.back();
+                });
+            }
+
+            $scope.filters = {
+                isActive: ''
+            };
+
+
+            $scope.$watch('data.campaignAssociations', (items: any[]) => {
+                angular.forEach(items, (item: any) => {
+                    if (item.campaign && item.campaign.value == null) {
+                        (<any>item).campaignItem = null;
+                    }
+
+                    if (item.campaign && item.campaign.value != null && (item.campaignItem == null || item.campaignItem.id != item.campaign.value)) {
+                        $http.get(campaignsUrl + '/' + item.campaign.value, <any>{ headers: { 'No-Loading': true } }).success((campaignItem: dto.ICampaign) => {
+                            (<any>item).campaignItem = campaignItem;
+                        });
+                    }
+                });
+            }, true);
+
+            $scope.getIsActive = ((item: dto.ICampaignAssociation) => {
+                if (item && item.startDate) {
+                    if (item.endDate == null)
+                        return true;
+
+                    var currentDate = new Date();
+                    currentDate.setHours(0, 0, 0, 0);
+                    return item.startDate <= currentDate && item.endDate >= currentDate;
+                }
+                return null;
+            });
+
+            $scope.addAssociation = () => {
+                $scope.filters = null;
+                if ($scope.data && $scope.data.campaignAssociations == null)
+                    $scope.data.campaignAssociations = [];
+
+                $scope.data.campaignAssociations.push(<dto.ICampaignAssociation>{ isActive: true });
+            }
+
+            $scope.removeAssociation = (item: dto.ICampaignAssociation) => {
+                notification.showConfirm('Sei sicuro di voler eliminare l\'associazione alla campagna?').then((success: boolean) => {
+                    if (success) {
+                        var index = $scope.data.campaignAssociations.indexOf(item);
+                        $scope.data.campaignAssociations.splice(index, 1);
+                    }
+                });
+            }
+
+
 
         })
 

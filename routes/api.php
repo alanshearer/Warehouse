@@ -69,39 +69,13 @@ Route::post('products','ProductController@create');
 Route::put('products/{id}','ProductController@update');    
 Route::delete('products/{id}','ProductController@delete');
 
-Route::get('orders', 'OrderController@index');
-Route::get('orders/{id}', 'OrderController@get');
-Route::post('orders','OrderController@create');
-Route::put('orders/{id}','OrderController@update');    
-Route::delete('orders/{id}','OrderController@delete');
-
-Route::get('lots', 'LotController@index');
-Route::get('lots/{id}', 'LotController@get');
-Route::post('lots','LotController@create');
-Route::put('lots/{id}','LotController@update');    
-Route::delete('lots/{id}','LotController@delete');
-
-Route::get('lotstates', 'LotstateController@index');
-Route::get('lotstates/{id}', 'LotstateController@get');
-Route::post('lotstates','LotstateController@create');
-Route::put('lotstates/{id}','LotstateController@update');    
-Route::delete('lotstates/{id}','LotstateController@delete');
-
-
-
-
-Route::get('officetypes', 'OfficetypeController@index');
-Route::get('officetypes/{id}', 'OfficetypeController@get');
-Route::post('officetypes','OfficetypeController@create');
-Route::put('officetypes/{id}','OfficetypeController@update');    
-Route::delete('officetypes/{id}','OfficetypeController@delete');
-
-
-Route::get('productstates', 'ProductstateController@index');
-Route::get('productstates/{id}', 'ProductstateController@get');
-Route::post('productstates','ProductstateController@create');
-Route::put('productstates/{id}','ProductstateController@update');    
-Route::delete('productstates/{id}','ProductstateController@delete');
+Route::get('suppliers/{page}/{elements}/{orderby?}/{desc?}', 'SupplierController@search');
+Route::get('suppliers', 'SupplierController@index');
+Route::get('suppliers/xls', 'SupplierController@xls');
+Route::get('suppliers/{id}', 'SupplierController@get');
+Route::post('suppliers','SupplierController@create');
+Route::put('suppliers/{id}','SupplierController@update');    
+Route::delete('suppliers/{id}','SupplierController@delete');
 
 Route::get('roles/{page}/{elements}/{orderby?}/{desc?}', 'RoleController@search');
 Route::get('roles/kvp', 'RoleController@kvp');
@@ -111,20 +85,57 @@ Route::post('roles','RoleController@create');
 Route::put('roles/{id}','RoleController@update');    
 Route::delete('roles/{id}','RoleController@delete');
 
+Route::get('users/{page}/{elements}/{userby?}/{desc?}', 'UserController@search');
 Route::get('users', 'UserController@index');
+Route::get('users/xls', 'UserController@xls');
+Route::get('users/kvp', 'UserController@kvp');
 Route::get('users/{id}', 'UserController@get');
 Route::post('users','UserController@create');
 Route::put('users/{id}','UserController@update');    
 Route::delete('users/{id}','UserController@delete');
 
+Route::get('orders/{page}/{elements}/{orderby?}/{desc?}', 'OrderController@search');
+Route::get('orders', 'OrderController@index');
+Route::get('orders/xls', 'OrderController@xls');
+Route::get('orders/kvp', 'OrderController@kvp');
+Route::get('orders/{id}', 'OrderController@get');
+Route::post('orders','OrderController@create');
+Route::put('orders/{id}','OrderController@update');    
+Route::delete('orders/{id}','OrderController@delete');
 
-Route::get('suppliers/{page}/{elements}/{orderby?}/{desc?}', 'SupplierController@search');
-Route::get('suppliers', 'SupplierController@index');
-Route::get('suppliers/xls', 'SupplierController@xls');
-Route::get('suppliers/{id}', 'SupplierController@get');
-Route::post('suppliers','SupplierController@create');
-Route::put('suppliers/{id}','SupplierController@update');    
-Route::delete('suppliers/{id}','SupplierController@delete');
+Route::get('shippings/{page}/{elements}/{shippingby?}/{desc?}', 'ShippingController@search');
+Route::get('shippings', 'ShippingController@index');
+Route::get('shippings/xls', 'ShippingController@xls');
+Route::get('shippings/kvp', 'ShippingController@kvp');
+Route::get('shippings/{id}', 'ShippingController@get');
+Route::post('shippings','ShippingController@create');
+Route::put('shippings/{id}','ShippingController@update');    
+Route::delete('shippings/{id}','ShippingController@delete');
+
+Route::get('lotstates', 'LotstateController@index');
+Route::get('lotstates/{id}', 'LotstateController@get');
+Route::post('lotstates','LotstateController@create');
+Route::put('lotstates/{id}','LotstateController@update');    
+Route::delete('lotstates/{id}','LotstateController@delete');
+
+
+Route::get('officetypes', 'OfficetypeController@index');
+Route::get('officetypes/{id}', 'OfficetypeController@get');
+Route::post('officetypes','OfficetypeController@create');
+Route::put('officetypes/{id}','OfficetypeController@update');    
+Route::delete('officetypes/{id}','OfficetypeController@delete');
+
+Route::get('productstates', 'ProductstateController@index');
+Route::get('productstates/{id}', 'ProductstateController@get');
+Route::post('productstates','ProductstateController@create');
+Route::put('productstates/{id}','ProductstateController@update');    
+Route::delete('productstates/{id}','ProductstateController@delete');
+
+Route::get('users', 'UserController@index');
+Route::get('users/{id}', 'UserController@get');
+Route::post('users','UserController@create');
+Route::put('users/{id}','UserController@update');    
+Route::delete('users/{id}','UserController@delete');
 
 Route::get('locations/countries', 'LocationController@countries');
 Route::get('locations/counties/{id}', 'LocationController@counties');
