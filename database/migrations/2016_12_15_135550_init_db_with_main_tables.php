@@ -133,7 +133,7 @@ class InitDbWithMainTables extends Migration {
             $table->integer('model_id')->unsigned();
             $table->string('note')->nullable();
             $table->decimal('price');
-            $table->String('externalid');
+            $table->String('external_id')->nullable();
             $table->integer('productstate_id')->unsigned();
             $table->foreign('model_id')->references('id')->on('models');
             $table->foreign('productstate_id')->references('id')->on('productstates');

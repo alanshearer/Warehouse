@@ -18,16 +18,21 @@ class ProductController extends Controller {
     public function search(Request $request) {
         $page = $request->page;
         $elements = $request->elements;
-        $orderby = isset($request->orderby) ? $request->orderby : 'name';
+        $orderby = isset($request->orderby) ? $request->orderby : 'model.name';
         $type = $request->desc == 'true' ? 'desc' : 'asc';
         $term = $request->term ?? '';
         $isActive = $request->isActive ?? false;
 
         $paginateditems = Entity::withTrashed()
+                ->join('models as model', 'model.id', '=', 'model_id')
+                ->join('brands as brand', 'brand.id', '=', 'model.brand_id')
+                ->join('categories as category', 'category.id', '=', 'model.category_id')
                 ->where(function ($query) use($term) {
-                    $query->where('name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('description', 'LIKE', '%' . $term . '%');
+                    $query->where('model.name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('brand.name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('category.name', 'LIKE', '%' . $term . '%');
                 })
+                //->with('model', 'model.brand', 'model.category')
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
                         $query->whereNull('deleted_at');
@@ -52,6 +57,8 @@ class ProductController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
+        $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
+        $entity->save();
         return response()->success($entity);
     }
 
@@ -81,8 +88,9 @@ class ProductController extends Controller {
 
     private function toEntity($dto) {
         return [
-            'name' => $dto->name,
-            'description' => $dto->description,
+            'model_id' => $dto->model["value"],
+            'price' => $dto->price,
+            'productstate_id' => $dto->productstate_id ?? 1,
             'note' => $dto->note,
         ];
     }
@@ -97,6 +105,10 @@ class ProductController extends Controller {
         return $entities->map(function ($entity, $key) {
                     return self::toKVP($entity);
                 });
+    }
+
+    private function composeexternal_id($product) {
+        return 'prod-' . $product;
     }
 
 }

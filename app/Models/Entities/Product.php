@@ -16,7 +16,11 @@ class Product extends \Illuminate\Database\Eloquent\Model {
      * @var array
      */
     protected $fillable = [
-        'model_id', 'note', 'price', 'externalid', 'productstate_id'
+        'model_id', 'note', 'price', 'external_id', 'productstate_id'
     ];
+
+    public function model() {
+        return $this->belongsTo('App\Models\Entities\Model', 'model_id', 'id');
+    }
 
 }

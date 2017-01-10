@@ -271,6 +271,19 @@
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuovo modello'
                 })
+                .when('/products', {
+                    templateUrl: "/app/backoffice/views/products/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione prodotti'
+                }).when('/products/edit/:id', {
+                    templateUrl: "/app/backoffice/views/products/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica prodotto'
+                }).when('/products/create', {
+                    templateUrl: "/app/backoffice/views/products/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo prodotto'
+                })
                 /*
                  * FINE CONTROLLER NUOVA APP
                  */

@@ -1,0 +1,100 @@
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="productsCtrl">
+    <header class="panel-heading sm">
+        <h2><strong>Elenco</strong> prodotti </h2>
+    </header>
+    <div class="panel-tools" align="left">
+        <ul>
+            <li>
+                <a href="/#/products/create" class="btn btn-theme btn-transparent" title="Aggiungi nuovo prodotto" data-jquery-tooltip>
+                    <i class="fa fa-plus-square"></i>
+                    Nuovo
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='prodotti.xlsx' data-jquery-tooltip title="Download file xls">
+                    <i class="fa fa-file-excel-o"></i>
+                    Esporta in excel
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <paginator data-page-size="{{pageSize}}"
+                   data-resource-url="{{resourceUrl}}"
+                   data-page-count="pageCount"
+                   data-items="items"
+                   data-current-page="currentPage"
+                   data-total-items="totalItems"
+                   data-filters="filters">
+
+            <div class="panel-group margin-bottom-5">
+                <div class="panel panel-default borders bd-gray">
+                    <header class="panel-heading" style="padding:0 10px">
+                        <a data-toggle="collapse" data-target="#collapseOne" data-jquery-collapse href="javascript:void(0)">
+                            <i class="collapse-caret fa fa-angle-down"></i>
+                            <strong>
+                                <span><i class="fa fa-filter text-muted"></i></span>
+                                FILTRI DI RICERCA
+                            </strong>
+                        </a>
+                    </header>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body bg-white-darken">
+                            <form novalidate="" name="filterItemsForm" class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="input-icon right">
+                                            <i class="fa fa-search ico" data-jquery-popover
+                                               data-trigger="hover"
+                                               data-placement="bottom"
+                                               title="Ricerca libera"
+                                               data-content="La ricerca viene eseguita per i campi Nome e Partita Iva prodotto"></i>
+                                            <input type="text" name="term" class="form-control input-sm" ng-model="filters.term" placeholder="Cerca" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <ul class="iCheck">
+                                            <li>
+                                                <input type="checkbox"
+                                                       name="isActive"
+                                                       data-ignore-dirty
+                                                       ng-model="filters.isActive" data-jquery-icheck>
+                                                <label>
+                                                    Visualizza solo prodotti attivi
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" data-sorter="model.name" class="text-left width-20">Modello</th>
+                        <th scope="col" class="text-left" data-sorter="brand.name">Brand</th>
+                        <th scope="col" class="text-left" data-sorter="category.name">Categoria</th>                        
+                        <th scope="col" class="text-center width-5">Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in items">
+                        <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/products/edit/{{item.id}}"><strong>{{item.model.key}}</strong></a></td>
+                        <td class="">{{item.brand.key}}</td>
+                        <td class="">{{item.category.key}}</td>
+                        <td class="text-center">
+                            <span class="badge bg-danger-darken" data-ng-if="!item.enabled">Non attivo</span>
+                            <span class="badge bg-success-darken" data-ng-if="item.enabled">Attivo</span>
+                        </td>  
+                    </tr>
+                </tbody>
+            </table>
+        </paginator>
+    </div>
+</section>
+
+
+

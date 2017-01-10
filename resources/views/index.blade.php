@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="it" ng-app="backofficeApp">
     <head>
-<!--        <base href="/#/" />-->
+        <!--        <base href="/#/" />-->
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
         <meta http-equiv="Pragma" content="no-cache">
@@ -115,15 +115,14 @@
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-clock-o"></i> Utenti </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/categories"><i class="icon fa fa-clock-o"></i> Categorie </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-clock-o"></i> Marche </a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/typologies"><i class="icon fa fa-clock-o"></i> Tipologie </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/models"><i class="icon fa fa-clock-o"></i> Modelli </a></li>
                             <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/suppliers"><i class="icon fa fa-clock-o"></i> Fornitori </a></li>
                         </ul>
                     </li>
-                    <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\' || \'FloorManager\'' | hasRole)"><a ng-href="/#/orders"><i class="icon fa fa-bar-chart-o"></i> Ordini </a></li>
                     <li ng-if="('\'SysAdmin\' || \'HrManager\' || \'HrSpecialist\'' | hasRole)"><a ng-href="/#/warehouses"><i class="icon  fa fa-users"></i> Magazzini </a></li>
                     <li ng-if="('\'SysAdmin\' || \'HrManager\'' | hasRole)"><a ng-href="/#/offices"><i class="icon  fa fa-file-text-o"></i> Uffici </a></li>
                     <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/products"><i class="icon fa fa-clock-o"></i> Prodotti </a></li>
+                    <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\' || \'FloorManager\'' | hasRole)"><a ng-href="/#/orders"><i class="icon fa fa-bar-chart-o"></i> Ordini </a></li>
                     <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\' || \'FloorManager\'' | hasRole)"><a ng-href="/#/shippings"><i class="icon fa fa-bar-chart-o"></i> Spedizioni </a></li>
 
                 </ul>

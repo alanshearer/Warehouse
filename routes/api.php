@@ -60,6 +60,15 @@ Route::post('models','ModelController@create');
 Route::put('models/{id}','ModelController@update');    
 Route::delete('models/{id}','ModelController@delete');
 
+Route::get('products/{page}/{elements}/{orderby?}/{desc?}', 'ProductController@search');
+Route::get('products', 'ProductController@index');
+Route::get('products/xls', 'ProductController@xls');
+Route::get('products/kvp', 'ProductController@kvp');
+Route::get('products/{id}', 'ProductController@get');
+Route::post('products','ProductController@create');
+Route::put('products/{id}','ProductController@update');    
+Route::delete('products/{id}','ProductController@delete');
+
 Route::get('orders', 'OrderController@index');
 Route::get('orders/{id}', 'OrderController@get');
 Route::post('orders','OrderController@create');
@@ -78,11 +87,6 @@ Route::post('lotstates','LotstateController@create');
 Route::put('lotstates/{id}','LotstateController@update');    
 Route::delete('lotstates/{id}','LotstateController@delete');
 
-Route::get('models', 'ModelController@index');
-Route::get('models/{id}', 'ModelController@get');
-Route::post('models','ModelController@create');
-Route::put('models/{id}','ModelController@update');    
-Route::delete('models/{id}','ModelController@delete');
 
 
 
@@ -92,11 +96,6 @@ Route::post('officetypes','OfficetypeController@create');
 Route::put('officetypes/{id}','OfficetypeController@update');    
 Route::delete('officetypes/{id}','OfficetypeController@delete');
 
-Route::get('products', 'ProductController@index');
-Route::get('products/{id}', 'ProductController@get');
-Route::post('products','ProductController@create');
-Route::put('products/{id}','ProductController@update');    
-Route::delete('products/{id}','ProductController@delete');
 
 Route::get('productstates', 'ProductstateController@index');
 Route::get('productstates/{id}', 'ProductstateController@get');

@@ -100,6 +100,7 @@ module BackOfficeApp.Controllers {
         .constant('rolesUrl', Global.Configuration.serviceHost + 'roles/')
         .constant('officesUrl', Global.Configuration.serviceHost + 'offices/')
         .constant('modelsUrl', Global.Configuration.serviceHost + 'models/')
+        .constant('productsUrl', Global.Configuration.serviceHost + 'products/')
         /*
          * FINE COSTANTI NUOVA APP
          */
@@ -384,6 +385,19 @@ module BackOfficeApp.Controllers {
             $scope.downloadXls = () => {
                 var deffered = $q.defer();
                 $http.get(modelsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+        })
+        .controller('productsCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+            productsUrl: string) => {
+
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = productsUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(productsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
         })
@@ -728,11 +742,11 @@ module BackOfficeApp.Controllers {
             } else {
                 $scope.model = new modelResource();
             }
-            
+
             $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
-            
+
             $scope.delete = () => {
                 notification.showConfirm('Sei sicuro di voler eliminare il modello?').then((success: boolean) => {
                     if (success) {
@@ -753,7 +767,51 @@ module BackOfficeApp.Controllers {
             $scope.redirectToPage = () => {
                 $location.path('models');
             }
-        }).controller('supplierCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+        })
+        .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+
+            var productId = $routeParams['id'];
+
+            var productResource = $resource<dto.IContract>(productsUrl + ':id', { id: angular.isDefined(productId) ? productId : '@product.id' }, { save: { method: productId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(productId)) {
+                productResource.get((result: dto.IContract) => {
+                    $scope.product = result;
+                    breadcrumbs.options = { 'Modifica prodotto': 'Modifica prodotto: ' + $scope.product.name };
+                });
+            } else {
+                $scope.product = new productResource();
+            }
+
+            $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare il prodotto?').then((success: boolean) => {
+                    if (success) {
+                        productResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.save = () => {
+                (<any>$scope.product).$save().then((result: any) => {
+                    notification.showNotify('Prodotto ' + result.name, 'Salvataggio prodotto ' + result.name + ' eseguito con successo!');
+                    $scope.redirectToPage();
+                });
+            }
+
+            $scope.redirectToPage = () => {
+                $location.path('products');
+            }
+        })
+        .controller('supplierCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             suppliersUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
 
             var supplierId = $routeParams['id'];
@@ -903,7 +961,7 @@ module BackOfficeApp.Controllers {
             }
 
         })
-            .controller('warehouseCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+        .controller('warehouseCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             officesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
 
             var warehouseId = $routeParams['id'];
