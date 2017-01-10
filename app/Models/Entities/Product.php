@@ -2,10 +2,14 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model
-{
+class Product extends \Illuminate\Database\Eloquent\Model {
+
+    use SoftDeletes;
+
+    protected $softDeletes = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -14,4 +18,5 @@ class Product extends Model
     protected $fillable = [
         'model_id', 'note', 'price', 'externalid', 'productstate_id'
     ];
+
 }

@@ -2,14 +2,12 @@
 
 namespace App\Models\DTO;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Supplier as Entity;
-
 use App\Models\DTO\Location\City as CityDTO;
 use App\Models\DTO\Location\County as CountyDTO;
 use App\Models\DTO\Location\Country as CountryDTO;
 
-class Supplier extends Model {
+class Supplier {
 
     /**
      * The attributes that are mass assignable.
@@ -34,4 +32,3 @@ class Supplier extends Model {
     }
 
 }
-

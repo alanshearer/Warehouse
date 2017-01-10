@@ -2,10 +2,9 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Office extends Model {
+class Office extends \Illuminate\Database\Eloquent\Model {
 
     use SoftDeletes;
 

@@ -2,10 +2,8 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
+class Officetype extends \Illuminate\Database\Eloquent\Model {
 
-class Officetype extends Model
-{
     /**
      * The attributes that are mass assignable.
      *
@@ -14,4 +12,5 @@ class Officetype extends Model
     protected $fillable = [
         'name', 'description'
     ];
+
 }

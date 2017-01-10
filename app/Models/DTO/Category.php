@@ -2,16 +2,10 @@
 
 namespace App\Models\DTO;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Category as Entity;
 
-class Category extends Model {
+class Category {
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'description', 'note'
     ];
@@ -22,6 +16,10 @@ class Category extends Model {
         $this->description = $entity->description;
         $this->note = $entity->note;
         $this->enabled = $entity->deleted_at == null ? true : false;
+    }
+
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
     }
 
 }

@@ -15,10 +15,19 @@
                         Salva
                     </button>
                 </li>
-                <li ng-if="model.id > 0">
+                <li ng-if="model.id > 0 && model.enabled">
                     <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
                         <i class="fa fa-trash-o"></i>
                         Elimina
+                    </button>
+                </li>
+                <li ng-if="model.id > 0 && !model.enabled">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="restore()">
+                        <span class="fa-stack">
+                            <i class="fa fa-trash-o fa-stack-1x"></i>
+                            <i class="fa fa-times fa-stack-1x"></i>
+                        </span>
+                        Ripristina
                     </button>
                 </li>
             </ul>
@@ -55,14 +64,14 @@
                                     <kvp-select data-items="brands"
                                                 data-action="getBrands()"
                                                 data-required="true"
-                                                data-current="data.brand">
+                                                data-current="model.brand">
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Categoria *">
                                     <kvp-select data-items="categories"
                                                 data-action="getCategories()"
                                                 data-required="true"
-                                                data-current="data.category">
+                                                data-current="model.category">
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Note">
@@ -71,97 +80,9 @@
                                            name="note"
                                            ng-model="model.note"
                                            >
-                                </div>                         
+                                </div>    
                             </div>
                         </div>
-                        <section class="panel panel-default borders bd-gray">
-                            <header class="panel-heading xs">
-                                <h2>
-                                    <strong>
-                                        DOCUMENTAZIONE ALLEGATA
-                                    </strong>
-                                </h2>
-                            </header>
-                            <div class="panel-body">
-                                <label class="color">E' possibile allegare file con estensione PDF, XPS, MP3 e WAV. Dimensione massima 5 Mbyte.</label>
-                                <table class="table table-bordered table-condensed table-hover table-striped ">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th class="text-left">
-                                                Tipologia*
-                                            </th>
-                                            <th class="text-left">
-                                                Allegato*
-                                            </th>
-                                            <th class="text-left">
-                                                Azioni
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in model.attachments" ng-form="formUpload_{{$index + 1}}">
-                                            <td class="text-right">
-                                                {{$index + 1}}
-                                            </td>
-                                            <td ng-form="namesForm" data-form-group>
-                                                <select name="typeId"
-                                                        data-width="auto"
-                                                        data-style="btn-default btn-sm"
-                                                        required
-                                                        ng-model="item.typeId"
-                                                        data-live-search="true"
-                                                        data-jquery-selectpicker
-                                                        ng-options="o.id as o.name for o in attachmentTypes">
-                                                    <option value="">Seleziona...</option>
-                                                </select>
-                                            </td>
-                                            <td data-file-upload="options">
-                                                <div class="row" data-ng-if="item.name">
-                                                    <div class="col-sm-12">
-                                                        <span class="label label-default">{{item.name}}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="row fileupload-buttonbar">
-                                                    <div class="col-lg-7">
-                                                        <span class="btn btn-success btn-sm fileinput-button" ng-click="selectFile(item)">
-                                                            <i class="glyphicon glyphicon-open"></i>
-                                                            <span>Seleziona file...</span>
-                                                            <input type="file" name="file_{{item.typeId}}">
-                                                        </span>
-                                                        <span class="fileupload-process"></span>
-                                                    </div>
-                                                    <div class="col-lg-5 fade" data-ng-class="{in: active()}">
-                                                        <div class="progress progress-striped active" data-file-upload-progress="progress()">
-                                                            <div class="progress-bar progress-bar-success" data-ng-style="{width: num + '%'}"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-default btn-sm"
-                                                   href="javascript:void(0)"
-                                                   ng-click="removeAttachment(item)"
-                                                   ng-if="('\'SysAdmin\'' | hasRole)">Elimina</a>
-                                                <a class="btn btn-default btn-sm" ng-if="item.id > 0 && item.content != null" data-download-file-type="{{item.contentType}}" data-download-file="download(item)" data-download-file-name='{{item.name}}' title="Download allegato">Download</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="3" ng-cloak>
-                                                <label class="color color-primary">Totale allegati: <strong>{{model.attachments.length}}</strong> </label>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="addAttachment()">
-                                                    Aggiungi
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </section>
                     </div>
                 </div>
                 <div class="col-lg-1">

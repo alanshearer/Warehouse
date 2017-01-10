@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Models\DTO;
-
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Role as Entity;
 
-class Role extends Model {
+class Role {
 
     /**
      * The attributes that are mass assignable.
@@ -23,5 +21,7 @@ class Role extends Model {
         $this->note = $entity->note;
         $this->enabled = $entity->deleted_at == null ? true : false;
     }
-
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
+    }
 }

@@ -50,7 +50,8 @@ class OfficeController extends Controller {
 
     public function get(Request $request, $id) {
         $officetype_id = $request->officetype_id;
-        $entity = Entity::withTrashed()->where('officetype_id', '=', $officetype_id)->find($id);
+        //print($officetype_id);
+        $entity = Entity::withTrashed()->find($id);
         $dto = self::toDTO($entity);
         return response()->success($dto);
     }
@@ -68,7 +69,7 @@ class OfficeController extends Controller {
         return response()->success($entity);
     }
 
-    public function delete($id) {
+    public function delete(Request $request, $id) {
         $officetype_id = $request->officetype_id;
         $entity = Entity::withTrashed()->where('officetype_id', '=', $officetype_id)->find($id);
         $entity->delete();

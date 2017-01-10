@@ -2,11 +2,12 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model {
+class Category extends \Illuminate\Database\Eloquent\Model {
 
-    use Illuminate\Database\Eloquent\SoftDeletes;
+    use SoftDeletes;
+
     protected $softDeletes = true;
 
     /**
@@ -17,6 +18,5 @@ class Category extends Model {
     protected $fillable = [
         'name', 'description', 'note'
     ];
-
 
 }

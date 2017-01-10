@@ -2,9 +2,7 @@
 
 namespace App\Models\Entities\Location;
 
-use Illuminate\Database\Eloquent\Model as Model;
-
-class County extends Model {
+class County extends \Illuminate\Database\Eloquent\Model {
 
     /**
      * The attributes that are mass assignable.
@@ -22,4 +20,5 @@ class County extends Model {
     public function cities() {
         return $this->hasMany('App\Models\Entities\Location\City');
     }
+
 }

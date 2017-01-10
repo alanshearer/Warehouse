@@ -99,6 +99,7 @@ module BackOfficeApp.Controllers {
         .constant('brandsUrl', Global.Configuration.serviceHost + 'brands/')
         .constant('rolesUrl', Global.Configuration.serviceHost + 'roles/')
         .constant('officesUrl', Global.Configuration.serviceHost + 'offices/')
+        .constant('modelsUrl', Global.Configuration.serviceHost + 'models/')
         /*
          * FINE COSTANTI NUOVA APP
          */
@@ -370,6 +371,19 @@ module BackOfficeApp.Controllers {
             $scope.downloadXls = () => {
                 var deffered = $q.defer();
                 $http.get(rolesUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+        })
+        .controller('modelsCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+            modelsUrl: string) => {
+
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = modelsUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(modelsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
         })
@@ -699,26 +713,30 @@ module BackOfficeApp.Controllers {
 
 
 
-        .controller('supplierCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            suppliersUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+        .controller('modelCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            modelsUrl: string, brandsUrl: string, categoriesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
 
-            var supplierId = $routeParams['id'];
+            var modelId = $routeParams['id'];
 
-            var supplierResource = $resource<dto.IContract>(suppliersUrl + ':id', { id: angular.isDefined(supplierId) ? supplierId : '@supplier.id' }, { save: { method: supplierId != null ? "PUT" : "POST" } });
+            var modelResource = $resource<dto.IContract>(modelsUrl + ':id', { id: angular.isDefined(modelId) ? modelId : '@model.id' }, { save: { method: modelId != null ? "PUT" : "POST" } });
 
-            if (angular.isDefined(supplierId)) {
-                supplierResource.get((result: dto.IContract) => {
-                    $scope.supplier = result;
-                    breadcrumbs.options = { 'Modifica fornitore': 'Modifica fornitore: ' + $scope.supplier.name };
+            if (angular.isDefined(modelId)) {
+                modelResource.get((result: dto.IContract) => {
+                    $scope.model = result;
+                    breadcrumbs.options = { 'Modifica modello': 'Modifica modello: ' + $scope.model.name };
                 });
             } else {
-                $scope.supplier = new supplierResource();
+                $scope.model = new modelResource();
             }
+            
+            $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
+            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            
             $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare il fornitore?').then((success: boolean) => {
+                notification.showConfirm('Sei sicuro di voler eliminare il modello?').then((success: boolean) => {
                     if (success) {
-                        supplierResource.delete(() => {
+                        modelResource.delete(() => {
                             $window.history.back();
                         });
                     }
@@ -726,14 +744,14 @@ module BackOfficeApp.Controllers {
             };
 
             $scope.save = () => {
-                (<any>$scope.supplier).$save().then((result: any) => {
-                    notification.showNotify('Fornitore ' + result.name, 'Salvataggio fornitore ' + result.name + ' eseguito con successo!');
+                (<any>$scope.model).$save().then((result: any) => {
+                    notification.showNotify('Modello ' + result.name, 'Salvataggio modello ' + result.name + ' eseguito con successo!');
                     $scope.redirectToPage();
                 });
             }
 
             $scope.redirectToPage = () => {
-                $location.path('suppliers');
+                $location.path('models');
             }
         }).controller('supplierCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             suppliersUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
@@ -888,24 +906,24 @@ module BackOfficeApp.Controllers {
             .controller('warehouseCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             officesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
 
-            var officeId = $routeParams['id'];
+            var warehouseId = $routeParams['id'];
 
-            var officeResource = $resource<dto.IContract>(officesUrl + ':id', { id: angular.isDefined(officeId) ? officeId : '@office.id' }, { save: { method: officeId != null ? "PUT" : "POST" } });
+            var warehouseResource = $resource<dto.IContract>(officesUrl + ':id', { id: angular.isDefined(warehouseId) ? warehouseId : '@warehouse.id' }, { save: { method: warehouseId != null ? "PUT" : "POST" } });
 
-            if (angular.isDefined(officeId)) {
-                officeResource.get((result: dto.IContract) => {
-                    $scope.office = result;
-                    breadcrumbs.options = { 'Modifica magazzino': 'Modifica magazzino: ' + $scope.office.name };
+            if (angular.isDefined(warehouseId)) {
+                warehouseResource.get((result: dto.IContract) => {
+                    $scope.warehouse = result;
+                    breadcrumbs.options = { 'Modifica magazzino': 'Modifica magazzino: ' + $scope.warehouse.name };
                 });
             } else {
-                $scope.office = new officeResource();
-                $scope.office.officetype_id = 2;
+                $scope.warehouse = new warehouseResource();
+                $scope.warehouse.officetype_id = 2;
             }
 
             $scope.delete = () => {
                 notification.showConfirm('Sei sicuro di voler eliminare il magazzino?').then((success: boolean) => {
                     if (success) {
-                        officeResource.delete(() => {
+                        warehouseResource.delete(() => {
                             $window.history.back();
                         });
                     }
@@ -913,7 +931,7 @@ module BackOfficeApp.Controllers {
             };
 
             $scope.save = () => {
-                (<any>$scope.office).$save().then((result: any) => {
+                (<any>$scope.warehouse).$save().then((result: any) => {
                     notification.showNotify('Magazzino ' + result.name, 'Salvataggio magazzino ' + result.name + ' eseguito con successo!');
                     $scope.redirectToPage();
                 });

@@ -2,10 +2,8 @@
 
 namespace App\Models\DTO;
 
-use Illuminate\Database\Eloquent\Model as Model;
+class Productstate {
 
-class Productstate extends Model
-{
     /**
      * The attributes that are mass assignable.
      *
@@ -14,4 +12,9 @@ class Productstate extends Model
     protected $fillable = [
         'name', 'description'
     ];
+
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
+    }
+
 }

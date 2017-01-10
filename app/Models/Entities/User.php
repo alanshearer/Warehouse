@@ -2,12 +2,18 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+//use Illuminate\Notifications\Notifiable;
+//use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable 
+class User extends \Illuminate\Database\Eloquent\Model 
 {
+    use SoftDeletes;
+
+    protected $softDeletes = true;
+
+
     /**
      * The attributes that are mass assignable.
      *

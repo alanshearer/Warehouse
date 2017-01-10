@@ -2,10 +2,9 @@
 
 namespace App\Models\DTO;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Product as Entity;
 
-class Product extends Model {
+class Product {
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +21,10 @@ class Product extends Model {
         $this->description = $entity->description;
         $this->note = $entity->note;
         $this->enabled = $entity->deleted_at == null ? true : false;
+    }
+
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
     }
 
 }

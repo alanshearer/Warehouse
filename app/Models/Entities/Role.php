@@ -2,10 +2,15 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Role extends Model
+class Role extends \Illuminate\Database\Eloquent\Model
 {
+    use SoftDeletes;
+
+    protected $softDeletes = true;
+
+
     /**
      * The attributes that are mass assignable.
      *

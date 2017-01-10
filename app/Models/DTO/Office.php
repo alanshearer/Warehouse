@@ -2,14 +2,12 @@
 
 namespace App\Models\DTO;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Office as Entity;
-
 use App\Models\DTO\Location\City as CityDTO;
 use App\Models\DTO\Location\County as CountyDTO;
 use App\Models\DTO\Location\Country as CountryDTO;
 
-class Office extends Model {
+class Office {
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +29,10 @@ class Office extends Model {
         $this->country = (new CountryDTO($entity->city->county->region->country))->kvp();
         $this->officetype_id = $entity->officetype_id;
         $this->enabled = !$entity->trashed();
+    }
+
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
     }
 
 }

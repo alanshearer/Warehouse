@@ -2,10 +2,9 @@
 
 namespace App\Models\DTO\Location;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Location\Country as Entity;
 
-class Country extends Model {
+class Country {
 
     /**
      * The attributes that are mass assignable.

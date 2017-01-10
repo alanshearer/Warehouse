@@ -83,6 +83,8 @@ class ModelController extends Controller {
         return [
             'name' => $dto->name,
             'description' => $dto->description,
+            'category_id' => $dto->category["value"],
+            'brand_id' => $dto->brand["value"],
             'note' => $dto->note,
         ];
     }

@@ -2,10 +2,14 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Order extends Model
-{
+class Order extends \Illuminate\Database\Eloquent\Model {
+
+    use SoftDeletes;
+
+    protected $softDeletes = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -14,4 +18,5 @@ class Order extends Model
     protected $fillable = [
         'name', 'document'
     ];
+
 }

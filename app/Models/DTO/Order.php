@@ -2,10 +2,9 @@
 
 namespace App\Models\DTO;
 
-use Illuminate\Database\Eloquent\Model as Model;
 use App\Models\Entities\Order as Entity;
 
-class Order extends Model {
+class Order {
 
     /**
      * The attributes that are mass assignable.
@@ -23,5 +22,8 @@ class Order extends Model {
         $this->note = $entity->note;
         $this->enabled = $entity->deleted_at == null ? true : false;
     }
-
+    
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
+    }
 }

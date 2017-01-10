@@ -258,6 +258,19 @@
                     roles: "'SysAdmin' || 'HrManager'",
                     label: 'Nuova marca'
                 })
+                .when('/models', {
+                    templateUrl: "/app/backoffice/views/models/_list.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Gestione modelli'
+                }).when('/models/edit/:id', {
+                    templateUrl: "/app/backoffice/views/models/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Modifica modello'
+                }).when('/models/create', {
+                    templateUrl: "/app/backoffice/views/models/_edit.html",
+                    roles: "'SysAdmin' || 'HrManager'",
+                    label: 'Nuovo modello'
+                })
                 /*
                  * FINE CONTROLLER NUOVA APP
                  */

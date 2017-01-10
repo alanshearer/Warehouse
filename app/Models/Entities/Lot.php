@@ -2,11 +2,11 @@
 
 namespace App\Models\Entities;
 
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Lot extends Model {
+class Lot extends \Illuminate\Database\Eloquent\Model {
 
-    use Illuminate\Database\Eloquent\SoftDeletes;
+    use SoftDeletes;
 
     protected $softDeletes = true;
 
