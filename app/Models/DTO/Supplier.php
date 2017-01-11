@@ -31,4 +31,8 @@ class Supplier {
         $this->enabled = !$entity->trashed();
     }
 
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
+    }
+
 }

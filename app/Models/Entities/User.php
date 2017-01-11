@@ -4,15 +4,13 @@ namespace App\Models\Entities;
 
 //use Illuminate\Notifications\Notifiable;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends \Illuminate\Database\Eloquent\Model 
-{
+class User extends \Illuminate\Database\Eloquent\Model {
+
     use SoftDeletes;
 
     protected $softDeletes = true;
-
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +27,11 @@ class User extends \Illuminate\Database\Eloquent\Model
      * @var array
      */
     protected $hidden = [
-        'password',  'password_confirmation', 'remember_token',
+        'password', 'password_confirmation', 'remember_token',
     ];
+
+    public function role() {
+        return $this->belongsTo('App\Models\Entities\Role', 'role_id', 'id');
+    }
+
 }

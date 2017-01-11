@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Entities;
+namespace App\Models\DTO;
 
-class Lotstate extends \Illuminate\Database\Eloquent\Model {
+class Orderstate {
 
     /**
      * The attributes that are mass assignable.
@@ -12,5 +12,9 @@ class Lotstate extends \Illuminate\Database\Eloquent\Model {
     protected $fillable = [
         'name', 'description'
     ];
+
+    public function orders() {
+        return $this->belongsToMany('App\Models\Entities\Order');
+    }
 
 }

@@ -76,7 +76,7 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
-        Schema::create('lotstates', function (Blueprint $table) {
+        Schema::create('shippingstates', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
@@ -84,6 +84,14 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
+        Schema::create('orderstates', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->string('name')->unique();
+            $table->text('description')->nullable();
+            $table->softDeletes();
+        });
+        
         Schema::create('productstates', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -133,10 +141,8 @@ class InitDbWithMainTables extends Migration {
             $table->integer('model_id')->unsigned();
             $table->string('note')->nullable();
             $table->decimal('price');
-            $table->String('external_id')->nullable();
-            $table->integer('productstate_id')->unsigned();
+            $table->string('external_id')->nullable();
             $table->foreign('model_id')->references('id')->on('models');
-            $table->foreign('productstate_id')->references('id')->on('productstates');
             $table->softDeletes();
         });
 
@@ -163,11 +169,10 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
-        Schema::create('lots', function (Blueprint $table) {
+        Schema::create('shippings', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
-            $table->binary('document')->nullable();
             $table->integer('origin_id')->unsigned();
             $table->integer('destination_id')->unsigned();
             $table->foreign('origin_id')->references('id')->on('offices');
@@ -175,20 +180,19 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
-        Schema::create('lots_products', function(Blueprint $table) {
+        Schema::create('shipping_product', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('lot_id')->unsigned();
+            $table->integer('shipping_id')->unsigned();
             $table->integer('product_id')->unsigned();
-            $table->foreign('lot_id')->references('id')->on('lots');
+            $table->foreign('shipping_id')->references('id')->on('shippings');
             $table->foreign('product_id')->references('id')->on('products');
             $table->softDeletes();
         });
         
-        Schema::create('offices_products', function(Blueprint $table) {
+        Schema::create('office_product', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->date('date');
             $table->integer('office_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->foreign('office_id')->references('id')->on('offices');
@@ -196,14 +200,14 @@ class InitDbWithMainTables extends Migration {
             $table->softDeletes();
         });
 
-        Schema::create('lots_lotstates', function(Blueprint $table) {
+        Schema::create('shipping_shippingstate', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->binary('document')->nullable();
-            $table->integer('lot_id')->unsigned();
-            $table->integer('lotstate_id')->unsigned();
-            $table->foreign('lot_id')->references('id')->on('lots');
-            $table->foreign('lotstate_id')->references('id')->on('lotstates');
+            $table->integer('shipping_id')->unsigned();
+            $table->integer('shippingstate_id')->unsigned();
+            $table->foreign('shipping_id')->references('id')->on('shippings');
+            $table->foreign('shippingstate_id')->references('id')->on('shippingstates');
             $table->softDeletes();
         });
 
@@ -224,13 +228,23 @@ class InitDbWithMainTables extends Migration {
             $table->timestamps();
             $table->date('date');
             $table->string('note')->nullable();
-            $table->binary('document')->nullable();
             $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->softDeletes();
         });
-
-        Schema::create('orders_models', function(Blueprint $table) {
+        
+        Schema::create('order_orderstate', function(Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->binary('document')->nullable();
+            $table->integer('order_id')->unsigned();
+            $table->integer('orderstate_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('orderstate_id')->references('id')->on('orderstates');
+            $table->softDeletes();
+        });
+        
+        Schema::create('order_model', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->integer('order_id')->unsigned();
@@ -239,6 +253,17 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('model_id')->references('id')->on('models');
             $table->integer('quantity');
             $table->integer('left')->nullable();
+            $table->softDeletes();
+        });
+        
+        Schema::create('product_productstate', function(Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->date('date');
+            $table->integer('product_id')->unsigned();
+            $table->integer('productstate_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('productstate_id')->references('id')->on('productstates');
             $table->softDeletes();
         });
     }
@@ -251,7 +276,7 @@ class InitDbWithMainTables extends Migration {
     public function down() {
         Schema::dropIfExists('categories');
         Schema::dropIfExists('brands');
-        Schema::dropIfExists('lotstates');
+        Schema::dropIfExists('shippingstates');
         Schema::dropIfExists('productstates');
         Schema::dropIfExists('officetypes');
         Schema::dropIfExists('offices');
@@ -259,9 +284,9 @@ class InitDbWithMainTables extends Migration {
         Schema::dropIfExists('products');
         Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
-        Schema::dropIfExists('lots');
-        Schema::dropIfExists('lots_products');
-        Schema::dropIfExists('lots_lotstates');
+        Schema::dropIfExists('shippings');
+        Schema::dropIfExists('shippings_products');
+        Schema::dropIfExists('shippings_shippingstates');
         Schema::dropIfExists('orders');
         Schema::dropIfExists('orders_models');
         Schema::dropIfExists('suppliers');

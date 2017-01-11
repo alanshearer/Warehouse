@@ -2,7 +2,7 @@
 
 namespace App\Models\Entities;
 
-class Productstate extends \Illuminate\Database\Eloquent\Model {
+class Shippingstate extends \Illuminate\Database\Eloquent\Model {
 
     /**
      * The attributes that are mass assignable.
@@ -13,7 +13,8 @@ class Productstate extends \Illuminate\Database\Eloquent\Model {
         'name', 'description'
     ];
 
-    public function products() {
-        return $this->belongsToMany('App\Models\Entities\Product');
+    public function shippings() {
+        return $this->belongsToMany('App\Models\Entities\Shipping');
     }
+
 }

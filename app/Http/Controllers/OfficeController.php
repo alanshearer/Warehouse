@@ -21,8 +21,8 @@ class OfficeController extends Controller {
         $elements = $request->elements;
         $orderby = isset($request->orderby) ? $request->orderby : 'name';
         $type = $request->desc == 'true' ? 'desc' : 'asc';
-        $term = $request->term ?? '';
-        $isActive = $request->isActive ?? false;
+        $term = $request->term ? $request->term : '';
+        $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = Entity::withTrashed()
                 ->where('officetype_id', '=', $officetype_id)
@@ -58,7 +58,7 @@ class OfficeController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function update(Request $request, $id) {
@@ -66,7 +66,7 @@ class OfficeController extends Controller {
         $entity = Entity::withTrashed()->where('officetype_id', '=', $officetype_id)->find($id);
         $entity->fill(self::toEntity($request));
         $entity->save();
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function delete(Request $request, $id) {

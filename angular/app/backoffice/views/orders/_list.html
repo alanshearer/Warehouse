@@ -82,7 +82,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in items">
-                        <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/orders/edit/{{item.id}}"><strong>{{item.date}}</strong></a></td>
+                        <td class="">
+                            <a class="btn btn-link uppercase no-margin-padding" ng-href="/#/orders/edit/{{item.id}}"><strong>{{item.date | date:'dd/MM/yyyy' }}</strong></a>
+                        </td>
                         <td class="">
                             {{item.supplier.key}}
                         </td>

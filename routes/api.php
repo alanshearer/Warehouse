@@ -72,12 +72,14 @@ Route::delete('products/{id}','ProductController@delete');
 Route::get('suppliers/{page}/{elements}/{orderby?}/{desc?}', 'SupplierController@search');
 Route::get('suppliers', 'SupplierController@index');
 Route::get('suppliers/xls', 'SupplierController@xls');
+Route::get('suppliers/kvp', 'SupplierController@kvp');
 Route::get('suppliers/{id}', 'SupplierController@get');
 Route::post('suppliers','SupplierController@create');
 Route::put('suppliers/{id}','SupplierController@update');    
 Route::delete('suppliers/{id}','SupplierController@delete');
 
 Route::get('roles/{page}/{elements}/{orderby?}/{desc?}', 'RoleController@search');
+Route::get('roles/xls', 'RoleController@xls');
 Route::get('roles/kvp', 'RoleController@kvp');
 Route::get('roles', 'RoleController@index');
 Route::get('roles/{id}', 'RoleController@get');
@@ -112,11 +114,11 @@ Route::post('shippings','ShippingController@create');
 Route::put('shippings/{id}','ShippingController@update');    
 Route::delete('shippings/{id}','ShippingController@delete');
 
-Route::get('lotstates', 'LotstateController@index');
-Route::get('lotstates/{id}', 'LotstateController@get');
-Route::post('lotstates','LotstateController@create');
-Route::put('lotstates/{id}','LotstateController@update');    
-Route::delete('lotstates/{id}','LotstateController@delete');
+Route::get('shippingstates', 'ShippingstateController@index');
+Route::get('shippingstates/{id}', 'ShippingstateController@get');
+Route::post('shippingstates','ShippingstateController@create');
+Route::put('shippingstates/{id}','ShippingstateController@update');    
+Route::delete('shippingstates/{id}','ShippingstateController@delete');
 
 
 Route::get('officetypes', 'OfficetypeController@index');

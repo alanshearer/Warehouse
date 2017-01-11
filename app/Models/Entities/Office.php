@@ -22,5 +22,14 @@ class Office extends \Illuminate\Database\Eloquent\Model {
     public function city() {
         return $this->belongsTo('App\Models\Entities\Location\City', 'city_id', 'id');
     }
+    
+    public function officetype() {
+        return $this->belongsTo('App\Models\Entities\Location\Officetype', 'officetype_id', 'id');
+    }
+    
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Entities\Product');
+    }
 
 }

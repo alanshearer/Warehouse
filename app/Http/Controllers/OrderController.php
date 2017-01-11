@@ -18,15 +18,15 @@ class OrderController extends Controller {
     public function search(Request $request) {
         $page = $request->page;
         $elements = $request->elements;
-        $orderby = isset($request->orderby) ? $request->orderby : 'name';
+        $orderby = isset($request->orderby) ? $request->orderby : 'date';
         $type = $request->desc == 'true' ? 'desc' : 'asc';
-        $term = $request->term ?? '';
-        $isActive = $request->isActive ?? false;
+        $term = $request->term ? $request->term : '';
+        $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = Entity::withTrashed()
                 ->where(function ($query) use($term) {
-                    $query->where('name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('description', 'LIKE', '%' . $term . '%');
+//                    $query->where('name', 'LIKE', '%' . $term . '%')
+//                    ->orWhere('description', 'LIKE', '%' . $term . '%');
                 })
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
@@ -52,14 +52,26 @@ class OrderController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
-        return response()->success($entity);
+        $entity->models()->detach();
+        if ($request->models) {
+            foreach ($request->models as $model) {
+                $entity->models()->attach($model["model"]["value"], array('quantity' => $model["quantity"]));
+            }
+        }
+        return response()->success(new DTO($entity));
     }
 
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
+        $entity->models()->detach();
+        if ($request->models) {
+            foreach ($request->models as $model) {
+                $entity->models()->attach($model["model"]["value"], array('quantity' => $model["quantity"]));
+            }
+        }
         $entity->save();
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function delete($id) {
@@ -80,10 +92,11 @@ class OrderController extends Controller {
     }
 
     private function toEntity($dto) {
+        $date = new \DateTime($dto->date);
         return [
-            'name' => $dto->name,
-            'description' => $dto->description,
+            'date' => date('Y-m-d', strtotime($date->format('Y-m-d H:i:s')) - $date->format('Z')),
             'note' => $dto->note,
+            'supplier_id' => $dto->supplier["value"]
         ];
     }
 

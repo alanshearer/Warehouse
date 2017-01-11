@@ -2,9 +2,9 @@
 
 namespace App\Models\DTO;
 
-use App\Models\Entities\Lot as Entity;
+use App\Models\Entities\Shipping as Entity;
 
-class Lot {
+class Shipping {
 
     /**
      * The attributes that are mass assignable.

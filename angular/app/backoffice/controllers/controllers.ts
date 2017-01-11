@@ -1016,30 +1016,32 @@ module BackOfficeApp.Controllers {
 
         })
         .controller('orderCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            employeesUrl: string, suppliersUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
+            ordersUrl: string, suppliersUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
 
-            var positionId = $routeParams['id'];
+            var orderId = $routeParams['id'];
             var employeeId = $routeParams['employeeId'];
+
+            $scope.getSuppliers = () => { return $http.get(suppliersUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.employeeSelected = employeeId != null;
 
-            var positionResource = $resource<dto.IContract>(employeesUrl + 'position/:id', { id: angular.isDefined(positionId) ? positionId : '@positionId' }, { save: { method: positionId != null ? "PUT" : "POST" } });
+            var orderResource = $resource<dto.IContract>(ordersUrl + ':id', { id: angular.isDefined(orderId) ? orderId : '@order.id' }, { save: { method: orderId != null ? "PUT" : "POST" } });
 
-            if (angular.isDefined(positionId)) {
-                positionResource.get((result: dto.IContract) => {
-                    $scope.data = result;
+            if (angular.isDefined(orderId)) {
+                orderResource.get((result: dto.IContract) => {
+                    $scope.order = result;
                 });
             } else {
-                $scope.data = new positionResource();
-                $scope.data.employee = {
+                $scope.order = new orderResource();
+                $scope.order.employee = {
                     value: employeeId
                 };
             }
 
             $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare la collocazione del dipendente?').then((success: boolean) => {
+                notification.showConfirm('Sei sicuro di voler eliminare l\'ordine?').then((success: boolean) => {
                     if (success) {
-                        positionResource.delete(() => {
+                        orderResource.delete(() => {
                             $window.history.back();
                         });
                     }
@@ -1054,6 +1056,12 @@ module BackOfficeApp.Controllers {
                     });
                 }
             });
+
+            $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getPersonsInCharge = () => { return $http.get(employeesUrl + 'personsincharge', <any>{ headers: { 'No-Loading': true } }); };
 
@@ -1090,8 +1098,8 @@ module BackOfficeApp.Controllers {
             $scope.getCampaigns = () => { return $http.get(campaignsUrl + 'summary', <any>{ headers: { 'No-Loading': true } }); }
 
             $scope.save = () => {
-                (<any>$scope.data).$save().then((result: any) => {
-                    notification.showNotify('Collocazione', 'Salvataggio eseguito con successo!');
+                (<any>$scope.order).$save().then((result: any) => {
+                    notification.showNotify('Ordine ' + $scope.order.date, 'Salvataggio eseguito con successo!');
                     $window.history.back();
                 });
             }
@@ -1127,25 +1135,22 @@ module BackOfficeApp.Controllers {
                 return null;
             });
 
-            $scope.addAssociation = () => {
+            $scope.addModel = () => {
                 $scope.filters = null;
-                if ($scope.data && $scope.data.campaignAssociations == null)
-                    $scope.data.campaignAssociations = [];
+                if ($scope.order && $scope.order.models == null)
+                    $scope.order.models = [];
 
-                $scope.data.campaignAssociations.push(<dto.ICampaignAssociation>{ isActive: true });
+                $scope.order.models.push(<dto.ICampaignAssociation>{ isActive: true });
             }
 
-            $scope.removeAssociation = (item: dto.ICampaignAssociation) => {
-                notification.showConfirm('Sei sicuro di voler eliminare l\'associazione alla campagna?').then((success: boolean) => {
+            $scope.removeModel = (item: dto.ICampaignAssociation) => {
+                notification.showConfirm('Sei sicuro di voler eliminare l\'ordine?').then((success: boolean) => {
                     if (success) {
-                        var index = $scope.data.campaignAssociations.indexOf(item);
-                        $scope.data.campaignAssociations.splice(index, 1);
+                        var index = $scope.order.models.indexOf(item);
+                        $scope.order.models.splice(index, 1);
                     }
                 });
             }
-
-
-
         })
 
 

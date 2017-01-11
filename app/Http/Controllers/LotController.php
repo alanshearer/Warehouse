@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Entities\Lot as Entity;
-use App\Models\DTO\Lot as DTO;
+use App\Models\Entities\Shipping as Entity;
+use App\Models\DTO\Shipping as DTO;
 use \Excel;
 
-class LotController extends Controller {
+class ShippingController extends Controller {
 
     public function index(Request $request) {
         $dtos = self::toDTOArray(Entity::all());
@@ -20,8 +20,8 @@ class LotController extends Controller {
         $elements = $request->elements;
         $orderby = isset($request->orderby) ? $request->orderby : 'name';
         $type = $request->desc == 'true' ? 'desc' : 'asc';
-        $term = $request->term ?? '';
-        $isActive = $request->isActive ?? false;
+        $term = $request->term ? $request->term : '';
+        $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = Entity::withTrashed()
                 ->where(function ($query) use($term) {
@@ -52,14 +52,14 @@ class LotController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
         $entity->save();
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function delete($id) {

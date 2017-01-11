@@ -23,4 +23,8 @@ class Product extends \Illuminate\Database\Eloquent\Model {
         return $this->belongsTo('App\Models\Entities\Model', 'model_id', 'id');
     }
 
+    public function offices() {
+        return $this->belongsToMany('App\Models\Entities\Office');
+    }
+
 }

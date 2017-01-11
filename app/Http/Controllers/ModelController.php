@@ -20,8 +20,8 @@ class ModelController extends Controller {
         $elements = $request->elements;
         $orderby = isset($request->orderby) ? $request->orderby : 'name';
         $type = $request->desc == 'true' ? 'desc' : 'asc';
-        $term = $request->term ?? '';
-        $isActive = $request->isActive ?? false;
+        $term = $request->term ? $request->term : '';
+        $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = Entity::withTrashed()
                 ->where(function ($query) use($term) {
@@ -52,14 +52,14 @@ class ModelController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
         $entity->save();
-        return response()->success($entity);
+        return response()->success(new DTO($entity));
     }
 
     public function delete($id) {

@@ -2,7 +2,7 @@
 
 namespace App\Models\DTO;
 
-class Lotstate {
+class Shippingstate {
 
     /**
      * The attributes that are mass assignable.
