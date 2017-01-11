@@ -58,6 +58,7 @@ class ProductController extends Controller {
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
         $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
+        $entity->states()->attach(1,array('date' => date("Y-m-d H:i:s")));
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -65,6 +66,7 @@ class ProductController extends Controller {
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
+        $entity->states()->attach($request->state,array('date' => date("Y-m-d H:i:s")));
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -81,7 +83,7 @@ class ProductController extends Controller {
 
     private function toKVP($entity) {
         return [
-            'key' => $entity->name,
+            'key' => $entity->serial,
             'value' => $entity->id
         ];
     }
@@ -90,7 +92,7 @@ class ProductController extends Controller {
         return [
             'model_id' => $dto->model["value"],
             'price' => $dto->price,
-            'productstate_id' => $dto->productstate_id ?? 1,
+            'serial' => $dto->serial,
             'note' => $dto->note,
         ];
     }

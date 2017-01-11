@@ -14,7 +14,7 @@ class Product {
      * @var array
      */
     protected $fillable = [
-        'model_id', 'note', 'price', 'external_id', 'productstate_id'
+        'model_id', 'note', 'price', 'serial', 'external_id', 'productstate_id'
     ];
 
     public function __construct(Entity $entity) {
@@ -25,13 +25,14 @@ class Product {
         $this->model = (new ModelDTO($entity->model))->kvp();
         $this->category = (new CategoryDTO($entity->model->category))->kvp();
         $this->brand = (new BrandDTO($entity->model->brand))->kvp();
+        $this->serial = $entity->serial;
         $this->external_id = $entity->external_id;
         $this->productstate_id = $entity->productstate_id;
         $this->enabled = $entity->deleted_at == null;
     }
 
     public function kvp() {
-        return ["key" => $this->name, "value" => $this->id];
+        return ["key" => $this->serial, "value" => $this->id];
     }
 
 }

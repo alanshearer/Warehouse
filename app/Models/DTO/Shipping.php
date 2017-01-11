@@ -3,6 +3,11 @@
 namespace App\Models\DTO;
 
 use App\Models\Entities\Shipping as Entity;
+use App\Models\DTO\Office as OfficeDTO;
+use App\Models\DTO\Product as ProductDTO;
+use App\Models\DTO\Model as ModelDTO;
+use App\Models\DTO\Category as CategoryDTO;
+use App\Models\DTO\Brand as BrandDTO;
 
 class Shipping {
 
@@ -17,12 +22,27 @@ class Shipping {
 
     public function __construct(Entity $entity) {
         $this->id = $entity->id;
-        $this->name = $entity->name;
-        $this->description = $entity->description;
+        $this->date = date("Y-m-d\TH:i:s.000\Z", strtotime($entity->date));
         $this->note = $entity->note;
+        $this->origin_id = $entity->origin_id;
+        $this->destination_id = $entity->destination_id;
+        $this->origin = (new OfficeDTO($entity->origin))->kvp();
+        $this->destination = (new OfficeDTO($entity->destination))->kvp();
+        $this->products = array();
+        foreach ($entity->products as $key => $product) {
+            array_push($this->products, self::toshippingproduct($product));
+        }
         $this->enabled = $entity->deleted_at == null ? true : false;
     }
 
+        public function toshippingproduct($product){
+        return [
+            'product' => (new ProductDTO($product))->kvp(),
+            'model' => (new ModelDTO($product->model))->kvp(),
+            'category' => (new CategoryDTO($product->model->category))->kvp(),
+            'brand' => (new BrandDTO($product->model->brand))->kvp(),
+        ];
+    }
     public function kvp() {
         return ["key" => $this->name, "value" => $this->id];
     }

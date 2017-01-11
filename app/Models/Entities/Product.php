@@ -16,7 +16,7 @@ class Product extends \Illuminate\Database\Eloquent\Model {
      * @var array
      */
     protected $fillable = [
-        'model_id', 'note', 'price', 'external_id', 'productstate_id'
+        'model_id', 'note', 'price', 'serial', 'external_id', 'productstate_id'
     ];
 
     public function model() {
@@ -25,6 +25,10 @@ class Product extends \Illuminate\Database\Eloquent\Model {
 
     public function offices() {
         return $this->belongsToMany('App\Models\Entities\Office');
+    }
+
+    public function states() {
+        return $this->belongsToMany('App\Models\Entities\Productstate');
     }
 
 }

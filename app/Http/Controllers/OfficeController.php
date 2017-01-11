@@ -44,7 +44,11 @@ class OfficeController extends Controller {
 
     public function kvp(Request $request) {
         $officetype_id = $request->officetype_id;
-        $kvps = self::toKVPArray(Entity::where('officetype_id', '=', $officetype_id)->all());
+        $kvps = self::toKVPArray(Entity::where(function ($query) use($officetype_id) {
+                            if ($officetype_id) {
+                                $query->where('officetype_id', '=', $officetype_id);
+                            }
+                        })->get());
         return response()->success($kvps);
     }
 

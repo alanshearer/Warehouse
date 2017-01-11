@@ -416,7 +416,19 @@ module BackOfficeApp.Controllers {
                 return deffered.promise;
             }
         })
+        .controller('shippingsCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
+            shippingsUrl: string) => {
 
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = shippingsUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(shippingsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+        })
 
 
 
@@ -1019,11 +1031,8 @@ module BackOfficeApp.Controllers {
             ordersUrl: string, suppliersUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
 
             var orderId = $routeParams['id'];
-            var employeeId = $routeParams['employeeId'];
 
             $scope.getSuppliers = () => { return $http.get(suppliersUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.employeeSelected = employeeId != null;
 
             var orderResource = $resource<dto.IContract>(ordersUrl + ':id', { id: angular.isDefined(orderId) ? orderId : '@order.id' }, { save: { method: orderId != null ? "PUT" : "POST" } });
 
@@ -1033,9 +1042,6 @@ module BackOfficeApp.Controllers {
                 });
             } else {
                 $scope.order = new orderResource();
-                $scope.order.employee = {
-                    value: employeeId
-                };
             }
 
             $scope.delete = () => {
@@ -1048,54 +1054,11 @@ module BackOfficeApp.Controllers {
                 });
             };
 
-            $scope.$watch('data.department.value', (value: number) => {
-                if ($scope.data && $scope.data.department && value) {
-                    $scope.data.department.type = null;
-                    $http.get(companiesUrl + 'department/' + value, <any>{ headers: { 'No-Loading': true } }).success((result: dto.IDepartment) => {
-                        $scope.data.department.type = result.type;
-                    });
-                }
-            });
-
             $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getPersonsInCharge = () => { return $http.get(employeesUrl + 'personsincharge', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getDepartments = () => { return $http.get(companiesUrl + 'departments', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getWorkPlaces = () => { return $http.get(companiesUrl + 'workplaces', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getPersonInCharge = (item: dto.ICampaignAssociation) => {
-                var departmentType = 0;
-                if ($scope.data.department.type == dto.DepartmentTypeDto.Operator)
-                    departmentType = dto.DepartmentTypeDto.TeamLeader;
-                else if ($scope.data.department.type == dto.DepartmentTypeDto.TeamLeader)
-                    departmentType = dto.DepartmentTypeDto.FloorManager;
-                else
-                    departmentType = dto.DepartmentTypeDto.Generic;
-
-                return $http.get(employeesUrl + 'personsincharge/?departmentType=' + departmentType + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-
-                //if ($scope.data.department.type == dto.DepartmentTypeDto.Operator) {
-                //    return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.TeamLeader + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-                //}
-
-                //if ($scope.data.department.type == dto.DepartmentTypeDto.TeamLeader) {
-                //    return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.FloorManager + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-                //}
-
-                //return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.Generic + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-            };
-
-            $scope.getGenericEmployees = () => {
-                return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.Generic, <any>{ headers: { 'No-Loading': true } });
-            };
-
-            $scope.getCampaigns = () => { return $http.get(campaignsUrl + 'summary', <any>{ headers: { 'No-Loading': true } }); }
 
             $scope.save = () => {
                 (<any>$scope.order).$save().then((result: any) => {
@@ -1107,33 +1070,6 @@ module BackOfficeApp.Controllers {
             $scope.filters = {
                 isActive: ''
             };
-
-
-            $scope.$watch('data.campaignAssociations', (items: any[]) => {
-                angular.forEach(items, (item: any) => {
-                    if (item.campaign && item.campaign.value == null) {
-                        (<any>item).campaignItem = null;
-                    }
-
-                    if (item.campaign && item.campaign.value != null && (item.campaignItem == null || item.campaignItem.id != item.campaign.value)) {
-                        $http.get(campaignsUrl + '/' + item.campaign.value, <any>{ headers: { 'No-Loading': true } }).success((campaignItem: dto.ICampaign) => {
-                            (<any>item).campaignItem = campaignItem;
-                        });
-                    }
-                });
-            }, true);
-
-            $scope.getIsActive = ((item: dto.ICampaignAssociation) => {
-                if (item && item.startDate) {
-                    if (item.endDate == null)
-                        return true;
-
-                    var currentDate = new Date();
-                    currentDate.setHours(0, 0, 0, 0);
-                    return item.startDate <= currentDate && item.endDate >= currentDate;
-                }
-                return null;
-            });
 
             $scope.addModel = () => {
                 $scope.filters = null;
@@ -1152,7 +1088,69 @@ module BackOfficeApp.Controllers {
                 });
             }
         })
+        .controller('shippingCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            shippingsUrl: string, productsUrl: string, officesUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
 
+            var shippingId = $routeParams['id'];
+
+            $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            var shippingResource = $resource<dto.IContract>(shippingsUrl + ':id', { id: angular.isDefined(shippingId) ? shippingId : '@shipping.id' }, { save: { method: shippingId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(shippingId)) {
+                shippingResource.get((result: dto.IContract) => {
+                    $scope.shipping = result;
+                });
+            } else {
+                $scope.shipping = new shippingResource();
+            }
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare la spedizione?').then((success: boolean) => {
+                    if (success) {
+                        shippingResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getProducts = () => { return $http.get(productsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.save = () => {
+                (<any>$scope.shipping).$save().then((result: any) => {
+                    notification.showNotify('Spedizione ' + $scope.shipping.date, 'Salvataggio eseguito con successo!');
+                    $window.history.back();
+                });
+            }
+
+            $scope.filters = {
+                isActive: ''
+            };
+
+            $scope.addProduct = () => {
+                $scope.filters = null;
+                if ($scope.shipping && $scope.shipping.products == null)
+                    $scope.shipping.products = [];
+
+                $scope.shipping.products.push(<dto.ICampaignAssociation>{ isActive: true });
+            }
+
+            $scope.removeProduct = (item: dto.ICampaignAssociation) => {
+                notification.showConfirm('Sei sicuro di voler eliminare la spedizione?').then((success: boolean) => {
+                    if (success) {
+                        var index = $scope.shipping.products.indexOf(item);
+                        $scope.shipping.products.splice(index, 1);
+                    }
+                });
+            }
+        })
 
 
 

@@ -16,15 +16,23 @@ class Shipping extends \Illuminate\Database\Eloquent\Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'document', 'origin_id', 'destination_id'
+        'date', 'note', 'origin_id', 'destination_id'
     ];
 
     public function states() {
-        return $this->belongsToMany('App\Models\Entities\Shippingstate');
+        return $this->belongsToMany('App\Models\Entities\Shippingstate')->withTimestamps();
     }
 
     public function products() {
-        return $this->belongsToMany('App\Models\Entities\Product');
+        return $this->belongsToMany('App\Models\Entities\Product', 'shipping_product')->withTimestamps();
+    }
+
+    public function origin() {
+        return $this->belongsTo('App\Models\Entities\Office', 'origin_id', 'id');
+    }
+
+    public function destination() {
+        return $this->belongsTo('App\Models\Entities\Office', 'destination_id', 'id');
     }
 
 }

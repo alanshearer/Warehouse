@@ -91,7 +91,7 @@ class InitDbWithMainTables extends Migration {
             $table->text('description')->nullable();
             $table->softDeletes();
         });
-        
+
         Schema::create('productstates', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -141,6 +141,7 @@ class InitDbWithMainTables extends Migration {
             $table->integer('model_id')->unsigned();
             $table->string('note')->nullable();
             $table->decimal('price');
+            $table->string('serial')->nullable();
             $table->string('external_id')->nullable();
             $table->foreign('model_id')->references('id')->on('models');
             $table->softDeletes();
@@ -172,7 +173,8 @@ class InitDbWithMainTables extends Migration {
         Schema::create('shippings', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('name')->unique();
+            $table->date('date');
+            $table->string('note')->nullable();
             $table->integer('origin_id')->unsigned();
             $table->integer('destination_id')->unsigned();
             $table->foreign('origin_id')->references('id')->on('offices');
@@ -189,7 +191,7 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('product_id')->references('id')->on('products');
             $table->softDeletes();
         });
-        
+
         Schema::create('office_product', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -203,6 +205,7 @@ class InitDbWithMainTables extends Migration {
         Schema::create('shipping_shippingstate', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->date('date');
             $table->binary('document')->nullable();
             $table->integer('shipping_id')->unsigned();
             $table->integer('shippingstate_id')->unsigned();
@@ -232,10 +235,11 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->softDeletes();
         });
-        
+
         Schema::create('order_orderstate', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->date('date');
             $table->binary('document')->nullable();
             $table->integer('order_id')->unsigned();
             $table->integer('orderstate_id')->unsigned();
@@ -243,7 +247,7 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('orderstate_id')->references('id')->on('orderstates');
             $table->softDeletes();
         });
-        
+
         Schema::create('order_model', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -255,7 +259,7 @@ class InitDbWithMainTables extends Migration {
             $table->integer('left')->nullable();
             $table->softDeletes();
         });
-        
+
         Schema::create('product_productstate', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
