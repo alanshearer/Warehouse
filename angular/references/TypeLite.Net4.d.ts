@@ -55,30 +55,11 @@ declare module dto {
         note: string;
     }
 
-    interface ICampaignTypology {
-        id: number;
-        name: string;
-        description: string;
-        isActive: boolean;
-        note: string;
-    }
     interface IConfiguration {
         id: number;
         timeZoneOffset: number;
         currentDateTime: Date;
     }
-
-    interface IJobHours {
-        employee: string;
-        campaign: string;
-        department: string;
-        hours: number;
-    }
-    interface IEmployeeJobHours {
-        employee: string;
-        hours: number;
-    }
-
 
     interface IMunicipality {
         istat: string;
@@ -142,17 +123,12 @@ declare module dto {
         modifiedUser: string;
         lastUsedCompanyId: number;
         lastUsedCompanyName: string;
-        companiesRights: dto.IUserCompanyRight[];
-        campaignsRights: dto.IUserCampaignRight[];
+        officesRights: dto.IUserOfficeRight[];
         fullName: string;
     }
-    interface IUserCompanyRight {
-        companyId: number;
-        companyName: string;
-    }
-    interface IUserCampaignRight {
-        campaignId: number;
-        campaignName: string;
+    interface IUserOfficeRight {
+        officeId: number;
+        officeName: string;
     }
     interface IUserToken extends dto.IUser {
         companyIsCallCenter: boolean;

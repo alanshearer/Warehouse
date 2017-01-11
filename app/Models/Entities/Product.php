@@ -28,7 +28,7 @@ class Product extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function offices() {
-        return $this->belongsToMany('App\Models\Entities\Office', 'office_product');
+        return $this->belongsToMany('App\Models\Entities\Office', 'office_product')->withTimestamps();
     }
 
     public function checks() {
@@ -36,7 +36,7 @@ class Product extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function workingstates() {
-        return $this->belongsToMany('App\Models\Entities\Productworkingstate', 'product_productworkingstate');
+        return $this->belongsToMany('App\Models\Entities\Productworkingstate', 'product_productworkingstate')->withTimestamps();
     }
 
 }

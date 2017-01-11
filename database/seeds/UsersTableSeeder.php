@@ -25,8 +25,8 @@ class UsersTableSeeder extends Seeder {
             'firstname' => 'responsabile magazzino',
             'lastname' => 'fiber',
             'birthDate' => '1999-12-12',
-            'username' => 'respmagazzino',
-            'email' => 'respmagazzino@fiber.it',
+            'username' => 'resp.magazzino',
+            'email' => 'resp.magazzino@fiber.it',
             'role_id' => '2',
             'password' => Hash::make('password')
         ]);
@@ -43,8 +43,8 @@ class UsersTableSeeder extends Seeder {
             'firstname' => 'responsabile assistenza',
             'lastname' => 'fiber',
             'birthDate' => '1999-12-12',
-            'username' => 'respassistenza',
-            'email' => 'respassistenza@fiber.it',
+            'username' => 'resp.assistenza',
+            'email' => 'resp.assistenza@fiber.it',
             'role_id' => '4',
             'password' => Hash::make('password')
         ]);

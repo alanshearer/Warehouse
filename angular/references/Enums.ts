@@ -11,9 +11,9 @@ module dto {
     }
     export enum UserRole {
         Amministratore = 1,
-        Respmagazzino = 2,
+        RespMagazzino = 2,
         Controllore = 3,
-        Respassistenza = 4,
+        RespAssistenza = 4,
     }
     export enum ValidationExceptionCode {
         RecordNotFound = 1,

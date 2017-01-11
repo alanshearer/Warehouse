@@ -96,7 +96,7 @@
                 })
                 .when('/dashboard', {
                     templateUrl: "/app/backoffice/views/_dashboard.html",
-                    roles: "'Amministratore' || 'Responsabile Magazzino' || 'Controllore' || 'Responsabile Assistenza'",
+                    roles: "'Amministratore' || 'RespMagazzino' || 'Controllore' || 'RespAssistenza'",
                     label: 'Dashboard'
                 })
                 .when('/users', {
@@ -113,7 +113,7 @@
                     label: 'Nuovo utente'
                 }).when('/profile', {
                     templateUrl: "/app/backoffice/views/_profile.html",
-                    roles: "'Amministratore' || 'Responsabile Magazzino' || 'Controllore' || 'Responsabile Assistenza'",
+                    roles: "'Amministratore' || 'RespMagazzino' || 'Controllore' || 'RespAssistenza'",
                     label: 'Profilo utente'
                 })
                 .when('/changelog', {
@@ -239,15 +239,15 @@
                 })
                 .when('/shippings', {
                     templateUrl: "/app/backoffice/views/shippings/_list.html",
-                    roles: "'Amministratore' || 'Responsabile Magazzino'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Gestione spedizioni'
                 }).when('/shippings/edit/:id', {
                     templateUrl: "/app/backoffice/views/shippings/_edit.html",
-                    roles: "'Amministratore' || 'Responsabile Magazzino'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Modifica spedizione'
                 }).when('/shippings/create', {
                     templateUrl: "/app/backoffice/views/shippings/_edit.html",
-                    roles: "'Amministratore' || 'Responsabile Magazzino'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Nuova spedizione'
                 })
                 .when('/checks', {
@@ -257,7 +257,7 @@
                 })
                 .when('/support', {
                     templateUrl: "/app/backoffice/views/support/_list.html",
-                    roles: "'Amministratore' || 'Responsabile Assistenza'",
+                    roles: "'Amministratore' || 'RespAssistenza'",
                     label: 'Gestione assistenza'
                 })
                 /*

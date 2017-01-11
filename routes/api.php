@@ -64,6 +64,7 @@ Route::get('products/{page}/{elements}/{orderby?}/{desc?}', 'ProductController@s
 Route::get('products', 'ProductController@index');
 Route::get('products/xls', 'ProductController@xls');
 Route::get('products/kvp', 'ProductController@kvp');
+Route::get('products/qr', 'ProductController@qr');
 Route::get('products/{id}', 'ProductController@get');
 Route::post('products','ProductController@create');
 Route::put('products/{id}','ProductController@update');    

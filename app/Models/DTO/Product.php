@@ -26,12 +26,11 @@ class Product {
         $this->model = (new ModelDTO($entity->model))->kvp();
         $this->category = (new CategoryDTO($entity->model->category))->kvp();
         $this->brand = (new BrandDTO($entity->model->brand))->kvp();
-        $this->office = (new OfficeDTO($entity->offices()->latest()->first()))->kvp();
+        $this->office = (new OfficeDTO($entity->offices()->orderBy('pivot_created_at', 'desc')->first()))->kvp();
         $this->serial = $entity->serial;
         $this->external_id = $entity->external_id;
         $this->productstate_id = $entity->productstate_id;
-        $this->productworkingstate = $entity->productstate_id;
-        
+        $this->productworkingstate = $entity->productstate_id;   
         $this->enabled = $entity->deleted_at == null;
     }
 

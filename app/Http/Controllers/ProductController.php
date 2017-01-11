@@ -24,6 +24,7 @@ class ProductController extends Controller {
         $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = Entity::withTrashed()
+                ->select('products.*')
                 ->join('models as model', 'model.id', '=', 'model_id')
                 ->join('brands as brand', 'brand.id', '=', 'model.brand_id')
                 ->join('categories as category', 'category.id', '=', 'model.category_id')
@@ -49,6 +50,12 @@ class ProductController extends Controller {
         return response()->success($kvps);
     }
 
+    public function qr($id) {
+        $entity = Entity::withTrashed()->find($id);
+        $entity->external_id;
+        return QrCode::format('png')->generate(url('products/external/' . $entity->external_id));
+    }
+
     public function get($id) {
         $entity = Entity::withTrashed()->find($id);
         $dto = self::toDTO($entity);
@@ -58,7 +65,8 @@ class ProductController extends Controller {
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
         $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
-        $entity->states()->attach(1,array('date' => date("Y-m-d H:i:s")));
+        $entity->workingstates()->attach(1, array('date' => date("Y-m-d H:i:s")));
+        $entity->offices()->attach($request->office["value"]);
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -66,7 +74,8 @@ class ProductController extends Controller {
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
-        $entity->states()->attach($request->state,array('date' => date("Y-m-d H:i:s")));
+        $entity->workingstates()->attach($request->state, array('date' => date("Y-m-d H:i:s")));
+        $entity->offices()->attach($request->office["value"]);
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -94,6 +103,7 @@ class ProductController extends Controller {
             'price' => $dto->price,
             'serial' => $dto->serial,
             'note' => $dto->note,
+            'office_id' => $dto->office["value"],
         ];
     }
 

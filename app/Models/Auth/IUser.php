@@ -15,8 +15,8 @@ namespace App\Models\Auth;
  */
 class IUser {
     public $id;
-    public $name;
-    public $surname; 
+    public $firstname;
+    public $lastname; 
     public $rolename;
     public $lastAccessDate;
 }

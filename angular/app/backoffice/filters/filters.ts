@@ -7,11 +7,11 @@
                     case dto.UserRole.Amministratore:
                         return "Amministratore";
                     case dto.UserRole.Respmagazzino:
-                        return "Responsabile magazzino";
+                        return "RespMagazzino";
                     case dto.UserRole.Controllore:
                         return "Controllore";
                     case dto.UserRole.Respassistenza:
-                        return "Responsabile Assistenza";
+                        return "RespAssistenza";
                     default:
                         return "Sconosciuto";
                 }

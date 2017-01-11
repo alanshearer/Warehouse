@@ -102,16 +102,6 @@ module BackOfficeApp.Controllers {
 
             $scope.currentUser = authentication.identity;
 
-            $scope.changeCompany = (company: dto.IUserCompanyRight) => {
-                $http.post(usersUrl + 'changecompany', { companyId: company.companyId })
-                    .success((result: dto.IUserTokenResponse) => {
-                        authentication.renewalToken(result);
-                        caching.clearAll();
-                        $location.url('/dashboard');
-                        $route.reload();
-                    });
-            };
-
             $http.get('/content/changelog.json').success((result: any[]) => {
                 if (result != null) {
                     $scope.application = {
@@ -362,40 +352,33 @@ module BackOfficeApp.Controllers {
 
 
 
-        .controller('userManageCtrl', ($scope: any, $http: angular.IHttpService, $location: angular.ILocationService, $log: angular.ILogService,
-            $resource: angular.resource.IResourceService, $routeParams: angular.route.IRouteParamsService, authentication: Authentication.IAuthenticationService<dto.IUserToken>, usersUrl: string, notification: Notification.INotificationService) => {
+        .controller('userCtrl', ($scope: any, $http: angular.IHttpService, $location: angular.ILocationService, $log: angular.ILogService,
+            $resource: angular.resource.IResourceService, $routeParams: angular.route.IRouteParamsService, authentication: Authentication.IAuthenticationService<dto.IUserToken>, notification: Notification.INotificationService,
+            officesUrl: string, usersUrl: string, rolesUrl: string) => {
+            $scope.data = {};
+
+            $scope.filters = {};
 
             $scope.isProfile = $location.path().indexOf('/profile') >= 0;
 
             var userId = $scope.isProfile ? authentication.identity.id : $routeParams['id'];
 
-            var user = $resource<dto.IUser>(usersUrl + ':id', { id: !angular.isUndefined(userId) ? userId : '@data.id' }, { save: { method: userId != null ? "PUT" : "POST" } });
-
-            $scope.companies = [];
-            $scope.campaigns = [];
-            $scope.data = {};
+            var userResource = $resource<dto.IUser>(usersUrl + ':id', { id: !angular.isUndefined(userId) ? userId : '@data.id' }, { save: { method: userId != null ? "PUT" : "POST" } });
             if (!angular.isUndefined(userId)) {
-                user.get((result: dto.IUser) => {
+                userResource.get((result: dto.IUser) => {
                     $scope.data = result;
-
-                    if (result.companiesRights != null) {
-                        angular.forEach(result.companiesRights, (item: dto.IUserCompanyRight) => {
-                            $scope.companies = Global.mergeKeyValuePair($scope.companies, <dto.IKeyValuePair[]>[{ key: item.companyName, value: item.companyId }]);
-                        });
-                    }
-
-                    if (result.campaignsRights != null) {
-                        angular.forEach(result.campaignsRights, (item: dto.IUserCampaignRight) => {
-                            $scope.campaigns = Global.mergeKeyValuePair($scope.campaigns, <dto.IKeyValuePair[]>[{ key: item.campaignName, value: item.campaignId }]);
-                        });
-                    }
-
-                    $scope.getEntitiesForRoleType();
                 }, (error: any) => { notification.handleException(error.data); });
             } else {
-                $scope.data = new user();
+                $scope.data = new userResource();
             }
 
+            $scope.filters.officetype_id = 2;
+            $scope.getOffices = () => {
+                return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true }, params: $scope.filters });
+            }
+            $scope.getRoles = () => {
+                return $http.get(rolesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } });
+            }
             $scope.getNextChangePasswordDate = () => {
                 var nextChangePasswordDate: Date = null;
 
@@ -416,64 +399,23 @@ module BackOfficeApp.Controllers {
             //                $scope.roles = result;
             //            });
 
-            $scope.removeCompany = (item: dto.IUserCompanyRight) => {
+            $scope.removeOffice = (item: dto.IUserOfficeRight) => {
                 if (angular.isDefined(item)) {
-                    var index = $scope.data.companiesRights.indexOf(item);
-                    $scope.data.companiesRights.splice(index, 1);
+                    var index = $scope.data.officesRights.indexOf(item);
+                    $scope.data.officesRights.splice(index, 1);
                 }
             }
-            $scope.removeCampaign = (item: dto.IUserCampaignRight) => {
-                if (angular.isDefined(item)) {
-                    var index = $scope.data.campaignsRights.indexOf(item);
-                    $scope.data.campaignsRights.splice(index, 1);
+            $scope.addOffice = () => {
+                if (angular.isUndefined($scope.data.officesRights) || $scope.data.officesRights == null) {
+                    $scope.data.officesRights = [];
                 }
+                $scope.data.officesRights.push(<dto.IUserOfficeRight>{});
             }
-            $scope.addCompany = () => {
-                if (angular.isUndefined($scope.data.companiesRights) || $scope.data.companiesRights == null) {
-                    $scope.data.companiesRights = [];
-                }
-                $scope.data.companiesRights.push(<dto.IUserCompanyRight>{
-                    companyId: null,
-                    companyName: null
-                });
-            }
-
-            $scope.addCampaign = () => {
-                if (angular.isUndefined($scope.data.campaignsRights) || $scope.data.campaignsRights == null) {
-                    $scope.data.campaignsRights = [];
-                }
-                $scope.data.campaignsRights.push(<dto.IUserCampaignRight>{
-                    campaignId: null,
-                    campaignName: null
-                });
-            }
-
-            $scope.getEntitiesForRoleType = () => {
-
-            }
-
-            $scope.getCompanies = () => {
-                $http.get(Global.Configuration.serviceHost + 'companies/summary').success((result: dto.IKeyValuePair[]) => {
-                    if (angular.isDefined($scope.currentUser) && $scope.currentUser.lastUsedCompanyId != null)
-                        result = Enumerable.from(result).where(a => a.value == $scope.currentUser.lastUsedCompanyId).toArray();
-
-                    $scope.companies = Global.mergeKeyValuePair($scope.companies, result);
-                });
-            };
-
-            $scope.getCampaigns = () => {
-                $http.get(Global.Configuration.serviceHost + 'campaigns/summary').success((result: dto.IKeyValuePair[]) => {
-                    if (angular.isDefined($scope.currentUser) && $scope.currentUser.lastUsedCompanyId != null)
-                        result = Enumerable.from(result).toArray();
-
-                    $scope.campaigns = Global.mergeKeyValuePair($scope.campaigns, result);
-                });
-            };
 
             $scope.delete = () => {
                 notification.showConfirm('Sei sicuro di voler eliminare l\'utente?').then((success: boolean) => {
                     if (success) {
-                        user.delete(() => {
+                        userResource.delete(() => {
                             $location.path('users');
                         }, (error: any) => { notification.handleException(error.data); });
                     }
@@ -594,7 +536,7 @@ module BackOfficeApp.Controllers {
             }
         })
         .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, breadcrumbs: any, $window: any) => {
+            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, officesUrl: string, breadcrumbs: any, $window: any) => {
 
             var productId = $routeParams['id'];
 
@@ -614,6 +556,8 @@ module BackOfficeApp.Controllers {
             $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.delete = () => {
                 notification.showConfirm('Sei sicuro di voler eliminare il prodotto?').then((success: boolean) => {
@@ -963,7 +907,7 @@ module BackOfficeApp.Controllers {
         })
         .controller('dashboardCtrl', ($scope: any, $http: angular.IHttpService, $resource: angular.resource.IResourceService,
             dashboardUrl: string) => {
-            
+
             $scope.filters = {};
             $scope.filters.endDate = new Date();
             $scope.filters.startDate = new Date($scope.filters.endDate.getFullYear(), 1, 1);

@@ -173,7 +173,7 @@ var BackOfficeApp;
                 $http.get(contractsUrl + 'xls', { params: $scope.filters }).success(function (data) { deffered.resolve(data); }).catch(function (error) { deffered.reject(error); });
                 return deffered.promise;
             };
-        }).controller('userManageCtrl', function ($scope, $http, $location, $log, $resource, $routeParams, authentication, usersUrl, notification) {
+        }).controller('userCtrl', function ($scope, $http, $location, $log, $resource, $routeParams, authentication, usersUrl, notification) {
             $scope.isProfile = $location.path().indexOf('/profile') >= 0;
             var userId = $scope.isProfile ? authentication.identity.id : $routeParams['id'];
             var user = $resource(usersUrl + ':id', { id: !angular.isUndefined(userId) ? userId : '@data.id' }, { save: { method: userId != null ? "PUT" : "POST" } });

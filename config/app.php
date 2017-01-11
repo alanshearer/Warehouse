@@ -158,9 +158,14 @@ return [
         App\Providers\ResponseMacroServiceProvider::class,
         
         /*
-         * Excel service Provider
+         * Excel Service Provider
          */
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        
+        /*
+         * Qr Code Service Provider
+         */
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
     ],
     /*
       |--------------------------------------------------------------------------
@@ -206,5 +211,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 ];

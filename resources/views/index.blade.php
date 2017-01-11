@@ -102,7 +102,7 @@
             </div>
             <nav id="menu" data-jquery-mmenu ng-if="isAuthenticated" data-search="close" data-ng-cloak>
                 <ul>
-                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\' || \'Controllore\' || \'Respassistenza\'' | hasRole)"><a href="/#dashboard"><i class="icon fa fa-dashboard"></i> Dashboard </a></li>
+                    <li ng-if="('\'Amministratore\' || \'RespMagazzino\' || \'Controllore\' || \'RespAssistenza\'' | hasRole)"><a href="/#dashboard"><i class="icon fa fa-dashboard"></i> Dashboard </a></li>
                     <li ng-show="('\'Amministratore\'' | hasRole)">
                         <span><i class="icon fa fa-cogs"></i> Amministrazione</span>
                         <ul>
@@ -117,12 +117,12 @@
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/orders"><i class="icon fa fa-bar-chart-o"></i> Ordini </a></li>
                         </ul>
                     </li>
-                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/warehouses"><i class="icon  fa fa-users"></i> Magazzini </a></li>
-                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/offices"><i class="icon  fa fa-file-text-o"></i> Uffici </a></li>
-                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/products"><i class="icon fa fa-clock-o"></i> Prodotti </a></li>
-                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/shippings"><i class="icon fa fa-bar-chart-o"></i> Spedizioni </a></li>
-                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\' || \'Controllore\'' | hasRole)"><a ng-href="/#/checks"><i class="icon fa fa-clock-o"></i> Controlli </a></li>
-                    <li ng-if="('\'Amministratore\' || \'Respassistenza\'' | hasRole)"><a ng-href="/#/support"><i class="icon fa fa-clock-o"></i> Assistenza </a></li>
+                    <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/warehouses"><i class="icon  fa fa-users"></i> Magazzini </a></li>
+                    <li ng-if="('\'Amministratore\' || \'RespMagazzino\'' | hasRole)"><a ng-href="/#/offices"><i class="icon  fa fa-file-text-o"></i> Uffici </a></li>
+                    <li ng-if="('\'Amministratore\' || \'RespMagazzino\'' | hasRole)"><a ng-href="/#/products"><i class="icon fa fa-clock-o"></i> Prodotti </a></li>
+                    <li ng-if="('\'Amministratore\' || \'RespMagazzino\'' | hasRole)"><a ng-href="/#/shippings"><i class="icon fa fa-bar-chart-o"></i> Spedizioni </a></li>
+                    <li ng-if="('\'Amministratore\' || \'Controllore\'' | hasRole)"><a ng-href="/#/checks"><i class="icon fa fa-clock-o"></i> Controlli </a></li>
+                    <li ng-if="('\'Amministratore\' || \'RespAssistenza\'' | hasRole)"><a ng-href="/#/support"><i class="icon fa fa-clock-o"></i> Assistenza </a></li>
                 </ul>
             </nav>
         </div>

@@ -18,6 +18,7 @@ class Office extends \Illuminate\Database\Eloquent\Model {
     protected $fillable = [
         'name', 'address', 'city_id', 'postalcode', 'officetype_id'
     ];
+    protected $dates = ['created_at'];
 
     public function city() {
         return $this->belongsTo('App\Models\Entities\Location\City', 'city_id', 'id');

@@ -40,7 +40,8 @@ class AuthController extends Controller
         $compositetoken->identity->firstname=$user->firstname;
         $compositetoken->identity->lastname=$user->lastname;
         $compositetoken->identity->email=$user->email;
-        $compositetoken->identity->rolename = $user->role->name;
+        $compositetoken->identity->rolename = $user->role->shortname;
+        $compositetoken->identity->role = (new RoleDTO($user->role))->kvp();
         $compositetoken->identity->lastAccessDate=(new \DateTime())->format('Y-m-d H:i:s');
         
         return response()->success($compositetoken);
