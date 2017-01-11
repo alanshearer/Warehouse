@@ -32,7 +32,7 @@ class ProductController extends Controller {
                     ->orWhere('brand.name', 'LIKE', '%' . $term . '%')
                     ->orWhere('category.name', 'LIKE', '%' . $term . '%');
                 })
-                //->with('model', 'model.brand', 'model.category')
+                ->with('offices')
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
                         $query->whereNull('deleted_at');

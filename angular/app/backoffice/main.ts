@@ -86,246 +86,183 @@
 
 
             $routeProvider
+
+    /*
+     * CONTROLLER NUOVA APP
+     */
                 .when('/login', {
                     templateUrl: "/app/backoffice/views/login/_login.html",
                     label: 'Accesso'
                 })
                 .when('/dashboard', {
                     templateUrl: "/app/backoffice/views/_dashboard.html",
-                    roles: "'SysAdmin' || 'Supervisor' || 'Management' || 'Backoffice' || 'DataEntry' || 'HrSpecialist' || 'HrManager' || 'FloorManager'",
+                    roles: "'Amministratore' || 'Responsabile Magazzino' || 'Controllore' || 'Responsabile Assistenza'",
                     label: 'Dashboard'
                 })
                 .when('/users', {
                     templateUrl: "/app/backoffice/views/users/_list.html",
-                    roles: "'SysAdmin' || 'Supervisor'",
+                    roles: "'Amministratore'",
                     label: 'Gestione utenti'
                 }).when('/users/edit/:id', {
                     templateUrl: "/app/backoffice/views/users/_edit.html",
-                    roles: "'SysAdmin' || 'Supervisor'",
+                    roles: "'Amministratore'",
                     label: 'Modifica utente'
                 }).when('/users/create', {
                     templateUrl: "/app/backoffice/views/users/_edit.html",
-                    roles: "'SysAdmin' || 'Supervisor'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo utente'
                 }).when('/profile', {
                     templateUrl: "/app/backoffice/views/_profile.html",
-                    roles: "'SysAdmin' || 'Supervisor' || 'Management' || 'Backoffice'",
+                    roles: "'Amministratore' || 'Responsabile Magazzino' || 'Controllore' || 'Responsabile Assistenza'",
                     label: 'Profilo utente'
-                }).when('/companies', {
-                    templateUrl: "/app/backoffice/views/companies/_list.html",
-                    roles: "'Supervisor'",
-                    label: 'Gestione aziende'
-                }).when('/companies/edit/:id', {
-                    templateUrl: "/app/backoffice/views/companies/_edit.html",
-                    roles: "'Supervisor'",
-                    label: 'Modifica azienda'
-                }).when('/companies/create', {
-                    templateUrl: "/app/backoffice/views/companies/_edit.html",
-                    roles: "'Supervisor'",
-                    label: 'Nuova azienda'
-                }).when('/campaigns', {
-                    templateUrl: "/app/backoffice/views/campaigns/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Campagne'
-                }).when('/campaigns/edit/:id', {
-                    templateUrl: "/app/backoffice/views/campaigns/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Modifica campagna'
-                }).when('/campaigns/create', {
-                    templateUrl: "/app/backoffice/views/campaigns/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
-                    label: 'Nuova'
-                }).when('/admin/tables', {
-                    templateUrl: "/app/backoffice/views/admin/tables/_list.html",
-                    roles: "'SysAdmin'",
-                    label: 'Gestione tabelle'
-                }).when('/admin/configuration', {
-                    templateUrl: "/app/backoffice/views/admin/configuration/_configuration.html",
-                    roles: "'SysAdmin'",
-                    label: 'Configurazione di sistema'
-                }).when('/changelog', {
+                })
+                .when('/changelog', {
                     templateUrl: "/app/backoffice/views/_changeLog.html",
                     label: 'Riepilogo aggiornamenti'
-                }).when('/employees', {
-                    templateUrl: "/app/backoffice/views/employees/_list.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Dipendenti'
-                }).when('/employees/edit/:employeeId', {
-                    templateUrl: "/app/backoffice/views/employees/_edit.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Modifica dipendente'
-                }).when('/employees/edit/:employeeId/suppliers/edit/:id', {
-                    templateUrl: "/app/backoffice/views/suppliers/_edit.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Modifica contratto'
-                }).when('/employees/edit/:employeeId/suppliers/create', {
-                    templateUrl: "/app/backoffice/views/suppliers/_edit.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Nuovo contratto'
-                }).when('/employees/edit/:employeeId/positions/edit/:id', {
-                    templateUrl: "/app/backoffice/views/employees/tabs/collocazione/_edit.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Modifica collocazione'
-                }).when('/employees/edit/:employeeId/positions/create', {
-                    templateUrl: "/app/backoffice/views/employees/tabs/collocazione/_edit.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Nuova collocazione'
-                }).when('/employees/create', {
-                    templateUrl: "/app/backoffice/views/employees/_edit.html",
-                    roles: "'SysAdmin' || 'HrSpecialist' || 'HrManager'",
-                    label: 'Nuovo'
                 })
-
-
-                /*
-                 * CONTROLLER NUOVA APP
-                 */
                 .when('/suppliers', {
                     templateUrl: "/app/backoffice/views/suppliers/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione fornitori'
                 }).when('/suppliers/edit/:id', {
                     templateUrl: "/app/backoffice/views/suppliers/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica fornitore'
                 }).when('/suppliers/create', {
                     templateUrl: "/app/backoffice/views/suppliers/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo fornitore'
                 })
                 .when('/offices', {
                     templateUrl: "/app/backoffice/views/offices/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione uffici'
                 }).when('/offices/edit/:id', {
                     templateUrl: "/app/backoffice/views/offices/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica ufficio'
                 }).when('/offices/create', {
                     templateUrl: "/app/backoffice/views/offices/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo ufficio'
                 })
                 .when('/warehouses', {
                     templateUrl: "/app/backoffice/views/warehouses/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione magazzini'
                 }).when('/warehouses/edit/:id', {
                     templateUrl: "/app/backoffice/views/warehouses/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica magazzino'
                 }).when('/warehouses/create', {
                     templateUrl: "/app/backoffice/views/warehouses/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo magazzino'
                 })
                 .when('/roles', {
                     templateUrl: "/app/backoffice/views/roles/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione ruoli'
                 }).when('/roles/edit/:id', {
                     templateUrl: "/app/backoffice/views/roles/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica ruolo'
                 }).when('/roles/create', {
                     templateUrl: "/app/backoffice/views/roles/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo ruolo'
                 })
                 .when('/categories', {
                     templateUrl: "/app/backoffice/views/categories/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione categorie'
                 }).when('/categories/edit/:id', {
                     templateUrl: "/app/backoffice/views/categories/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica categoria'
                 }).when('/categories/create', {
                     templateUrl: "/app/backoffice/views/categories/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuova categoria'
                 })
                 .when('/brands', {
                     templateUrl: "/app/backoffice/views/brands/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione marche'
                 }).when('/brands/edit/:id', {
                     templateUrl: "/app/backoffice/views/brands/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica marca'
                 }).when('/brands/create', {
                     templateUrl: "/app/backoffice/views/brands/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuova marca'
                 })
                 .when('/models', {
                     templateUrl: "/app/backoffice/views/models/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione modelli'
                 }).when('/models/edit/:id', {
                     templateUrl: "/app/backoffice/views/models/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica modello'
                 }).when('/models/create', {
                     templateUrl: "/app/backoffice/views/models/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo modello'
                 })
                 .when('/products', {
                     templateUrl: "/app/backoffice/views/products/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione prodotti'
                 }).when('/products/edit/:id', {
                     templateUrl: "/app/backoffice/views/products/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica prodotto'
                 }).when('/products/create', {
                     templateUrl: "/app/backoffice/views/products/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo prodotto'
                 })
                 .when('/orders', {
                     templateUrl: "/app/backoffice/views/orders/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Gestione ordini'
                 }).when('/orders/edit/:id', {
                     templateUrl: "/app/backoffice/views/orders/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Modifica ordine'
                 }).when('/orders/create', {
                     templateUrl: "/app/backoffice/views/orders/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore'",
                     label: 'Nuovo ordine'
                 })
                 .when('/shippings', {
                     templateUrl: "/app/backoffice/views/shippings/_list.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore' || 'Responsabile Magazzino'",
                     label: 'Gestione spedizioni'
                 }).when('/shippings/edit/:id', {
                     templateUrl: "/app/backoffice/views/shippings/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore' || 'Responsabile Magazzino'",
                     label: 'Modifica spedizione'
                 }).when('/shippings/create', {
                     templateUrl: "/app/backoffice/views/shippings/_edit.html",
-                    roles: "'SysAdmin' || 'HrManager'",
+                    roles: "'Amministratore' || 'Responsabile Magazzino'",
                     label: 'Nuova spedizione'
+                })
+                .when('/checks', {
+                    templateUrl: "/app/backoffice/views/checks/_list.html",
+                    roles: "'Amministratore' || 'Controllore'",
+                    label: 'Gestione controlli'
+                })
+                .when('/support', {
+                    templateUrl: "/app/backoffice/views/support/_list.html",
+                    roles: "'Amministratore' || 'Responsabile Assistenza'",
+                    label: 'Gestione assistenza'
                 })
                 /*
                  * FINE CONTROLLER NUOVA APP
                  */
-
-
-
-                .when('/registrations', {
-                    templateUrl: "/app/backoffice/views/presences/_edit.html",
-                    roles: "'Backoffice' || 'SysAdmin' || 'DataEntry' || 'HrManager'",
-                    label: 'Registrazioni'
-                })
-                .when('/report', {
-                    templateUrl: "/app/backoffice/views/reports/_reports.html",
-                    roles: "'SysAdmin' || 'Supervisor' || 'Backoffice' || 'DataEntry' || 'HrManager' || 'FloorManager'",
-                    label: 'Report'
-                })
                 .otherwise({
                     redirectTo: defaultPath
                 });

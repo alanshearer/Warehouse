@@ -25,7 +25,7 @@ gulp.task('copy:contents', [], function() {
     .pipe(gulp.dest('public'));
 });
 
-gulp.task('copy', ['copy:contents', 'copy:assets']);
+gulp.task('copy', ['copy:assets', 'copy:contents']);
 gulp.task('build', ['compile', 'copy']);
 gulp.task('default', ['build']);
 

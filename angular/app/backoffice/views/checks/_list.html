@@ -1,17 +1,11 @@
-﻿<section class="panel panel-themes borders bd-gray" ng-controller="productsCtrl">
+﻿<section class="panel panel-themes borders bd-gray" ng-controller="checksCtrl">
     <header class="panel-heading sm">
-        <h2><strong>Elenco</strong> prodotti </h2>
+        <h2><strong>Elenco</strong> controlli </h2>
     </header>
     <div class="panel-tools" align="left">
         <ul>
             <li>
-                <a href="/#/products/create" class="btn btn-theme btn-transparent" title="Aggiungi nuovo prodotto" data-jquery-tooltip>
-                    <i class="fa fa-plus-square"></i>
-                    Nuovo
-                </a>
-            </li>
-            <li>
-                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='prodotti.xlsx' data-jquery-tooltip title="Download file xls">
+                <a href="javascript:void(0)" class="btn btn-theme btn-transparent" data-download-file="downloadXls()" data-download-file-name='modelli.xlsx' data-jquery-tooltip title="Download file xls">
                     <i class="fa fa-file-excel-o"></i>
                     Esporta in excel
                 </a>
@@ -48,7 +42,7 @@
                                                data-trigger="hover"
                                                data-placement="bottom"
                                                title="Ricerca libera"
-                                               data-content="La ricerca viene eseguita per i campi Nome e Partita Iva prodotto"></i>
+                                               data-content="La ricerca viene eseguita per i campi Nome prodotto"></i>
                                             <input type="text" name="term" class="form-control input-sm" ng-model="filters.term" placeholder="Cerca" />
                                         </div>
                                     </div>
@@ -74,28 +68,54 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th scope="col" data-sorter="model.name" class="text-left width-20">Modello</th>
-                        <th scope="col" class="text-left" data-sorter="brand.name">Brand</th>
-                        <th scope="col" class="text-left" data-sorter="category.name">Categoria</th>                        
-                        <th scope="col" class="text-left" data-sorter="serial">Seriale</th>                        
-                        <th scope="col" class="text-left" data-sorter="serial">Posizione</th>                        
-                        <th scope="col" class="text-center width-5">Stato Funzionamento</th>
+                        <th scope="col" class="text-left width-10">Categoria</th>
+                        <th scope="col" class="text-left width-10">Brand</th>
+                        <th scope="col" class="text-left width-20">Modello</th>
+                        <th scope="col" class="text-left width-10">Seriale</th>
+                        <th scope="col" class="text-left width-10">Prezzo (€)</th>
+                        <th scope="col" class="text-left width-10">Ultimo controllo</th>
+                        <th scope="col" class="text-left width-10">Stato attuale</th>
+                        <th scope="col" class=" width-5">Azioni</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in items">
-                        <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/products/edit/{{item.id}}"><strong>{{item.model.key}}</strong></a></td>
-                        <td class="">{{item.brand.key}}</td>
-                        <td class="">{{item.category.key}}</td>
-                        <td class="">{{item.serial}}</td>
-                        <td class="">{{item.office.key}}</td>
-                        <td class="text-center">
-                            <span class="badge bg-danger-darken" data-ng-if="!item.enabled">Non attivo</span>
-                            <span class="badge bg-success-darken" data-ng-if="item.enabled">Attivo</span>
-                        </td>  
-                    </tr>
+                    <tr ng-repeat="item in items" data-ng-form="formProduct_{{$index}}">
+                        <td data-from-group data-ng-form="categoryForm{{$index}}" class="align-top">
+                            {{item.product.category.key}}
+                        </td>
+                        <td data-from-group data-ng-form="brandForm{{$index}}" class="align-top">
+                            {{item.product.brand.key}}
+
+                        </td>
+                        <td data-from-group data-ng-form="modelForm{{$index}}" class="align-top">
+                            {{item.product.model.key}}
+
+                        </td>
+                        <td data-from-group data-ng-form="productForm{{$index}}" class="align-top">
+                            {{item.product.serial}}
+                        </td>
+                        <td>{{item.product.price}}</td>
+                        <td>{{item.check}}</td>
+                        <td>
+                <kvp-select data-items="productsworkingstates"
+                            data-action="getProductworkingstates()"
+                            data-width="100%"
+                            data-select-style="btn-default btn-sm"
+                            data-required="true"
+                            data-current="item.productworkingstate"
+                            ng-if="item.product.serial"></kvp-select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="saveCheck(item)"
+                            data-ng-disabled="item.productworkingstate == null">
+                        Salva
+                    </button>
+                </td>
+                </tr>
                 </tbody>
+
             </table>
+
         </paginator>
     </div>
 </section>

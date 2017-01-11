@@ -3,7 +3,7 @@ var BackOfficeApp;
     var Filters;
     (function (Filters) {
         angular.module('backofficeApp.Filters', [])
-            .filter('roleName', function () {
+            .filter('rolename', function () {
             return function (value) {
                 switch (value) {
                     case dto.UserRole.SysAdmin:

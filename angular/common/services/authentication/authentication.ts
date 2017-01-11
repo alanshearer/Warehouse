@@ -32,9 +32,10 @@
     }
 
     export interface IUser {
-        name: string
-        surname: string
-        roleName: string
+        firstname: string
+        lastname: string
+        email: string
+        rolename: string
         lastAccessDate: Date
     }
 
@@ -51,7 +52,7 @@
                 configuration: configuration,
                 $get: ($http: angular.IHttpService, $q: angular.IQService, $rootScope: angular.IRootScopeService, localStorageService: any) => {
 
-                    var identity: IUser = { name: '', surname: '', lastAccessDate: null, roleName: null };
+                    var identity: IUser = { firstname: '', lastname: '', email: '', lastAccessDate: null, rolename: ''};
 
                     var isAuthenticated: boolean;
 
@@ -129,7 +130,7 @@
         .filter('hasRole', ($parse: angular.IParseService, authentication: IAuthenticationService<IUser>) => {
 
             function evalExpression(role: string) {
-                return role == (authentication.isAuthenticated && authentication.identity.roleName);
+                return role == (authentication.isAuthenticated && authentication.identity.rolename);
             }
 
             return roleExpr => {

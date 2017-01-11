@@ -105,7 +105,7 @@ Route::post('orders','OrderController@create');
 Route::put('orders/{id}','OrderController@update');    
 Route::delete('orders/{id}','OrderController@delete');
 
-Route::get('shippings/{page}/{elements}/{shippingby?}/{desc?}', 'ShippingController@search');
+Route::get('shippings/{page}/{elements}/{orderby?}/{desc?}', 'ShippingController@search');
 Route::get('shippings', 'ShippingController@index');
 Route::get('shippings/xls', 'ShippingController@xls');
 Route::get('shippings/kvp', 'ShippingController@kvp');
@@ -114,12 +114,23 @@ Route::post('shippings','ShippingController@create');
 Route::put('shippings/{id}','ShippingController@update');    
 Route::delete('shippings/{id}','ShippingController@delete');
 
+Route::get('checks/{page}/{elements}/{orderby?}/{desc?}', 'CheckController@search');
+Route::get('checks', 'CheckController@index');
+Route::get('checks/xls', 'CheckController@xls');
+Route::get('checks/kvp', 'CheckController@kvp');
+Route::get('checks/{id}', 'CheckController@get');
+Route::post('checks','CheckController@create');
+Route::put('checks/{id}','CheckController@update');    
+Route::delete('checks/{id}','CheckController@delete');
+
+Route::get('states/product', 'StateController@product');
+Route::get('states/productworking', 'StateController@productworking');
+
 Route::get('shippingstates', 'ShippingstateController@index');
 Route::get('shippingstates/{id}', 'ShippingstateController@get');
 Route::post('shippingstates','ShippingstateController@create');
 Route::put('shippingstates/{id}','ShippingstateController@update');    
 Route::delete('shippingstates/{id}','ShippingstateController@delete');
-
 
 Route::get('officetypes', 'OfficetypeController@index');
 Route::get('officetypes/{id}', 'OfficetypeController@get');
@@ -133,11 +144,6 @@ Route::post('productstates','ProductstateController@create');
 Route::put('productstates/{id}','ProductstateController@update');    
 Route::delete('productstates/{id}','ProductstateController@delete');
 
-Route::get('users', 'UserController@index');
-Route::get('users/{id}', 'UserController@get');
-Route::post('users','UserController@create');
-Route::put('users/{id}','UserController@update');    
-Route::delete('users/{id}','UserController@delete');
 
 Route::get('locations/countries', 'LocationController@countries');
 Route::get('locations/counties/{id}', 'LocationController@counties');

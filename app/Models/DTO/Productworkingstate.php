@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Models\DTO;
-
 use App\Models\Entities\Productworkingstate as Entity;
 
-class Productstate {
+class Productworkingstate {
 
     /**
      * The attributes that are mass assignable.

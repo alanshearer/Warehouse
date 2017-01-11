@@ -6,6 +6,7 @@ use App\Models\Entities\Product as Entity;
 use App\Models\DTO\Model as ModelDTO;
 use App\Models\DTO\Category as CategoryDTO;
 use App\Models\DTO\Brand as BrandDTO;
+use App\Models\DTO\Office as OfficeDTO;
 class Product {
 
     /**
@@ -25,9 +26,12 @@ class Product {
         $this->model = (new ModelDTO($entity->model))->kvp();
         $this->category = (new CategoryDTO($entity->model->category))->kvp();
         $this->brand = (new BrandDTO($entity->model->brand))->kvp();
+        $this->office = (new OfficeDTO($entity->offices()->latest()->first()))->kvp();
         $this->serial = $entity->serial;
         $this->external_id = $entity->external_id;
         $this->productstate_id = $entity->productstate_id;
+        $this->productworkingstate = $entity->productstate_id;
+        
         $this->enabled = $entity->deleted_at == null;
     }
 

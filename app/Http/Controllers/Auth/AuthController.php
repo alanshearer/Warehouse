@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Auth;
 use JWTAuth;
 use App\User;
+use App\Models\Entities\User as UserEntity;
+use App\Models\DTO\Role as RoleDTO;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,16 +29,18 @@ class AuthController extends Controller
         } catch (\JWTException $e) {
             return response()->error('Could not create token', 500);
         }
-        $user = Auth::user();
+        $authenticateduser = Auth::user();
+        $user = UserEntity::with('role')->find($authenticateduser->id);
         
         $compositetoken = new \App\Models\Auth\IToken();
         $compositetoken->accesstoken = $token;
         $compositetoken->tokentype = 'base';
         $compositetoken->identity = new \App\Models\Auth\IUser();
         $compositetoken->identity->id=$user->id;
-        $compositetoken->identity->name=$user->firstname;
-        $compositetoken->identity->surname=$user->lastname;
-        $compositetoken->identity->roleName='SysAdmin';
+        $compositetoken->identity->firstname=$user->firstname;
+        $compositetoken->identity->lastname=$user->lastname;
+        $compositetoken->identity->email=$user->email;
+        $compositetoken->identity->rolename = $user->role->name;
         $compositetoken->identity->lastAccessDate=(new \DateTime())->format('Y-m-d H:i:s');
         
         return response()->success($compositetoken);

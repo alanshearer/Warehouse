@@ -22,18 +22,6 @@ class ProductstatesTableSeeder extends Seeder {
             'name' => 'Usato',
             'description' => 'Prodotto usato',
         ]);
-
-        Productstate::create([
-            'id' => 3,
-            'name' => 'Rotto',
-            'description' => 'Prodotto rotto',
-        ]);
-
-        Productstate::create([
-            'id' => 4,
-            'name' => 'In riparazione',
-            'description' => 'Prodotto in riparazione',
-        ]);
     }
 
 }

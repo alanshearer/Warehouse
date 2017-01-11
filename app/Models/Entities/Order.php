@@ -31,7 +31,7 @@ class Order extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function states() {
-        return $this->belongsToMany('App\Models\Entities\Orderstate');
+        return $this->belongsToMany('App\Models\Entities\Orderstate', 'order_orderstate');
     }
 
 }

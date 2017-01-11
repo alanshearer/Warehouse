@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Entities\User as Entity;
-use App\Models\DTO\User as DTO;
+use App\Models\Entities\Product as Entity;
+use App\Models\DTO\Check as DTO;
 use \Excel;
 
-class UserController extends Controller {
+class CheckController extends Controller {
 
     public function index(Request $request) {
         $dtos = self::toDTOArray(Entity::all());
@@ -18,16 +18,21 @@ class UserController extends Controller {
     public function search(Request $request) {
         $page = $request->page;
         $elements = $request->elements;
-        $orderby = isset($request->orderby) ? $request->orderby : 'username';
+        $orderby = isset($request->orderby) ? $request->orderby : 'model.name';
         $type = $request->desc == 'true' ? 'desc' : 'asc';
         $term = $request->term ? $request->term : '';
         $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = Entity::withTrashed()
+                ->join('models as model', 'model.id', '=', 'model_id')
+                ->join('brands as brand', 'brand.id', '=', 'model.brand_id')
+                ->join('categories as category', 'category.id', '=', 'model.category_id')
                 ->where(function ($query) use($term) {
-                    $query->where('username', 'LIKE', '%' . $term . '%')
-                    ->orWhere('email', 'LIKE', '%' . $term . '%');
+                    $query->where('model.name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('brand.name', 'LIKE', '%' . $term . '%')
+                    ->orWhere('category.name', 'LIKE', '%' . $term . '%');
                 })
+                //->with('model', 'model.brand', 'model.category')
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
                         $query->whereNull('deleted_at');
@@ -52,12 +57,16 @@ class UserController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
+        $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
+        $entity->states()->attach(1,array('date' => date("Y-m-d H:i:s")));
+        $entity->save();
         return response()->success(new DTO($entity));
     }
 
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
+        $entity->states()->attach($request->state,array('date' => date("Y-m-d H:i:s")));
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -74,16 +83,17 @@ class UserController extends Controller {
 
     private function toKVP($entity) {
         return [
-            'key' => $entity->email,
+            'key' => $entity->serial,
             'value' => $entity->id
         ];
     }
 
     private function toEntity($dto) {
         return [
-//            'name' => $dto->name,
-//            'description' => $dto->description,
-//            'note' => $dto->note,
+            'model_id' => $dto->model["value"],
+            'price' => $dto->price,
+            'serial' => $dto->serial,
+            'note' => $dto->note,
         ];
     }
 
@@ -99,4 +109,10 @@ class UserController extends Controller {
                 });
     }
 
+    private function composeexternal_id($product) {
+        return 'prod-' . $product;
+    }
+
 }
+
+?>

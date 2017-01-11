@@ -17,6 +17,6 @@ class IUser {
     public $id;
     public $name;
     public $surname; 
-    public $roleName;
+    public $rolename;
     public $lastAccessDate;
 }

@@ -10,7 +10,7 @@ var Authentication;
         return {
             configuration: configuration,
             $get: function ($http, $q, $rootScope, localStorageService) {
-                var identity = { name: '', surname: '', lastAccessDate: null, roleName: null };
+                var identity = { name: '', surname: '', lastAccessDate: null, rolename: null };
                 var isAuthenticated;
                 function setToken(token) {
                     if (token == null) {
@@ -76,7 +76,7 @@ var Authentication;
     })
         .filter('hasRole', function ($parse, authentication) {
         function evalExpression(role) {
-            return role == (authentication.isAuthenticated && authentication.identity.roleName);
+            return role == (authentication.isAuthenticated && authentication.identity.rolename);
         }
         return function (roleExpr) {
             // Replace all instances of " with '

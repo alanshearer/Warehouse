@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Models\DTO;
+use App\Models\Entities\User as Entity;
+use App\Models\DTO\Role as RoleDTO;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model as Model;
-
-class User extends Authenticatable 
+class User 
 {
     /**
      * The attributes that are mass assignable.
@@ -25,4 +23,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password',  'password_confirmation', 'remember_token',
     ];
+    
+        public function __construct(Entity $entity) {
+        $this->id = $entity->id;
+        $this->username = $entity->username;
+        $this->firstname = $entity->firstname;
+        $this->lastname = $entity->lastname;
+        $this->email = $entity->email;
+        $this->role = (new RoleDTO($entity->role))->kvp();
+        $this->enabled = !$entity->trashed();
+    }
+
+    public function kvp() {
+        return ["key" => $this->name, "value" => $this->id];
+    }
 }

@@ -61,10 +61,6 @@ module BackOfficeApp.Controllers {
         cache: any;
     }
 
-    interface ICompaniesViewModel extends IPaginationViewModel<dto.ICompanyList> {
-        downloadXls: () => any
-    }
-
     interface IKeyValuePairSelectable extends dto.IKeyValuePair {
         selected: boolean
     }
@@ -75,25 +71,12 @@ module BackOfficeApp.Controllers {
         delete: () => void;
     }
 
-
-
-    interface IEditableCatalog extends dto.ICatalog {
-        isEdit: boolean
-        isNew: boolean;
-        oldValue: any;
-    }
-
     angular.module("backofficeApp.Controllers", ["authentication", "notification", "ngResource", "filters", "ui.bootstrap"])
-        .constant('usersUrl', Global.Configuration.serviceHost + 'users/')
-        .constant('companiesUrl', Global.Configuration.serviceHost + 'companies/')
-        .constant('registrationsUrl', Global.Configuration.serviceHost + 'registrations/')
-        .constant('campaignsUrl', Global.Configuration.serviceHost + 'campaigns/')
-        .constant('dashboardUrl', Global.Configuration.serviceHost + 'dashboard/')
-        .constant('employeesUrl', Global.Configuration.serviceHost + 'employees/')
-
         /*
          * COSTANTI NUOVA APP
          */
+        .constant('dashboardUrl', Global.Configuration.serviceHost + 'dashboard/')
+        .constant('usersUrl', Global.Configuration.serviceHost + 'users/')
         .constant('suppliersUrl', Global.Configuration.serviceHost + 'suppliers/')
         .constant('categoriesUrl', Global.Configuration.serviceHost + 'categories/')
         .constant('brandsUrl', Global.Configuration.serviceHost + 'brands/')
@@ -103,16 +86,13 @@ module BackOfficeApp.Controllers {
         .constant('productsUrl', Global.Configuration.serviceHost + 'products/')
         .constant('ordersUrl', Global.Configuration.serviceHost + 'orders/')
         .constant('shippingsUrl', Global.Configuration.serviceHost + 'shippings/')
+        .constant('checksUrl', Global.Configuration.serviceHost + 'checks/')
+        .constant('statesUrl', Global.Configuration.serviceHost + 'states/')
+        .constant("listActiveClass", "btn-primary")
+        .constant("listPageSize", 10)
         /*
          * FINE COSTANTI NUOVA APP
          */
-
-        .constant('catalogsUrl', Global.Configuration.serviceHost + 'catalogs/')
-        .constant('configurationsUrl', Global.Configuration.serviceHost + 'configurations/')
-        .constant('reportsUrl', Global.Configuration.serviceHost + 'reports/')
-        .constant("listActiveClass", "btn-primary")
-        .constant("listPageSize", 10)
-
         .controller('mainCtrl', ($scope: IMainViewModel, $rootScope: angular.IRootScopeService, $filter: angular.IFilterService, $location: angular.ILocationService, $route: angular.route.IRouteService,
             notification: Notification.INotificationService, authentication: u.IAuthenticationService<dto.IUserToken>, caching: Caching.ICachingService, breadcrumbs: any, $http: angular.IHttpService, usersUrl: string) => {
 
@@ -244,63 +224,6 @@ module BackOfficeApp.Controllers {
             }
 
         })
-        .controller('companiesCtrl', ($scope: ICompaniesViewModel, $http: angular.IHttpService, $q: angular.IQService, companiesUrl: string, listPageSize: number) => {
-            $scope.pageSize = listPageSize;
-            $scope.resourceUrl = companiesUrl;
-            $scope.filters = { isEnabled: true };
-            $scope.downloadXls = () => {
-                var deffered = $q.defer();
-                $http.get(companiesUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
-                return deffered.promise;
-            }
-        })
-        .controller('campaignsCtrl', ($scope: any, $http: angular.IHttpService, $q: angular.IQService, campaignsUrl: string, listPageSize: number) => {
-            $scope.pageSize = listPageSize;
-            $scope.resourceUrl = campaignsUrl;
-
-            $scope.filters = {};
-
-            $scope.downloadXls = () => {
-                var deffered = $q.defer();
-                $http.get(campaignsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
-                return deffered.promise;
-            }
-        }).controller('employeeCampaignsCtrl', ($scope: any, $http: angular.IHttpService, companiesUrl: string, catalogsUrl: string, employeesUrl: string,
-            campaignsUrl: string, notification: Notification.INotificationService) => {
-        }).controller('employeesCtrl', ($scope: any, $http: angular.IHttpService, $q: angular.IQService, employeesUrl: string, listPageSize: number, companiesUrl: string, campaignsUrl: string) => {
-            $scope.pageSize = listPageSize;
-            $scope.resourceUrl = employeesUrl;
-            $scope.filters = {};
-
-            $scope.getPersonsInCharge = () => { return $http.get(employeesUrl + 'personsincharge', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getDepartments = () => { return $http.get(companiesUrl + 'departments', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getWorkPlaces = () => { return $http.get(companiesUrl + 'workplaces', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getCampaigns = () => { return $http.get(campaignsUrl + 'summary', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.downloadXls = () => {
-                var deffered = $q.defer();
-                $http.get(employeesUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
-                return deffered.promise;
-            }
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         .controller('suppliersCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
             suppliersUrl: string) => {
 
@@ -560,7 +483,7 @@ module BackOfficeApp.Controllers {
 
             $scope.save = () => {
                 (<any>$scope.data).$save().then(() => {
-                    notification.showNotify($scope.data.name + ' ' + $scope.data.surname, 'Salvataggio informazioni per l\'utente ' + $scope.data.name + ' ' + $scope.data.surname + ' eseguito con successo!');
+                    notification.showNotify($scope.data.firstname + ' ' + $scope.data.lastname, 'Salvataggio informazioni per l\'utente ' + $scope.data.firstname + ' ' + $scope.data.lastname + ' eseguito con successo!');
 
                     if (angular.equals(authentication.identity.id, $scope.data.id)) {
                         angular.copy($scope.data, authentication.identity);
@@ -571,179 +494,6 @@ module BackOfficeApp.Controllers {
                     }
                 });
             }
-        }).controller('companyManageCtrl', ($scope: any, $http: angular.IHttpService, $location: angular.ILocationService, $log: angular.ILogService,
-            $resource: angular.resource.IResourceService, $routeParams: angular.route.IRouteParamsService, configurationsUrl: string,
-            authentication: Authentication.IAuthenticationService<dto.IUserToken>, companiesUrl: string, notification: Notification.INotificationService) => {
-
-            var id = $routeParams['id'];
-
-            var companyResource = $resource<dto.ICompany>(companiesUrl + ':id', { id: !angular.isUndefined(id) ? id : '@data.id' }, { save: { method: id != null ? "PUT" : "POST" } });
-
-
-            if (angular.isDefined(id)) {
-                companyResource.get((result: dto.ICompany) => { $scope.data = result; });
-            } else {
-                $scope.data = new companyResource();
-                $scope.data.isEnabled = true;
-            }
-
-            $http.get(configurationsUrl + 'modules').success((result: dto.IModule[]) => {
-                $scope.modules = result;
-            });
-            $http.get(configurationsUrl + 'currencies').success((result: dto.CurrencyDto[]) => {
-                $scope.currencies = result;
-            });
-
-
-            $scope.addDepartment = () => {
-                if (angular.isUndefined($scope.data.departments) || $scope.data.departments == null) {
-                    $scope.data.departments = [];
-                }
-                $scope.data.departments.push({ name: '', id: 0 });
-            }
-
-            $scope.removeDepartment = (item: any) => {
-                var index = $scope.data.departments.indexOf(item);
-                $scope.data.departments.splice(index, 1);
-            }
-
-            $scope.addworkPlace = () => {
-                if (angular.isUndefined($scope.data.workPlaces) || $scope.data.workPlaces == null) {
-                    $scope.data.workPlaces = [];
-                }
-                $scope.data.workPlaces.push({ name: '', id: 0 });
-            }
-
-            $scope.removeworkPlace = (item: any) => {
-                var index = $scope.data.workPlaces.indexOf(item);
-                $scope.data.workPlaces.splice(index, 1);
-            }
-
-            $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare l\'azienda ?').then((success: boolean) => {
-                    if (success) {
-                        companyResource.delete(() => {
-                            $location.path('companies');
-                        }, (error: any) => { notification.handleException(error.data); });
-                    }
-                });
-
-            };
-
-            $scope.save = () => {
-                $scope.data.departments = Enumerable.from($scope.data.departments).where((r) => angular.isUndefined((<any>r).isDeleted) || (<any>r).isDeleted == false).toArray();
-                $scope.data.workPlaces = Enumerable.from($scope.data.workPlaces).where((r) => angular.isUndefined((<any>r).isDeleted) || (<any>r).isDeleted == false).toArray();
-                (<any>$scope.data).$save().then(() => {
-                    notification.showNotify($scope.data.name, 'Salvataggio informazioni per l\'azienda <b>' + $scope.data.name + '</b> eseguito con successo!');
-                    $location.path('companies');
-                });
-            }
-        }).controller('campaignCtrl', ($scope: any, $http: angular.IHttpService, $location: angular.ILocationService, $log: angular.ILogService, $resource: angular.resource.IResourceService, $routeParams: angular.route.IRouteService, notification: Notification.INotificationService,
-            campaignsUrl: string, catalogsUrl: string) => {
-
-            var id = $routeParams['id'];
-
-            var campaign = $resource<dto.ICampaign>(campaignsUrl + ':id', { id: !angular.isUndefined(id) ? id : '@data.id' }, { save: { method: id != null ? "PUT" : "POST" } });
-
-            if (angular.isDefined(id)) {
-                campaign.get((result: dto.ICampaign) => {
-                    $scope.data = result;
-                });
-            } else {
-                $scope.data = new campaign();
-                $scope.data.isActive = true;
-            }
-
-            $scope.supplierTypes = [];
-            $scope.getContractTypes = () => {
-                $http.get(catalogsUrl + 'summary/suppliertype').success((result: dto.IKeyValuePair[]) => {
-                    $scope.supplierTypes = result;
-                });
-            };
-            $scope.getBrands = () => { return $http.get(catalogsUrl + 'summary/brand', <any>{ headers: { 'No-Loading': true } }); };
-            $scope.getCampaignTypes = () => { return $http.get(catalogsUrl + 'summary/campaigntype', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.$watch("data.endDate", (newValue: Date, oldValue: Date) => {
-                if (angular.isDefined(newValue) && angular.isDefined(oldValue) && newValue.toDateString() != oldValue.toDateString()) {
-                    if (newValue < new Date())
-                        $scope.data.isActive = false;
-                }
-            });
-
-            $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare la campagna?').then((success: boolean) => {
-                    if (success) {
-                        campaign.delete(() => {
-                            $scope.redirectToPage();
-                        }, (error: any) => { notification.handleException(error.data); });
-                    }
-                });
-
-            };
-            $scope.save = () => {
-                (<any>$scope.data).$save().then(() => {
-                    notification.showNotify($scope.data.name, 'Salvataggio informazioni per la campagna <b>' + $scope.data.name + '</b> eseguito con successo!');
-                    $scope.redirectToPage();
-                });
-            }
-
-            $scope.redirectToPage = () => {
-                $location.path('campaigns');
-            }
-
-        }).controller('employeeCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService,
-            $location: angular.ILocationService, catalogsUrl: string, employeesUrl: string, companiesUrl: string, breadcrumbs: any, $route: angular.route.IRouteService) => {
-
-            var id = $routeParams['employeeId'];
-            var resource = $resource<dto.IEmployee>(employeesUrl + ':id', { id: !angular.isUndefined(id) ? id : '@data.id' }, { save: { method: id != null ? "PUT" : "POST" } });
-
-            $scope.genderItems = [{ id: 1, name: 'M' }, { id: 2, name: 'F' }];
-
-            if (angular.isDefined(id)) {
-                resource.get((result: dto.IEmployee) => {
-                    $scope.data = result;
-                    breadcrumbs.options = { 'Modifica dipendente': 'Modifica dipendente: ' + result.internalCode };
-                });
-            } else {
-                $scope.data = new resource();
-            }
-
-
-
-            $scope.getDocumentTypes = () => { return $http.get(catalogsUrl + 'summary/identitydocument', <any>{ headers: { 'No-Loading': true } }); };
-
-
-            $scope.save = () => {
-                $scope.data.$save().then(() => {
-                    notification.showNotify($scope.data.name, 'Salvataggio informazioni per il dipendente <b>' + $scope.data.name + ' ' + $scope.data.surname + '</b> eseguito con successo!');
-                    $location.path('employees');
-                });
-            }
-
-        }).controller('employeeContractsCtrl', ($scope: any, $http: angular.IHttpService, $q: angular.IQService, suppliersUrl: string, listPageSize: number) => {
-
-            $scope.pageSize = listPageSize;
-            $scope.resourceUrl = suppliersUrl;
-
-            $scope.filters = {};
-
-            $scope.$watch('data.id', (employeeId: number) => {
-                if (employeeId) {
-                    $scope.filters.employeeId = employeeId;
-                }
-            });
-
-        }).controller('employeePositionsCtrl', ($scope: any, $http: angular.IHttpService, $q: angular.IQService, employeesUrl: string) => {
-
-            $scope.filters = {};
-            $scope.$watch('data.id', (employeeId: number) => {
-                if (employeeId) {
-                    $http.get(employeesUrl + 'position/list/' + employeeId, <any>{ headers: { 'No-Loading': true } }).success((result: any) => {
-                        $scope.positions = result;
-                    });
-                }
-            });
-
         })
 
 
@@ -753,16 +503,15 @@ module BackOfficeApp.Controllers {
 
 
 
-
         .controller('modelCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            modelsUrl: string, brandsUrl: string, categoriesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            modelsUrl: string, brandsUrl: string, categoriesUrl: string, breadcrumbs: any, $window: any) => {
 
             var modelId = $routeParams['id'];
 
-            var modelResource = $resource<dto.IContract>(modelsUrl + ':id', { id: angular.isDefined(modelId) ? modelId : '@model.id' }, { save: { method: modelId != null ? "PUT" : "POST" } });
+            var modelResource = $resource<dto.IGenericObject>(modelsUrl + ':id', { id: angular.isDefined(modelId) ? modelId : '@model.id' }, { save: { method: modelId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(modelId)) {
-                modelResource.get((result: dto.IContract) => {
+                modelResource.get((result: dto.IGenericObject) => {
                     $scope.model = result;
                     breadcrumbs.options = { 'Modifica modello': 'Modifica modello: ' + $scope.model.name };
                 });
@@ -795,15 +544,64 @@ module BackOfficeApp.Controllers {
                 $location.path('models');
             }
         })
+        .controller('checksCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService, listPageSize: number,
+            checksUrl: string, productsUrl: string, statesUrl: string, breadcrumbs: any, $window: any) => {
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = checksUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(productsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
+            }
+            var productId = $routeParams['id'];
+
+            var productResource = $resource<dto.IGenericObject>(productsUrl + ':id', { id: angular.isDefined(productId) ? productId : '@product.id' }, { save: { method: productId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(productId)) {
+                productResource.get((result: dto.IGenericObject) => {
+                    $scope.product = result;
+                    breadcrumbs.options = { 'Modifica prodotto': 'Modifica prodotto: ' + $scope.product.name };
+                });
+            } else {
+                $scope.product = new productResource();
+            }
+
+            $scope.getProductworkingstates = () => { return $http.get(statesUrl + 'productworking', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare il prodotto?').then((success: boolean) => {
+                    if (success) {
+                        productResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.saveCheck = (item: any) => {
+                var index = $scope.items.indexOf(item);
+                $scope.items.splice(index, 1);
+                //                (<any>$scope.product).$save().then((result: any) => {
+                //                    notification.showNotify('Prodotto ' + result.name, 'Salvataggio prodotto ' + result.name + ' eseguito con successo!');
+                //                    $scope.redirectToPage();
+                //                });
+            }
+
+            $scope.redirectToPage = () => {
+                $location.path('products');
+            }
+        })
         .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, breadcrumbs: any, $window: any) => {
 
             var productId = $routeParams['id'];
 
-            var productResource = $resource<dto.IContract>(productsUrl + ':id', { id: angular.isDefined(productId) ? productId : '@product.id' }, { save: { method: productId != null ? "PUT" : "POST" } });
+            var productResource = $resource<dto.IGenericObject>(productsUrl + ':id', { id: angular.isDefined(productId) ? productId : '@product.id' }, { save: { method: productId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(productId)) {
-                productResource.get((result: dto.IContract) => {
+                productResource.get((result: dto.IGenericObject) => {
                     $scope.product = result;
                     breadcrumbs.options = { 'Modifica prodotto': 'Modifica prodotto: ' + $scope.product.name };
                 });
@@ -839,14 +637,14 @@ module BackOfficeApp.Controllers {
             }
         })
         .controller('supplierCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            suppliersUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            suppliersUrl: string, breadcrumbs: any, $window: any) => {
 
             var supplierId = $routeParams['id'];
 
-            var supplierResource = $resource<dto.IContract>(suppliersUrl + ':id', { id: angular.isDefined(supplierId) ? supplierId : '@supplier.id' }, { save: { method: supplierId != null ? "PUT" : "POST" } });
+            var supplierResource = $resource<dto.IGenericObject>(suppliersUrl + ':id', { id: angular.isDefined(supplierId) ? supplierId : '@supplier.id' }, { save: { method: supplierId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(supplierId)) {
-                supplierResource.get((result: dto.IContract) => {
+                supplierResource.get((result: dto.IGenericObject) => {
                     $scope.supplier = result;
                     breadcrumbs.options = { 'Modifica fornitore': 'Modifica fornitore: ' + $scope.supplier.name };
                 });
@@ -875,14 +673,14 @@ module BackOfficeApp.Controllers {
                 $location.path('suppliers');
             }
         }).controller('categoryCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            categoriesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            categoriesUrl: string, breadcrumbs: any, $window: any) => {
 
             var categoryId = $routeParams['id'];
 
-            var categoryResource = $resource<dto.IContract>(categoriesUrl + ':id', { id: angular.isDefined(categoryId) ? categoryId : '@category.id' }, { save: { method: categoryId != null ? "PUT" : "POST" } });
+            var categoryResource = $resource<dto.IGenericObject>(categoriesUrl + ':id', { id: angular.isDefined(categoryId) ? categoryId : '@category.id' }, { save: { method: categoryId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(categoryId)) {
-                categoryResource.get((result: dto.IContract) => {
+                categoryResource.get((result: dto.IGenericObject) => {
                     $scope.category = result;
                     breadcrumbs.options = { 'Modifica categoria': 'Modifica categoria: ' + $scope.category.name };
                 });
@@ -912,14 +710,14 @@ module BackOfficeApp.Controllers {
             }
 
         }).controller('brandCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            brandsUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            brandsUrl: string, breadcrumbs: any, $window: any) => {
 
             var brandId = $routeParams['id'];
 
-            var brandResource = $resource<dto.IContract>(brandsUrl + ':id', { id: angular.isDefined(brandId) ? brandId : '@brand.id' }, { save: { method: brandId != null ? "PUT" : "POST" } });
+            var brandResource = $resource<dto.IGenericObject>(brandsUrl + ':id', { id: angular.isDefined(brandId) ? brandId : '@brand.id' }, { save: { method: brandId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(brandId)) {
-                brandResource.get((result: dto.IContract) => {
+                brandResource.get((result: dto.IGenericObject) => {
                     $scope.brand = result;
                     breadcrumbs.options = { 'Modifica marchio': 'Modifica marchio: ' + $scope.brand.name };
                 });
@@ -950,14 +748,14 @@ module BackOfficeApp.Controllers {
 
         })
         .controller('officeCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            officesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            officesUrl: string, breadcrumbs: any, $window: any) => {
 
             var officeId = $routeParams['id'];
 
-            var officeResource = $resource<dto.IContract>(officesUrl + ':id', { id: angular.isDefined(officeId) ? officeId : '@office.id' }, { save: { method: officeId != null ? "PUT" : "POST" } });
+            var officeResource = $resource<dto.IGenericObject>(officesUrl + ':id', { id: angular.isDefined(officeId) ? officeId : '@office.id' }, { save: { method: officeId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(officeId)) {
-                officeResource.get((result: dto.IContract) => {
+                officeResource.get((result: dto.IGenericObject) => {
                     $scope.office = result;
                     breadcrumbs.options = { 'Modifica ufficio': 'Modifica ufficio: ' + $scope.office.name };
                 });
@@ -989,14 +787,14 @@ module BackOfficeApp.Controllers {
 
         })
         .controller('warehouseCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            officesUrl: string, configurationsUrl: string, breadcrumbs: any, $window: any) => {
+            officesUrl: string, breadcrumbs: any, $window: any) => {
 
             var warehouseId = $routeParams['id'];
 
-            var warehouseResource = $resource<dto.IContract>(officesUrl + ':id', { id: angular.isDefined(warehouseId) ? warehouseId : '@warehouse.id' }, { save: { method: warehouseId != null ? "PUT" : "POST" } });
+            var warehouseResource = $resource<dto.IGenericObject>(officesUrl + ':id', { id: angular.isDefined(warehouseId) ? warehouseId : '@warehouse.id' }, { save: { method: warehouseId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(warehouseId)) {
-                warehouseResource.get((result: dto.IContract) => {
+                warehouseResource.get((result: dto.IGenericObject) => {
                     $scope.warehouse = result;
                     breadcrumbs.options = { 'Modifica magazzino': 'Modifica magazzino: ' + $scope.warehouse.name };
                 });
@@ -1028,16 +826,16 @@ module BackOfficeApp.Controllers {
 
         })
         .controller('orderCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            ordersUrl: string, suppliersUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
+            ordersUrl: string, suppliersUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, breadcrumbs: any, $window: any) => {
 
             var orderId = $routeParams['id'];
 
             $scope.getSuppliers = () => { return $http.get(suppliersUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
-            var orderResource = $resource<dto.IContract>(ordersUrl + ':id', { id: angular.isDefined(orderId) ? orderId : '@order.id' }, { save: { method: orderId != null ? "PUT" : "POST" } });
+            var orderResource = $resource<dto.IGenericObject>(ordersUrl + ':id', { id: angular.isDefined(orderId) ? orderId : '@order.id' }, { save: { method: orderId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(orderId)) {
-                orderResource.get((result: dto.IContract) => {
+                orderResource.get((result: dto.IGenericObject) => {
                     $scope.order = result;
                 });
             } else {
@@ -1076,10 +874,10 @@ module BackOfficeApp.Controllers {
                 if ($scope.order && $scope.order.models == null)
                     $scope.order.models = [];
 
-                $scope.order.models.push(<dto.ICampaignAssociation>{ isActive: true });
+                $scope.order.models.push(<dto.IGenericObject>{ isActive: true });
             }
 
-            $scope.removeModel = (item: dto.ICampaignAssociation) => {
+            $scope.removeModel = (item: dto.IGenericObject) => {
                 notification.showConfirm('Sei sicuro di voler eliminare l\'ordine?').then((success: boolean) => {
                     if (success) {
                         var index = $scope.order.models.indexOf(item);
@@ -1089,16 +887,16 @@ module BackOfficeApp.Controllers {
             }
         })
         .controller('shippingCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            shippingsUrl: string, productsUrl: string, officesUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
+            shippingsUrl: string, productsUrl: string, officesUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, breadcrumbs: any, $window: any) => {
 
             var shippingId = $routeParams['id'];
 
             $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
-            var shippingResource = $resource<dto.IContract>(shippingsUrl + ':id', { id: angular.isDefined(shippingId) ? shippingId : '@shipping.id' }, { save: { method: shippingId != null ? "PUT" : "POST" } });
+            var shippingResource = $resource<dto.IGenericObject>(shippingsUrl + ':id', { id: angular.isDefined(shippingId) ? shippingId : '@shipping.id' }, { save: { method: shippingId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(shippingId)) {
-                shippingResource.get((result: dto.IContract) => {
+                shippingResource.get((result: dto.IGenericObject) => {
                     $scope.shipping = result;
                 });
             } else {
@@ -1139,10 +937,10 @@ module BackOfficeApp.Controllers {
                 if ($scope.shipping && $scope.shipping.products == null)
                     $scope.shipping.products = [];
 
-                $scope.shipping.products.push(<dto.ICampaignAssociation>{ isActive: true });
+                $scope.shipping.products.push(<dto.IGenericObject>{ isActive: true });
             }
 
-            $scope.removeProduct = (item: dto.ICampaignAssociation) => {
+            $scope.removeProduct = (item: dto.IGenericObject) => {
                 notification.showConfirm('Sei sicuro di voler eliminare la spedizione?').then((success: boolean) => {
                     if (success) {
                         var index = $scope.shipping.products.indexOf(item);
@@ -1150,420 +948,6 @@ module BackOfficeApp.Controllers {
                     }
                 });
             }
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-        .controller('employeePositionCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            employeesUrl: string, suppliersUrl: string, configurationsUrl: string, catalogsUrl: string, breadcrumbs: any, $window: any, companiesUrl: string, campaignsUrl: string) => {
-
-            var positionId = $routeParams['id'];
-            var employeeId = $routeParams['employeeId'];
-
-            $scope.employeeSelected = employeeId != null;
-
-            var positionResource = $resource<dto.IContract>(employeesUrl + 'position/:id', { id: angular.isDefined(positionId) ? positionId : '@positionId' }, { save: { method: positionId != null ? "PUT" : "POST" } });
-
-            if (angular.isDefined(positionId)) {
-                positionResource.get((result: dto.IContract) => {
-                    $scope.data = result;
-                });
-            } else {
-                $scope.data = new positionResource();
-                $scope.data.employee = {
-                    value: employeeId
-                };
-            }
-
-            $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare la collocazione del dipendente?').then((success: boolean) => {
-                    if (success) {
-                        positionResource.delete(() => {
-                            $window.history.back();
-                        });
-                    }
-                });
-            };
-
-            $scope.$watch('data.department.value', (value: number) => {
-                if ($scope.data && $scope.data.department && value) {
-                    $scope.data.department.type = null;
-                    $http.get(companiesUrl + 'department/' + value, <any>{ headers: { 'No-Loading': true } }).success((result: dto.IDepartment) => {
-                        $scope.data.department.type = result.type;
-                    });
-                }
-            });
-
-            $scope.getPersonsInCharge = () => { return $http.get(employeesUrl + 'personsincharge', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getDepartments = () => { return $http.get(companiesUrl + 'departments', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getWorkPlaces = () => { return $http.get(companiesUrl + 'workplaces', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getPersonInCharge = (item: dto.ICampaignAssociation) => {
-                var departmentType = 0;
-                if ($scope.data.department.type == dto.DepartmentTypeDto.Operator)
-                    departmentType = dto.DepartmentTypeDto.TeamLeader;
-                else if ($scope.data.department.type == dto.DepartmentTypeDto.TeamLeader)
-                    departmentType = dto.DepartmentTypeDto.FloorManager;
-                else
-                    departmentType = dto.DepartmentTypeDto.Generic;
-
-                return $http.get(employeesUrl + 'personsincharge/?departmentType=' + departmentType + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-
-                //if ($scope.data.department.type == dto.DepartmentTypeDto.Operator) {
-                //    return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.TeamLeader + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-                //}
-
-                //if ($scope.data.department.type == dto.DepartmentTypeDto.TeamLeader) {
-                //    return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.FloorManager + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-                //}
-
-                //return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.Generic + '&campaignId=' + item.campaign.value, <any>{ headers: { 'No-Loading': true } });
-            };
-
-            $scope.getGenericEmployees = () => {
-                return $http.get(employeesUrl + 'summary/?departmentType=' + dto.DepartmentTypeDto.Generic, <any>{ headers: { 'No-Loading': true } });
-            };
-
-            $scope.getCampaigns = () => { return $http.get(campaignsUrl + 'summary', <any>{ headers: { 'No-Loading': true } }); }
-
-            $scope.save = () => {
-                (<any>$scope.data).$save().then((result: any) => {
-                    notification.showNotify('Collocazione', 'Salvataggio eseguito con successo!');
-                    $window.history.back();
-                });
-            }
-
-            $scope.filters = {
-                isActive: ''
-            };
-
-
-            $scope.$watch('data.campaignAssociations', (items: any[]) => {
-                angular.forEach(items, (item: any) => {
-                    if (item.campaign && item.campaign.value == null) {
-                        (<any>item).campaignItem = null;
-                    }
-
-                    if (item.campaign && item.campaign.value != null && (item.campaignItem == null || item.campaignItem.id != item.campaign.value)) {
-                        $http.get(campaignsUrl + '/' + item.campaign.value, <any>{ headers: { 'No-Loading': true } }).success((campaignItem: dto.ICampaign) => {
-                            (<any>item).campaignItem = campaignItem;
-                        });
-                    }
-                });
-            }, true);
-
-            $scope.getIsActive = ((item: dto.ICampaignAssociation) => {
-                if (item && item.startDate) {
-                    if (item.endDate == null)
-                        return true;
-
-                    var currentDate = new Date();
-                    currentDate.setHours(0, 0, 0, 0);
-                    return item.startDate <= currentDate && item.endDate >= currentDate;
-                }
-                return null;
-            });
-
-            $scope.addAssociation = () => {
-                $scope.filters = null;
-                if ($scope.data && $scope.data.campaignAssociations == null)
-                    $scope.data.campaignAssociations = [];
-
-                $scope.data.campaignAssociations.push(<dto.ICampaignAssociation>{ isActive: true });
-            }
-
-            $scope.removeAssociation = (item: dto.ICampaignAssociation) => {
-                notification.showConfirm('Sei sicuro di voler eliminare l\'associazione alla campagna?').then((success: boolean) => {
-                    if (success) {
-                        var index = $scope.data.campaignAssociations.indexOf(item);
-                        $scope.data.campaignAssociations.splice(index, 1);
-                    }
-                });
-            }
-
-
-
-        }).controller('tablesCtrl', ($scope: any, $location: angular.ILocationService, $resource: angular.resource.IResourceService, $routeParams: angular.route.IRouteParamsService,
-            catalogsUrl: string, notification: Notification.INotificationService) => {
-            $scope.itemToSave = {};
-            var catalog = $resource<dto.ICatalog>(catalogsUrl + ':catalogType/:id', { catalogType: '@catalogType', id: '@id' });
-
-            $scope.setTable = (table: string) => {
-                $scope.table = table;
-            }
-
-            $scope.$watch('table', (newValue: string) => {
-                if (angular.isDefined(newValue) && angular.isString(newValue) && newValue != '') {
-                    catalog.query({ catalogType: newValue }, (result: IEditableCatalog[]) => {
-                        if (angular.isDefined(result) && angular.isArray(result)) {
-                            $scope.items = result;
-                        }
-                    }, (error: any) => { notification.handleException(error.data); });
-                }
-            });
-
-            $scope.addItem = () => {
-                if (angular.isUndefined($scope.items) || $scope.items == null) {
-                    $scope.items = [];
-                }
-                var newItem = <any>(new catalog());
-                newItem.isNew = true;
-                newItem.catalogType = $scope.table;
-
-                $scope.items.push(newItem);
-            }
-
-            $scope.cancel = (item: IEditableCatalog) => {
-                item.isEdit = false;
-                if (item.isNew) {
-                    var index = $scope.items.indexOf(item);
-                    $scope.items.splice(index, 1);
-                } else
-                    angular.copy(item.oldValue, item);
-
-            }
-
-            $scope.saveItem = (item: angular.resource.IResource<dto.ICatalog>) => {
-                item.$save().then((result) => {
-
-                });
-            }
-
-            $scope.removeItem = (item: IEditableCatalog) => {
-                notification.showConfirm('Sei sicuro di voler eliminare la voce?').then((success: boolean) => {
-                    if (success) {
-                        (<any>item).$delete({ id: item.id }).then(() => {
-                            var index = $scope.items.indexOf(item);
-                            $scope.items.splice(index, 1);
-                        });
-                    }
-                });
-            }
-
-            $scope.editItem = (item: IEditableCatalog) => {
-                item.oldValue = {};
-                angular.copy(item, item.oldValue);
-                item.isEdit = true;
-            }
-
-            $scope.setTable('identitydocument');
-
-        }).controller('registrationCtrl', ($scope: any, $resource: angular.resource.IResourceService, notification: Notification.INotificationService,
-            $http: angular.IHttpService, listPageSize: number, employeesUrl: string, catalogsUrl: string, campaignsUrl: string, companiesUrl: string,
-            configurationsUrl: string, $q: angular.IQService, registrationsUrl: string, $log: angular.ILogService, $modal: any, $filter: angular.IFilterService) => {
-
-            $scope.pageSize = 20;
-            $scope.resourceUrl = registrationsUrl;
-
-            $scope.filters = {
-                date: new Date()
-            };
-
-            //$scope.find = (registrationForm, filterForm) => {
-            //    filterForm.$dirty = false;
-            //    if (registrationForm.$dirty) {
-            //        notification.showConfirm("Attenzione sono state apportate delle modifiche ad una o più registrazioni. Si avvisa che effettuando una nuova ricerca eventuali modifiche apportate non verranno salvate. Si desidera continuare con la ricerca SENZA SALVARE le modifiche attuali?")
-            //            .then((result: boolean) => {
-            //                if (result) {
-            //                    performSearch();
-            //                }
-            //            });
-            //    } else {
-            //        performSearch();
-            //    }
-            //}
-            //function performSearch() {
-            //    $scope.items = null;
-            //    if ($scope.filters) {
-            //        $http.get(registrationsUrl, { params: $scope.filters }).success((result: any) => {
-            //            $scope.items = result;
-            //        });
-            //    }
-            //}
-
-            $scope.expandAll = () => {
-                if ($scope.items)
-                    angular.forEach($scope.items, (element) => { element.collapsed = false; });
-            }
-
-            $scope.collapseAll = () => {
-                if ($scope.items)
-                    angular.forEach($scope.items, (element) => { element.collapsed = true; });
-            }
-
-            $scope.selectAll = () => {
-                $scope.expandAll();
-                if ($scope.items) {
-                    var campaigns = Enumerable.from($scope.items).selectMany(r => r.campaignsAssociations).selectMany(c => c.details);
-                    angular.forEach(campaigns, (element) => { element.isSelected = true; });
-                }
-            }
-            $scope.deselectAll = () => {
-                if ($scope.items) {
-                    var campaigns = Enumerable.from($scope.items).selectMany(r => r.campaignsAssociations).selectMany(c => c.details);
-                    angular.forEach(campaigns, (element) => { element.isSelected = false; });
-                }
-            }
-
-            $scope.getCampaigns = () => {
-                $http.get(campaignsUrl + 'summary', <any>{ headers: { 'No-Loading': true } }).success((result: dto.IKeyValuePair[]) => {
-                    $scope.campaigns = result;
-                });
-            }
-
-            $scope.getDepartments = () => {
-                $http.get(companiesUrl + 'departments', <any>{ headers: { 'No-Loading': true } }).success((result: dto.IKeyValuePair[]) => {
-                    $scope.departments = result;
-                });
-            }
-
-            $scope.getTeamLeaders = () => {
-                $http.get(employeesUrl + 'personsincharge', <any>{ headers: { 'No-Loading': true } }).success((result: dto.IKeyValuePair[]) => {
-                    $scope.teamLeaders = result;
-                });
-            }
-
-
-            $scope.getWorkPlaces = () => { return $http.get(companiesUrl + 'workplaces', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.getAbsenceTypes = () => {
-                return $http.get(catalogsUrl + 'absencetype', <any>{ headers: { 'No-Loading': true } });
-            }
-
-            $scope.addRegistration = (ca: dto.ICampaignAssociationRegistration, er: dto.IEmployeeRegistration) => {
-                if (ca) {
-                    if (ca.details == null) {
-                        ca.details = [];
-                    }
-                    var detail = <dto.IRegistrationDetail>{
-                        workPlace: er.workPlaceDefault
-                    };
-
-                    ca.details.push(detail);
-                }
-            }
-            $scope.removeRegistration = (ca: dto.ICampaignAssociationRegistration, re: dto.IRegistrationDetail) => {
-                if (ca && re) {
-                    var index = ca.details.indexOf(re);
-                    if (index >= 0) {
-                        ca.details.splice(index, 1);
-                    }
-                }
-            }
-
-            $scope.isCompleted = (item: dto.IEmployeeRegistration) => {
-                var completed = true;
-                if (item) {
-                    angular.forEach(item.campaignsAssociations, (cAss: dto.ICampaignAssociationRegistration) => {
-                        completed = Enumerable.from(cAss.details).any(a => a.isAbsence == true || (a.enterTime != null && a.exitTime != null));
-                        if (!completed) return completed;
-                    });
-                }
-                return completed;
-            }
-
-            $scope.getSelected = () => {
-                if ($scope.items) {
-                    return Enumerable.from($scope.items).selectMany(r => r.campaignsAssociations).selectMany(c => c.details).where(r => r.isSelected).toArray();
-                }
-                return [];
-            }
-
-            $scope.setEntranceDate = (registrationForm) => {
-                registrationForm.$setDirty();
-                var selectedItems = $scope.getSelected();
-                if (selectedItems.length > 0) {
-                    openSelectDateTimeModal().then((selectedDateTime: Date) => {
-                        var message = sprintf('Si è sicuri di voler impostare l\'orario di INGRESSO %1$s per tutte le voci selezionate?', $filter('date')(selectedDateTime, 'HH:mm'), selectedItems.length);
-                        notification.showConfirm(message).then((result: boolean) => {
-                            if (result) {
-                                angular.forEach(selectedItems, (ele: dto.IRegistrationDetail) => {
-                                    if (!ele.isAbsence)
-                                        ele.enterTime = selectedDateTime;
-                                });
-                            }
-                        });
-                    });
-                }
-            }
-
-            $scope.setExitDate = (registrationForm) => {
-                registrationForm.$setDirty();
-                var selectedItems = $scope.getSelected();
-                if (selectedItems.length > 0) {
-                    openSelectDateTimeModal().then((selectedDateTime: Date) => {
-                        var message = sprintf('Si è sicuri di voler impostare l\'orario di USCITA %1$s per tutte le voci selezionate?', $filter('date')(selectedDateTime, 'HH:mm'), selectedItems.length);
-                        notification.showConfirm(message).then((result: boolean) => {
-                            if (result) {
-                                angular.forEach(selectedItems, (ele: dto.IRegistrationDetail) => {
-                                    if (!ele.isAbsence)
-                                        ele.exitTime = selectedDateTime;
-                                });
-                            }
-                        });
-
-                    });
-                }
-            }
-
-            $scope.setAbsence = (registrationForm) => {
-                registrationForm.$setDirty();
-                var selectedItems = $scope.getSelected();
-                if (selectedItems.length > 0) {
-                    var message = sprintf('Si è sicuri di voler impostare l\'assenza per tutte le voci selezionate?. Si avvisa che, per le voci selezionate, eventuali presenze già registrate verranno sostituite con l\'assenza');
-                    notification.showConfirm(message).then((result: boolean) => {
-                        if (result) {
-                            angular.forEach(selectedItems, (ele: dto.IRegistrationDetail) => {
-                                ele.isAbsence = true;
-                                ele.enterTime = ele.exitTime = null;
-                            });
-                        }
-                    });
-                }
-            }
-
-            $scope.save = (registrationForm) => {
-                if ($scope.items && $scope.items.length > 0) {
-                    var message = sprintf('Si è sicuri di voler confermare le registrazioni del %1$s ?', $filter('date')($scope.items[0].date, 'dd/MM/yyyy'));
-                    notification.showConfirm(message).then((result: boolean) => {
-                        if (result) {
-                            $http.post(registrationsUrl, $scope.items).success((e) => {
-                                registrationForm.$dirty = false;
-                                notification.showNotify('Salvataggio', "Registrazioni salvate con successo");
-                            });
-                        }
-                    });
-                }
-            }
-
-            function openSelectDateTimeModal() {
-                var deffer = $q.defer();
-
-                var modalInstance = $modal.open({
-                    templateUrl: '/app/backoffice/views/presences/_selectDateTime.html',
-                    controller: 'selectDateTimeCtrl',
-                    size: 'sm',
-                });
-
-                modalInstance.result.then((selectedDateTime: Date) => {
-                    deffer.resolve(selectedDateTime);
-                }, () => { deffer.reject(); });
-                return deffer.promise;
-            }
-
-            //performSearch();
-
         })
         .controller('selectDateTimeCtrl', ($scope: any, $modalInstance: any) => {
 
@@ -1579,8 +963,7 @@ module BackOfficeApp.Controllers {
         })
         .controller('dashboardCtrl', ($scope: any, $http: angular.IHttpService, $resource: angular.resource.IResourceService,
             dashboardUrl: string) => {
-
-
+            
             $scope.filters = {};
             $scope.filters.endDate = new Date();
             $scope.filters.startDate = new Date($scope.filters.endDate.getFullYear(), 1, 1);
@@ -1632,256 +1015,6 @@ module BackOfficeApp.Controllers {
             $http.get(dashboardUrl + 'currentmonthpositiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
                 $scope.currentmonthpositiveturnover = result;
             });
-            $scope.getCampaignsHours = () => {
-                //$http.get(reportsUrl + 'campaignsHours', { params: { startDate: $scope.filters.startDate, endDate: $scope.filters.endDate } })
-                //    .success((result: dto.IChart) => {
-                //        var series = Enumerable.from(result.series);
-                //        var ticks = series.select(s => s.name).toArray();
-
-                //        $scope.campaignsHoursChart = {
-                //            header: result.header,
-                //            description: result.description,
-                //            //data: [{ label: "Foo", data: [[2, 1]] },
-                //            //    { label: "Bar", data: [[2, 13], [4, 11], [6, -7]] }
-                //            //],
-                //            data: series.select(s => <any>{
-                //                label: s.name,
-                //                data: Enumerable.from(s.values).select(r => [r.x, r.y]).toArray()
-                //            }).toArray(),
-
-                //            options: {
-                //                colors: ["#f35958", "#3db9af"],
-                //                series: {
-                //                    bars: {
-                //                        show: true,
-                //                        fill: 0.1,
-                //                        barwidth: 20
-                //                    },
-                //                    shadowSize: 0
-                //                },
-
-                //                grid: { borderWidth: { top: 0, right: 0, bottom: 1, left: 1 }, color: "rgba(0,0,0,0.2)" },
-                //                tooltip: true,
-                //                xaxis: {
-                //                    show: true,
-                //                    position: "bottom",
-                //                    ticks: ticks,
-                //                },
-                //            }
-                //        }
-                //    });
-            }
-            $scope.getCampaignsHours();
-        })
-        .controller('reportsCtrl', ($scope: any, $filter: any, $resource: angular.resource.IResourceService, $q: angular.IQService, employeesUrl: string,
-            notification: Notification.INotificationService, $http: angular.IHttpService, reportsUrl: string) => {
-            $scope.filters = {};
-            $scope.filtersS = {};
-            $scope.filtersA = {};
-            $scope.filtersTO = {};
-            $scope.filtersRE = {};
-
-            $scope.executeOperators = () => {
-                $http.get(reportsUrl + 'operatorsjobhours', { params: $scope.filtersO }).success((data: any) => {
-                    download(data, "Report ore operatore.xml");
-                });
-            }
-
-            $scope.executeEmployees = () => {
-                $http.get(reportsUrl + 'employeesjobhours', { params: $scope.filtersE }).success((data: any) => {
-                    download(data, "Report ore dipendente.xml");
-                });
-            }
-
-            $scope.executeEmployeesSheet = () => {
-
-                var filterToPass = <any>{};
-                angular.copy($scope.filtersS, filterToPass);
-
-                if (filterToPass.employeeId != null)
-                    filterToPass.employeeId = filterToPass.employeeId.value;
-
-                $http.get(reportsUrl + 'employeessheet', { params: filterToPass }).success((data: any) => {
-                    download(data, "Scheda dipendente.xml");
-                });
-            }
-
-            $scope.getEmployees = () => { return $http.get(employeesUrl + 'summary'); };
-
-            function download(data: any, reportname: string) {
-                var a = <any>document.createElement("a");
-                document.body.appendChild(a);
-                a.style = "display: none";
-
-                var blob = new Blob([data], { type: 'application/octet-stream' });
-                var urlCreator = (<any>window).URL || (<any>window).webkitURL;
-
-                var objectUrl = urlCreator.createObjectURL(blob);
-
-                a.href = objectUrl;
-                a.download = reportname;
-                a.click();
-
-                URL.revokeObjectURL(objectUrl);
-            }
-            $scope.getkvpfromenum = (enumType: any) => {
-                var kvparray = new Array();
-                Object.keys(enumType).map(function(value) {
-                    if (typeof (enumType[value]) == "string")
-                        kvparray.push({ key: enumType[value], value: value });
-                }, {});
-                return kvparray;
-            }
-
-            $scope.absenteeismReports = [];
-            $scope.turnoverReports = [];
-            $scope.reportFormatTypes = $scope.getkvpfromenum(dto.ReportFormatTypeDto);
-
-            $scope.getAvailableTurnoverReports = () => {
-                return $http.get(reportsUrl + 'availableturnoverreports', <any>{ headers: { 'No-Loading': true } }).success((data: any) => {
-                    $scope.availableturnoverreports = data;
-                });
-            };
-            $scope.getAvailableAbsenteeismReports = () => {
-                return $http.get(reportsUrl + 'availableabsenteeismreports', <any>{ headers: { 'No-Loading': true } }).success((data: any) => {
-                    $scope.availableabsenteeismreports = data;
-                });
-            };
-
-            $scope.$watch("filters.absenteeismReportId.value", (newValue: any) => {
-                if (newValue) {
-                    $scope.absenteeismReportDescription = $filter('filter')($scope.availableabsenteeismreports, { value: newValue })[0].description;
-                }
-                else {
-                    $scope.absenteeismReportDescription = '';
-                }
-            });
-            $scope.$watch("filters.turnoverReportId.value", (newValue: any) => {
-                if (newValue) {
-                    $scope.turnoverReportDescription = $filter('filter')($scope.availableturnoverreports, { value: newValue })[0].description;
-                }
-                else {
-                    $scope.turnoverReportDescription = '';
-                }
-            });
-
-
-            $scope.years = [];
-            $scope.months = [];
-
-            $scope.$watch("filters.year.value", (newValue: any) => {
-                if (newValue) {
-                    $scope.updatemonths(newValue);
-                }
-                else {
-                    $scope.months = [];
-                }
-            });
-            $scope.updateyears = () => {
-                $scope.years = [];
-                for (var y = 2015; y <= (new Date()).getFullYear(); y++) {
-                    $scope.years.push({
-                        key: y, value: y
-                    });
-                }
-            }
-
-
-            $scope.updatemonths = (y: any) => {
-                var monthNames = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
-                    "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
-                var month = (new Date()).getMonth();
-                var year = (new Date()).getFullYear();
-                $scope.months = [];
-                for (var m = 0; m < 12; m++) {
-                    if (y < year || (y == year && m <= month))
-                        $scope.months.push({ key: monthNames[m], value: m + 1 });
-                }
-            }
-
-            $scope.httpgetsimulate = () => {
-                var promise = {
-                    success: function(n: any) { return n; },
-                    error: function(n: any) { return n; },
-                    then: function(n: any) { return n; },
-                };
-                return promise;
-            };
-
-            $scope.executeAbsenteeismReport = () => {
-                var filterToPass = <any>{};
-                angular.copy($scope.filtersA, filterToPass);
-
-                if (filterToPass.absenteeismReportId != null)
-                    filterToPass.absenteeismReportId = filterToPass.absenteeismReportId.value;
-
-                if (filterToPass.reportFormatTypeId != null)
-                    filterToPass.reportFormatTypeId = filterToPass.reportFormatTypeId.value;
-
-                if (filterToPass.year != null)
-                    filterToPass.year = filterToPass.year.value;
-
-                $http.get(reportsUrl + 'absenteeism', { params: filterToPass, responseType: "arraybuffer" }).success((data: any, status: any, headers: any, config: any) => {
-                    var filename = headers('Content-Disposition').match(/filename="(.+)"/)[1];
-                    download(data, filename);
-                });
-            }
-
-            $scope.executeTurnoverReport = () => {
-                var filterToPass = <any>{};
-                angular.copy($scope.filtersTO, filterToPass);
-
-                if (filterToPass.turnoverReportId != null)
-                    filterToPass.turnoverReportId = filterToPass.turnoverReportId.value;
-
-                if (filterToPass.reportFormatTypeId != null)
-                    filterToPass.reportFormatTypeId = filterToPass.reportFormatTypeId.value;
-
-                if (filterToPass.year != null)
-                    filterToPass.year = filterToPass.year.value;
-
-                $http.get(reportsUrl + 'turnover', { params: filterToPass, responseType: "arraybuffer" }).success((data: any, status: any, headers: any, config: any) => {
-                    var filename = headers('Content-Disposition').match(/filename="(.+)"/)[1];
-                    download(data, filename);
-                });
-            }
-
-            $scope.executeRegistrationErrorsReport = () => {
-                var filterToPass = <any>{};
-                angular.copy($scope.filtersRE, filterToPass);
-
-                if (filterToPass.reportFormatTypeId != null)
-                    filterToPass.reportFormatTypeId = filterToPass.reportFormatTypeId.value;
-
-                if (filterToPass.year != null)
-                    filterToPass.year = filterToPass.year.value;
-
-                if (filterToPass.month != null)
-                    filterToPass.month = filterToPass.month.value;
-
-                $http.get(reportsUrl + 'registrationerrors', { params: filterToPass, responseType: "arraybuffer" }).success((data: any, status: any, headers: any, config: any) => {
-                    var filename = headers('Content-Disposition').match(/filename="(.+)"/)[1];
-                    download(data, filename);
-                });
-            }
-
-            $scope.resetDateRange = (filters: any) => {
-                filters.startDate = null;
-                filters.endDate = null;
-            }
-        })
-
-        .controller('configurationCtrl', ($scope: any, $resource: angular.resource.IResourceService, configurationsUrl: string, notification: Notification.INotificationService) => {
-
-            var resource = $resource<dto.IConfiguration>(configurationsUrl + 'system');
-            resource.get((result: dto.IConfiguration) => { $scope.data = result; });
-
-            $scope.save = () => {
-                (<any>$scope.data).$save().then(() => {
-                    notification.showNotify($scope.data.name, 'Salvataggio configurazione eseguito con successo!');
-                });
-            }
-
         })
         .controller('changeLogCtrl', ($scope: any, $http: angular.IHttpService) => {
 

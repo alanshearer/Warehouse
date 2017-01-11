@@ -23,12 +23,20 @@ class Product extends \Illuminate\Database\Eloquent\Model {
         return $this->belongsTo('App\Models\Entities\Model', 'model_id', 'id');
     }
 
-    public function offices() {
-        return $this->belongsToMany('App\Models\Entities\Office');
+    public function state() {
+        return $this->belongsTo('App\Models\Entities\Productstate', 'productstate_id', 'id');
     }
 
-    public function states() {
-        return $this->belongsToMany('App\Models\Entities\Productstate');
+    public function offices() {
+        return $this->belongsToMany('App\Models\Entities\Office', 'office_product');
+    }
+
+    public function checks() {
+        return $this->belongsToMany('App\Models\Entities\Check');
+    }
+
+    public function workingstates() {
+        return $this->belongsToMany('App\Models\Entities\Productworkingstate', 'product_productworkingstate');
     }
 
 }

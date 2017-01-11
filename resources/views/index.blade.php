@@ -50,10 +50,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
                                 <em>
-                                    <strong>Ciao</strong>, @{{currentUser.name}} @{{currentUser.surname}}
-                                    <span ng-if="currentUser.lastUsedCompanyName != null && currentUser.lastUsedCompanyName != ''">
-                                        &nbsp;( @{{currentUser.lastUsedCompanyName}} )
-                                    </span>
+                                    <strong>Ciao</strong>, @{{currentUser.firstname}} @{{currentUser.lastname}}
                                 </em> <i class="dropdown-icon fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu pull-right icon-right arrow">
@@ -105,26 +102,27 @@
             </div>
             <nav id="menu" data-jquery-mmenu ng-if="isAuthenticated" data-search="close" data-ng-cloak>
                 <ul>
-                    <li ng-if="('\'SysAdmin\' || \'Supervisor\' || \'Management\' || \'Backoffice\' || \'DataEntry\' || \'HrSpecialist\' || \'HrManager\' || \'FloorManager\'' | hasRole)"><a href="/#dashboard"><i class="icon fa fa-dashboard"></i> Dashboard </a></li>
-                    <li ng-show="('\'SysAdmin\' || \'Supervisor\'' | hasRole)">
+                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\' || \'Controllore\' || \'Respassistenza\'' | hasRole)"><a href="/#dashboard"><i class="icon fa fa-dashboard"></i> Dashboard </a></li>
+                    <li ng-show="('\'Amministratore\'' | hasRole)">
                         <span><i class="icon fa fa-cogs"></i> Amministrazione</span>
                         <ul>
-                            <li ng-if="('\'SysAdmin\'' | hasRole)"><a ng-href="/#/admin/tables"> Tabelle </a></li>
-                            <li ng-if="('\'SysAdmin\'' | hasRole)"><a ng-href="/#/admin/configuration"> Configurazione di sistema</a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-clock-o"></i> Ruoli </a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-clock-o"></i> Utenti </a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/categories"><i class="icon fa fa-clock-o"></i> Categorie </a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-clock-o"></i> Marche </a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/models"><i class="icon fa fa-clock-o"></i> Modelli </a></li>
-                            <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/suppliers"><i class="icon fa fa-clock-o"></i> Fornitori </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/admin/tables"> Tabelle </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/admin/configuration"> Configurazione di sistema</a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-clock-o"></i> Ruoli </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-clock-o"></i> Utenti </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/categories"><i class="icon fa fa-clock-o"></i> Categorie </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-clock-o"></i> Marche </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/models"><i class="icon fa fa-clock-o"></i> Modelli </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/suppliers"><i class="icon fa fa-clock-o"></i> Fornitori </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/orders"><i class="icon fa fa-bar-chart-o"></i> Ordini </a></li>
                         </ul>
                     </li>
-                    <li ng-if="('\'SysAdmin\' || \'HrManager\' || \'HrSpecialist\'' | hasRole)"><a ng-href="/#/warehouses"><i class="icon  fa fa-users"></i> Magazzini </a></li>
-                    <li ng-if="('\'SysAdmin\' || \'HrManager\'' | hasRole)"><a ng-href="/#/offices"><i class="icon  fa fa-file-text-o"></i> Uffici </a></li>
-                    <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\'' | hasRole)"><a ng-href="/#/products"><i class="icon fa fa-clock-o"></i> Prodotti </a></li>
-                    <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\' || \'FloorManager\'' | hasRole)"><a ng-href="/#/orders"><i class="icon fa fa-bar-chart-o"></i> Ordini </a></li>
-                    <li ng-if="('\'SysAdmin\' || \'Backoffice\' || \'HrManager\' || \'DataEntry\' || \'FloorManager\'' | hasRole)"><a ng-href="/#/shippings"><i class="icon fa fa-bar-chart-o"></i> Spedizioni </a></li>
-
+                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/warehouses"><i class="icon  fa fa-users"></i> Magazzini </a></li>
+                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/offices"><i class="icon  fa fa-file-text-o"></i> Uffici </a></li>
+                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/products"><i class="icon fa fa-clock-o"></i> Prodotti </a></li>
+                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\'' | hasRole)"><a ng-href="/#/shippings"><i class="icon fa fa-bar-chart-o"></i> Spedizioni </a></li>
+                    <li ng-if="('\'Amministratore\' || \'Respmagazzino\' || \'Controllore\'' | hasRole)"><a ng-href="/#/checks"><i class="icon fa fa-clock-o"></i> Controlli </a></li>
+                    <li ng-if="('\'Amministratore\' || \'Respassistenza\'' | hasRole)"><a ng-href="/#/support"><i class="icon fa fa-clock-o"></i> Assistenza </a></li>
                 </ul>
             </nav>
         </div>

@@ -1,0 +1,171 @@
+﻿<form name="shippingForm"
+       class="form-horizontal"
+       novalidate="novalidate"
+       data-form-submit="save()"
+       data-ng-controller="shippingCtrl">
+    <section class="panel panel-themes bshippings bd-gray">
+        <header class="panel-heading sm">
+            <h2><strong>Gestione spedizione</strong> </h2>
+        </header>
+        <div class="panel-tools">
+            <ul>
+                <li>
+                    <button type="submit" class="btn btn-info btn-transparent">
+                        <i class="fa fa-save"></i>
+                        Salva
+                    </button>
+                </li>
+                <li ng-if="shipping.id > 0 && shipping.enabled">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                        <i class="fa fa-trash-o"></i>
+                        Elimina
+                    </button>
+                </li>
+                <li ng-if="shipping.id > 0 && !shipping.enabled">
+                    <button type="button" class="btn btn-info btn-transparent" ng-click="restore()">
+                        <span class="fa-stack">
+                            <i class="fa fa-trash-o fa-stack-1x"></i>
+                            <i class="fa fa-times fa-stack-1x"></i>
+                        </span>
+                        Ripristina
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="tabbable" data-tabbablesections="tabbableOptions">
+                <ul class="nav nav-tabs" data-jquery-tabdrop>
+                    <li>
+                        <a>
+                            DATI GENERALI
+                            <span data-form-errors-count="formTabInfoGenerali"></span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div data-form-group data-label="Data">
+                                    <input class="form-control input-sm" data-width="auto"
+                                           name="date"
+                                           ng-model="shipping.date"
+                                           required
+                                           data-jquery-dateinputmask>
+                                </div>
+                                <div data-form-group data-label="Provenienza *">
+                                    <kvp-select data-items="origins"
+                                                data-action="getOffices()"
+                                                data-required="true"
+                                                data-current="shipping.origin">
+                                    </kvp-select>
+                                </div>
+                                <div data-form-group data-label="Destinazione *">
+                                    <kvp-select data-items="destinations"
+                                                data-action="getOffices()"
+                                                data-required="true"
+                                                data-current="shipping.destination">
+                                    </kvp-select>
+                                </div>
+                                <div data-form-group data-label="Note">
+                                    <input class="form-control input-sm"
+                                           data-width="auto"
+                                           name="note"
+                                           ng-model="shipping.note"
+                                           >
+                                </div>    
+                            </div>
+                        </div>
+                        <section class="panel panel-default borders bd-gray" data-ng-show="true">
+                            <header class="panel-heading xs">
+                                <h2><strong>PRODOTTI INSERITI</strong></h2>
+                            </header>
+                            <div class="panel-body no-margin-padding">
+                                <div class="panel-tools">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)" data-ng-click="addProduct()" class="btn btn-info btn-transparent">
+                                                <i class="fa fa-plus-square"></i>
+                                                Aggiungi nuovo prodotto
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="text-left width-10">Categoria</th>
+                                                    <th scope="col" class="text-left width-10">Brand</th>
+                                                    <th scope="col" class="text-left width-20">Modello</th>
+                                                    <th scope="col" class="text-left width-10">Seriale</th>
+                                                    <th scope="col" class=" width-5">Azioni</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in shipping.products" data-ng-form="formProduct_{{$index}}">
+                                                    <td data-from-group data-ng-form="categoryForm{{$index}}" class="align-top">
+                                            <kvp-select data-items="categories"
+                                                        data-action="getCategories()"
+                                                        data-width="100%"
+                                                        data-select-style="btn-default btn-sm"
+                                                        data-required="true"
+                                                        data-current="item.category"></kvp-select>
+                                            </td>
+                                            <td data-from-group data-ng-form="brandForm{{$index}}" class="align-top">
+                                            <kvp-select data-items="brands"
+                                                        data-action="getBrands()"
+                                                        data-width="100%"
+                                                        data-select-style="btn-default btn-sm"
+                                                        data-required="true"
+                                                        data-current="item.brand"></kvp-select>
+                                            </td>
+                                            <td data-from-group data-ng-form="modelForm{{$index}}" class="align-top">
+                                            <kvp-select data-items="models"
+                                                        data-action="getModels()"
+                                                        data-width="100%"
+                                                        data-select-style="btn-default btn-sm"
+                                                        data-required="true"
+                                                        data-current="item.model"
+                                                        ng-if="item.brand && item.category"></kvp-select>
+                                            </td>
+                                            <td data-from-group data-ng-form="productForm{{$index}}" class="align-top">
+                                            <kvp-select data-items="products"
+                                                        data-action="getProducts()"
+                                                        data-width="100%"
+                                                        data-select-style="btn-default btn-sm"
+                                                        data-required="true"
+                                                        data-current="item.product"
+                                                        ng-if="item.model"></kvp-select>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs" ng-click="removeProduct(item)"
+                                                        data-ng-disabled="item.model == null">
+                                                    Rimuovi
+                                                </button>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+
+                </div>
+                <div class="col-lg-5">
+                    <entity-information data-entity="data"></entity-information>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+
+
