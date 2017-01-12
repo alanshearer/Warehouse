@@ -108,7 +108,7 @@
                         <ul>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/admin/tables"> Tabelle </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/admin/configuration"> Configurazione di sistema</a></li>
-                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-clock-o"></i> Ruoli </a></li>
+<!--                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-clock-o"></i> Ruoli </a></li>-->
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-clock-o"></i> Utenti </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/categories"><i class="icon fa fa-clock-o"></i> Categorie </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-clock-o"></i> Marche </a></li>

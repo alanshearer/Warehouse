@@ -105,6 +105,8 @@ class InitDbWithMainTables extends Migration {
             $table->timestamps();
             $table->string('name')->unique();
             $table->text('description')->nullable();
+            $table->boolean('check')->default(false);
+            $table->boolean('support')->default(false);
             $table->softDeletes();
         });
         Schema::create('officetypes', function (Blueprint $table) {
@@ -161,6 +163,7 @@ class InitDbWithMainTables extends Migration {
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->unique();
+            $table->string('shortname')->unique();
             $table->text('description')->nullable();
             $table->softDeletes();
         });
