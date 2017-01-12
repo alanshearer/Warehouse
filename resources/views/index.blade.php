@@ -109,9 +109,9 @@
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/admin/tables"> Tabelle </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/admin/configuration"> Configurazione di sistema</a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/users"><i class="icon fa fa-user"></i> Utenti </a></li>
-                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-role"></i> Ruoli </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/roles"><i class="icon fa fa-vcard"></i> Ruoli </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/categories"><i class="icon fa fa-tags"></i> Categorie </a></li>
-                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-brand"></i> Marche </a></li>
+                            <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/brands"><i class="icon fa fa-fa"></i> Marche </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/models"><i class="icon fa fa-model"></i> Modelli </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/suppliers"><i class="icon fa fa-industry"></i> Fornitori </a></li>
                             <li ng-if="('\'Amministratore\'' | hasRole)"><a ng-href="/#/orders"><i class="icon fa fa-long-arrow-left"></i> Ordini </a></li>
