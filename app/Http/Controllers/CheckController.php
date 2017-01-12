@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Entities\Product as Entity;
+use App\Models\Entities\Product as ProductEntity;
+use App\Models\Entities\Check as CheckEntity;
 use App\Models\DTO\Check as DTO;
 use \Excel;
 
@@ -23,22 +24,34 @@ class CheckController extends Controller {
         $term = $request->term ? $request->term : '';
         $isActive = $request->isActive ? $request->isActive : false;
 
-        $paginateditems = Entity::withTrashed()
-                ->join('models as model', 'model.id', '=', 'model_id')
-                ->join('brands as brand', 'brand.id', '=', 'model.brand_id')
-                ->join('categories as category', 'category.id', '=', 'model.category_id')
-                ->where(function ($query) use($term) {
-                    $query->where('model.name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('brand.name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('category.name', 'LIKE', '%' . $term . '%');
+        $paginateditems = ProductEntity::withTrashed()
+                ->with('checks', 'latestworkingstates', 'model', 'model.brand', 'model.category')
+                ->where(function ($query) {
+                    $query->whereDoesntHave('latestworkingstates')
+                    ->orWhereHas('latestworkingstates', function ($q) {
+                        $q->where('productworkingstate_id', '=', 1);
+                    });
                 })
-                //->with('model', 'model.brand', 'model.category')
+                ->where(function ($query) {
+                    $query->whereDoesntHave('checks');
+                })
+                ->where(function ($query) use($term) {
+                    $query->whereHas('model', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    })
+                    ->orWhereHas('model.brand', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    })
+                    ->orWhereHas('model.category', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    });
+                })
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
                         $query->whereNull('deleted_at');
                     }
                 })
-                ->orderBy($orderby, $type)
+                //->orderBy($orderby, $type)
                 ->paginate($elements, null, '', $page);
         $paginateditems->setCollection(self::toDTOArray($paginateditems->getCollection()));
         return response()->success($paginateditems);
@@ -56,24 +69,12 @@ class CheckController extends Controller {
     }
 
     public function create(Request $request) {
-        $entity = Entity::create(self::toEntity($request));
-        $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
-        $entity->states()->attach(1,array('date' => date("Y-m-d H:i:s")));
-        $entity->save();
-        return response()->success(new DTO($entity));
-    }
+        $checkentity = CheckEntity::create(self::toCheckEntity($request));
+        $checkentity->save();
+        $productentity = ProductEntity::find($request->product_id);
+        $productentity->workingstates()->detach();
+        $productentity->workingstates()->attach($request->workingstate_id, ['date' => new \DateTime()]);
 
-    public function update(Request $request, $id) {
-        $entity = Entity::withTrashed()->find($id);
-        $entity->fill(self::toEntity($request));
-        $entity->states()->attach($request->state,array('date' => date("Y-m-d H:i:s")));
-        $entity->save();
-        return response()->success(new DTO($entity));
-    }
-
-    public function delete($id) {
-        $entity = Entity::find($id);
-        $entity->delete();
         return response()->success(true);
     }
 
@@ -88,12 +89,13 @@ class CheckController extends Controller {
         ];
     }
 
-    private function toEntity($dto) {
+    private function toCheckEntity($dto) {
+        $date = new \DateTime();
         return [
-            'model_id' => $dto->model["value"],
-            'price' => $dto->price,
-            'serial' => $dto->serial,
-            'note' => $dto->note,
+            'date' => date('Y-m-d', strtotime($date->format('Y-m-d H:i:s')) - $date->format('Z')),
+            'user_id' => 4,
+            'product_id' => $dto->product_id,
+            'productworkingstate_id' => $dto->workingstate_id,
         ];
     }
 

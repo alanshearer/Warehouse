@@ -46,7 +46,6 @@
                     <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
                         <div class="row">
                             <div class="col-lg-6">
-
                                 <div data-form-group data-label="Brand *">
                                     <kvp-select data-items="brands"
                                                 data-action="getBrands()"
@@ -104,6 +103,14 @@
                                                 data-required="true"
                                                 data-current="product.office">
                                     </kvp-select>
+                                </div>
+                                <div data-form-group data-label="Stato">
+                                    <input class="form-control input-sm"
+                                           data-width="auto"
+                                           name="external_id"
+                                           ng-model="product.workingstate.key"
+                                           readonly
+                                           >
                                 </div>
                             </div>
                         </div>

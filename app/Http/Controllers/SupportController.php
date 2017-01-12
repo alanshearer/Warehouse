@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Entities\Product as Entity;
-use App\Models\DTO\Product as DTO;
+use App\Models\Entities\Product as ProductEntity;
+use App\Models\Entities\Support as SupportEntity;
+use App\Models\DTO\Support as DTO;
 use \Excel;
 
-class ProductController extends Controller {
+class SupportController extends Controller {
 
     public function index(Request $request) {
         $dtos = self::toDTOArray(Entity::all());
@@ -23,23 +24,30 @@ class ProductController extends Controller {
         $term = $request->term ? $request->term : '';
         $isActive = $request->isActive ? $request->isActive : false;
 
-        $paginateditems = Entity::withTrashed()
-                ->select('products.*')
-                ->join('models as model', 'model.id', '=', 'model_id')
-                ->join('brands as brand', 'brand.id', '=', 'model.brand_id')
-                ->join('categories as category', 'category.id', '=', 'model.category_id')
-                ->where(function ($query) use($term) {
-                    $query->where('model.name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('brand.name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('category.name', 'LIKE', '%' . $term . '%');
+        $paginateditems = ProductEntity::withTrashed()
+                ->with('supports', 'latestworkingstates', 'model', 'model.brand', 'model.category')
+                ->where(function ($query) {
+                    $query->whereHas('latestworkingstates', function ($q) {
+                        $q->where('productworkingstate_id', '=', 2);
+                    });
                 })
-                ->with('offices')
+                ->where(function ($query) use($term) {
+                    $query->whereHas('model', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    })
+                    ->orWhereHas('model.brand', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    })
+                    ->orWhereHas('model.category', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    });
+                })
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
                         $query->whereNull('deleted_at');
                     }
                 })
-                ->orderBy($orderby, $type)
+                //->orderBy($orderby, $type)
                 ->paginate($elements, null, '', $page);
         $paginateditems->setCollection(self::toDTOArray($paginateditems->getCollection()));
         return response()->success($paginateditems);
@@ -50,12 +58,6 @@ class ProductController extends Controller {
         return response()->success($kvps);
     }
 
-    public function qr($id) {
-        $entity = Entity::withTrashed()->find($id);
-        $entity->external_id;
-        return QrCode::format('png')->generate(url('products/external/' . $entity->external_id));
-    }
-
     public function get($id) {
         $entity = Entity::withTrashed()->find($id);
         $dto = self::toDTO($entity);
@@ -63,30 +65,12 @@ class ProductController extends Controller {
     }
 
     public function create(Request $request) {
-        $entity = Entity::create(self::toEntity($request));
-        $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
-        $entity->workingstates()->attach(1, array('date' => date("Y-m-d H:i:s")));
-        $entity->offices()->attach(1);
-        $entity->save();
-        return response()->success(new DTO($entity));
-    }
-
-    public function update(Request $request, $id) {
-        $entity = Entity::withTrashed()->find($id);
-        $entity->fill(self::toEntity($request));
-        if ($entity->latestworkingstates()->first()->id != $request->workingstate["value"]) {
-            $entity->workingstates()->attach($request->state, array('date' => date("Y-m-d H:i:s")));
-        } 
-        if ($entity->latestoffices()->first()->id != $request->office["value"]) {
-            $entity->offices()->attach($request->office["value"]);
-        } 
-        $entity->save();
-        return response()->success(new DTO($entity));
-    }
-
-    public function delete($id) {
-        $entity = Entity::find($id);
-        $entity->delete();
+        $supportentity = SupportEntity::create(self::toSupportEntity($request));
+        $supportentity->save();
+        $productentity = ProductEntity::find($request->product_id);
+        $productentity->workingstates()->detach();
+        $productentity->workingstates()->attach($request->workingstate_id, ['date' => new \DateTime()]);
+        
         return response()->success(true);
     }
 
@@ -101,13 +85,13 @@ class ProductController extends Controller {
         ];
     }
 
-    private function toEntity($dto) {
+    private function toSupportEntity($dto) {
+        $date = new \DateTime();
         return [
-            'model_id' => $dto->model["value"],
-            'price' => $dto->price,
-            'serial' => $dto->serial,
-            'note' => $dto->note,
-            'office_id' => $dto->office["value"],
+            'date' => date('Y-m-d', strtotime($date->format('Y-m-d H:i:s')) - $date->format('Z')),
+            'user_id' => 4,
+            'product_id' => $dto->product_id,
+            'productworkingstate_id' => $dto->workingstate_id,
         ];
     }
 

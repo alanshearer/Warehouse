@@ -73,8 +73,8 @@
                         <th scope="col" class="text-left width-20">Modello</th>
                         <th scope="col" class="text-left width-10">Seriale</th>
                         <th scope="col" class="text-left width-10">Prezzo (€)</th>
-                        <th scope="col" class="text-left width-10">Ultimo controllo</th>
                         <th scope="col" class="text-left width-10">Stato attuale</th>
+                        <th scope="col" class="text-left width-10">Seleziona come</th>
                         <th scope="col" class=" width-5">Azioni</th>
                     </tr>
                 </thead>
@@ -95,10 +95,10 @@
                             {{item.product.serial}}
                         </td>
                         <td>{{item.product.price}}</td>
-                        <td>{{item.check}}</td>
+                        <td>{{item.product.productworkingstate.key}}</td>
                         <td>
-                <kvp-select data-items="productsworkingstates"
-                            data-action="getProductworkingstates()"
+                <kvp-select data-items="checkstates"
+                            data-action="getCheckstates()"
                             data-width="100%"
                             data-select-style="btn-default btn-sm"
                             data-required="true"

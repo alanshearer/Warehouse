@@ -88,6 +88,7 @@ module BackOfficeApp.Controllers {
         .constant('shippingsUrl', Global.Configuration.serviceHost + 'shippings/')
         .constant('checksUrl', Global.Configuration.serviceHost + 'checks/')
         .constant('statesUrl', Global.Configuration.serviceHost + 'states/')
+        .constant('supportsUrl', Global.Configuration.serviceHost + 'supports/')
         .constant("listActiveClass", "btn-primary")
         .constant("listPageSize", 10)
         /*
@@ -437,14 +438,6 @@ module BackOfficeApp.Controllers {
                 });
             }
         })
-
-
-
-
-
-
-
-
         .controller('modelCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             modelsUrl: string, brandsUrl: string, categoriesUrl: string, breadcrumbs: any, $window: any) => {
 
@@ -497,42 +490,49 @@ module BackOfficeApp.Controllers {
                 $http.get(productsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
                 return deffered.promise;
             }
-            var productId = $routeParams['id'];
 
-            var productResource = $resource<dto.IGenericObject>(productsUrl + ':id', { id: angular.isDefined(productId) ? productId : '@product.id' }, { save: { method: productId != null ? "PUT" : "POST" } });
+            var checkResource = $resource<dto.IGenericObject>(checksUrl, {}, { save: { method: "POST" } });
 
-            if (angular.isDefined(productId)) {
-                productResource.get((result: dto.IGenericObject) => {
-                    $scope.product = result;
-                    breadcrumbs.options = { 'Modifica prodotto': 'Modifica prodotto: ' + $scope.product.name };
-                });
-            } else {
-                $scope.product = new productResource();
-            }
+            $scope.check = new checkResource();
 
-            $scope.getProductworkingstates = () => { return $http.get(statesUrl + 'productworking', <any>{ headers: { 'No-Loading': true } }); };
-
-            $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare il prodotto?').then((success: boolean) => {
-                    if (success) {
-                        productResource.delete(() => {
-                            $window.history.back();
-                        });
-                    }
-                });
-            };
+            $scope.getCheckstates = () => { return $http.get(statesUrl + 'check', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.saveCheck = (item: any) => {
-                var index = $scope.items.indexOf(item);
-                $scope.items.splice(index, 1);
-                //                (<any>$scope.product).$save().then((result: any) => {
-                //                    notification.showNotify('Prodotto ' + result.name, 'Salvataggio prodotto ' + result.name + ' eseguito con successo!');
-                //                    $scope.redirectToPage();
-                //                });
+                $scope.check.product_id = item.product.id;
+                $scope.check.workingstate_id = item.productworkingstate.value;
+                (<any>$scope.check).$save().then((result: any) => {
+                    notification.showNotify('Prodotto ' + item.product.name, 'Controllo prodotto ' + item.product.name + ' eseguito con successo!');
+                    var index = $scope.items.indexOf(item);
+                    $scope.items.splice(index, 1);
+                });
+            }
+        })
+        .controller('supportsCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService, listPageSize: number,
+            supportsUrl: string, productsUrl: string, statesUrl: string, breadcrumbs: any, $window: any) => {
+            $scope.pageSize = listPageSize;
+            $scope.resourceUrl = supportsUrl;
+            $scope.filters = {};
+
+            $scope.downloadXls = () => {
+                var deffered = $q.defer();
+                $http.get(productsUrl + 'xls', { params: $scope.filters }).success((data: any) => { deffered.resolve(data); }).catch((error: any) => { deffered.reject(error); });
+                return deffered.promise;
             }
 
-            $scope.redirectToPage = () => {
-                $location.path('products');
+            var supportResource = $resource<dto.IGenericObject>(supportsUrl, {}, { save: { method: "POST" } });
+
+            $scope.support = new supportResource();
+
+            $scope.getSupportstates = () => { return $http.get(statesUrl + 'support', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.saveSupport = (item: any) => {
+                $scope.support.product_id = item.product.id;
+                $scope.support.workingstate_id = item.productworkingstate.value;
+                (<any>$scope.support).$save().then((result: any) => {
+                    notification.showNotify('Prodotto ' + item.product.name, 'Controllo prodotto ' + item.product.name + ' eseguito con successo!');
+                    var index = $scope.items.indexOf(item);
+                    $scope.items.splice(index, 1);
+                });
             }
         })
         .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
@@ -717,6 +717,8 @@ module BackOfficeApp.Controllers {
                     }
                 });
             };
+            
+            $scope.getWarehouses = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true }, params: {officetype_id: 2} }); };
 
             $scope.save = () => {
                 (<any>$scope.office).$save().then((result: any) => {
@@ -831,11 +833,12 @@ module BackOfficeApp.Controllers {
             }
         })
         .controller('shippingCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            shippingsUrl: string, productsUrl: string, officesUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, breadcrumbs: any, $window: any) => {
+            shippingsUrl: string, productsUrl: string, officesUrl: string, categoriesUrl: string, brandsUrl: string, modelsUrl: string, statesUrl: string, breadcrumbs: any, $window: any) => {
 
             var shippingId = $routeParams['id'];
 
             $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.getShippingstates = () => { return $http.get(statesUrl + 'shipping', <any>{ headers: { 'No-Loading': true } }); };
 
             var shippingResource = $resource<dto.IGenericObject>(shippingsUrl + ':id', { id: angular.isDefined(shippingId) ? shippingId : '@shipping.id' }, { save: { method: shippingId != null ? "PUT" : "POST" } });
 

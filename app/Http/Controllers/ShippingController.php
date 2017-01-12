@@ -58,6 +58,7 @@ class ShippingController extends Controller {
                 $entity->products()->attach($product["product"]["value"]);
             }
         }
+        $entity->states()->attach(1, ['date' => new \DateTime()]);
         return response()->success(new DTO($entity));
     }
 
@@ -70,6 +71,15 @@ class ShippingController extends Controller {
                 $entity->products()->attach($product["product"]["value"]);
             }
         }
+        if ($request->shippingstate["value"] == 2) {
+            foreach ($entity->products as $product){
+                $product->offices()->detach();
+                $product->offices()->attach($request->destination["value"]);
+            }
+        }
+
+        $entity->states()->detach();
+        $entity->states()->attach($request->shippingstate["value"], ['date' => new \DateTime()]);
         $entity->save();
         return response()->success(new DTO($entity));
     }

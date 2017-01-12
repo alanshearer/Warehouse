@@ -122,7 +122,7 @@
                     <li ng-if="('\'Amministratore\' || \'RespMagazzino\'' | hasRole)"><a ng-href="/#/products"><i class="icon fa fa-clock-o"></i> Prodotti </a></li>
                     <li ng-if="('\'Amministratore\' || \'RespMagazzino\'' | hasRole)"><a ng-href="/#/shippings"><i class="icon fa fa-bar-chart-o"></i> Spedizioni </a></li>
                     <li ng-if="('\'Amministratore\' || \'Controllore\'' | hasRole)"><a ng-href="/#/checks"><i class="icon fa fa-clock-o"></i> Controlli </a></li>
-                    <li ng-if="('\'Amministratore\' || \'RespAssistenza\'' | hasRole)"><a ng-href="/#/support"><i class="icon fa fa-clock-o"></i> Assistenza </a></li>
+                    <li ng-if="('\'Amministratore\' || \'RespAssistenza\'' | hasRole)"><a ng-href="/#/supports"><i class="icon fa fa-clock-o"></i> Assistenza </a></li>
                 </ul>
             </nav>
         </div>

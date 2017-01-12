@@ -1,8 +1,8 @@
 ﻿<form name="officeForm"
-      class="form-horizontal"
-      novalidate="novalidate"
-      data-form-submit="save()"
-      data-ng-controller="officeCtrl">
+       class="form-horizontal"
+       novalidate="novalidate"
+       data-form-submit="save()"
+       data-ng-controller="officeCtrl">
     <section class="panel panel-themes borders bd-gray">
         <header class="panel-heading sm">
             <h2><strong>Gestione ufficio</strong> </h2>
@@ -47,14 +47,14 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div data-form-group data-label="Nome">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="name"
                                            ng-model="office.name"
                                            required>
                                 </div>                                    
                                 <div data-form-group data-label="Indirizzo">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="address"
                                            ng-model="office.address"
@@ -69,6 +69,13 @@
                                                   ng-required="true"
                                                   data-postalcode="office.postalcode">
                                 </country-selector>
+                                <div data-form-group data-label="Magazzino di riferimento *">
+                                    <kvp-select data-items="warehouses"
+                                                data-action="getWarehouses()"
+                                                data-required="true"
+                                                data-current="office.warehouse">
+                                    </kvp-select>
+                                </div>
                             </div>
                         </div>
                     </div>

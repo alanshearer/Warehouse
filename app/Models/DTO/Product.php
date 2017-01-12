@@ -7,6 +7,8 @@ use App\Models\DTO\Model as ModelDTO;
 use App\Models\DTO\Category as CategoryDTO;
 use App\Models\DTO\Brand as BrandDTO;
 use App\Models\DTO\Office as OfficeDTO;
+use App\Models\DTO\Productworkingstate as ProductworkingstateDTO;
+
 class Product {
 
     /**
@@ -26,11 +28,16 @@ class Product {
         $this->model = (new ModelDTO($entity->model))->kvp();
         $this->category = (new CategoryDTO($entity->model->category))->kvp();
         $this->brand = (new BrandDTO($entity->model->brand))->kvp();
-        $this->office = (new OfficeDTO($entity->offices()->orderBy('pivot_created_at', 'desc')->first()))->kvp();
+        if ($entity->latestoffices()->get()->count() > 0) {
+            $this->office = (new OfficeDTO($entity->latestoffices()->first()))->kvp();
+        }
+        if ($entity->latestworkingstates()->get()->count() > 0) {
+            $this->productworkingstate = (new ProductworkingstateDTO($entity->latestworkingstates()->first()))->kvp();
+        }
         $this->serial = $entity->serial;
         $this->external_id = $entity->external_id;
         $this->productstate_id = $entity->productstate_id;
-        $this->productworkingstate = $entity->productstate_id;   
+        $this->productworkingstate_id = $entity->productstate_id;
         $this->enabled = $entity->deleted_at == null;
     }
 

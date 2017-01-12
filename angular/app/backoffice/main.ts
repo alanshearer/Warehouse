@@ -255,8 +255,8 @@
                     roles: "'Amministratore' || 'Controllore'",
                     label: 'Gestione controlli'
                 })
-                .when('/support', {
-                    templateUrl: "/app/backoffice/views/support/_list.html",
+                .when('/supports', {
+                    templateUrl: "/app/backoffice/views/supports/_list.html",
                     roles: "'Amministratore' || 'RespAssistenza'",
                     label: 'Gestione assistenza'
                 })

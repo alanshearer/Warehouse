@@ -10,7 +10,7 @@ class Productworkingstate extends \Illuminate\Database\Eloquent\Model {
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'check', 'support'
     ];
 
     public function products() {

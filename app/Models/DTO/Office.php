@@ -28,6 +28,9 @@ class Office {
         $this->county = (new CountyDTO($entity->city->county))->kvp();
         $this->country = (new CountryDTO($entity->city->county->region->country))->kvp();
         $this->officetype_id = $entity->officetype_id;
+        if ($entity->warehouse){
+            $this->warehouse = (new Office($entity->warehouse))->kvp();
+        }
         $this->enabled = !$entity->trashed();
     }
 

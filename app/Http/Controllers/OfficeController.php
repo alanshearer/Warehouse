@@ -98,6 +98,7 @@ class OfficeController extends Controller {
             'postalcode' => $dto->postalcode,
             'city_id' => $dto->city_id,
             'officetype_id' => $dto->officetype_id,
+            'parent_id' => $dto->warehouse && $dto->warehouse["value"] ? $dto->warehouse["value"] : NULL
         ];
     }
 

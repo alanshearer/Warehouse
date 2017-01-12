@@ -8,6 +8,7 @@ use App\Models\DTO\Product as ProductDTO;
 use App\Models\DTO\Model as ModelDTO;
 use App\Models\DTO\Category as CategoryDTO;
 use App\Models\DTO\Brand as BrandDTO;
+use App\Models\DTO\Shippingstate as ShippingstateDTO;
 
 class Shipping {
 
@@ -32,10 +33,13 @@ class Shipping {
         foreach ($entity->products as $key => $product) {
             array_push($this->products, self::toshippingproduct($product));
         }
+        if ($entity->states()->get()->count() > 0) {
+            $this->shippingstate = (new ShippingstateDTO($entity->states()->first()))->kvp();
+        }
         $this->enabled = $entity->deleted_at == null ? true : false;
     }
 
-        public function toshippingproduct($product){
+    public function toshippingproduct($product) {
         return [
             'product' => (new ProductDTO($product))->kvp(),
             'model' => (new ModelDTO($product->model))->kvp(),
@@ -43,6 +47,7 @@ class Shipping {
             'brand' => (new BrandDTO($product->model->brand))->kvp(),
         ];
     }
+
     public function kvp() {
         return ["key" => $this->name, "value" => $this->id];
     }

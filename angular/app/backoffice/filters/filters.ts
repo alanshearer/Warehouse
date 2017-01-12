@@ -6,12 +6,12 @@
                 switch (value) {
                     case dto.UserRole.Amministratore:
                         return "Amministratore";
-                    case dto.UserRole.Respmagazzino:
-                        return "RespMagazzino";
+                    case dto.UserRole.RespMagazzino:
+                        return "Responsabile Magazzino";
                     case dto.UserRole.Controllore:
                         return "Controllore";
-                    case dto.UserRole.Respassistenza:
-                        return "RespAssistenza";
+                    case dto.UserRole.RespAssistenza:
+                        return "Responsabile Assistenza";
                     default:
                         return "Sconosciuto";
                 }

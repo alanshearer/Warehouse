@@ -124,8 +124,20 @@ Route::post('checks','CheckController@create');
 Route::put('checks/{id}','CheckController@update');    
 Route::delete('checks/{id}','CheckController@delete');
 
+Route::get('supports/{page}/{elements}/{orderby?}/{desc?}', 'SupportController@search');
+Route::get('supports', 'SupportController@index');
+Route::get('supports/xls', 'SupportController@xls');
+Route::get('supports/kvp', 'SupportController@kvp');
+Route::get('supports/{id}', 'SupportController@get');
+Route::post('supports','SupportController@create');
+Route::put('supports/{id}','SupportController@update');    
+Route::delete('supports/{id}','SupportController@delete');
+
 Route::get('states/product', 'StateController@product');
 Route::get('states/productworking', 'StateController@productworking');
+Route::get('states/check', 'StateController@check');
+Route::get('states/support', 'StateController@support');
+Route::get('states/shipping', 'StateController@shipping');
 
 Route::get('shippingstates', 'ShippingstateController@index');
 Route::get('shippingstates/{id}', 'ShippingstateController@get');

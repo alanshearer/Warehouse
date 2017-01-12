@@ -92,8 +92,8 @@
                             {{item.destination.key}}
                         </td>
                         <td class="text-center">
-                            <span class="badge bg-danger-darken" data-ng-if="!item.enabled">Non attivo</span>
-                            <span class="badge bg-success-darken" data-ng-if="item.enabled">Attivo</span>
+                            <span class="badge bg-danger-darken">{{item.shippingstate.key}}</span>
+<!--                            <span class="badge bg-success-darken" data-ng-if="item.enabled">Attivo</span>-->
                         </td>  
                     </tr>
                 </tbody>

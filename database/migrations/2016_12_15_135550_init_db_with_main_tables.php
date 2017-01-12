@@ -179,7 +179,7 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('role_id')->references('id')->on('roles');
             $table->softDeletes();
         });
-        
+
         Schema::create('user_office', function(Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -191,7 +191,7 @@ class InitDbWithMainTables extends Migration {
             $table->foreign('office_id')->references('id')->on('offices');
             $table->softDeletes();
         });
-        
+
         Schema::create('shippings', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
@@ -294,6 +294,19 @@ class InitDbWithMainTables extends Migration {
         });
 
         Schema::create('checks', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->date('date');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('product_id')->unsigned();
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('productworkingstate_id')->unsigned();
+            $table->foreign('productworkingstate_id')->references('id')->on('productworkingstates');
+            $table->softDeletes();
+        });
+
+        Schema::create('supports', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->date('date');
