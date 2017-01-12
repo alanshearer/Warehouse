@@ -616,6 +616,43 @@ module BackOfficeApp.Controllers {
             $scope.redirectToPage = () => {
                 $location.path('suppliers');
             }
+        }).controller('roleCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            rolesUrl: string, breadcrumbs: any, $window: any) => {
+
+            var roleId = $routeParams['id'];
+
+            var roleResource = $resource<dto.IGenericObject>(rolesUrl + ':id', { id: angular.isDefined(roleId) ? roleId : '@role.id' }, { save: { method: roleId != null ? "PUT" : "POST" } });
+
+            if (angular.isDefined(roleId)) {
+                roleResource.get((result: dto.IGenericObject) => {
+                    $scope.role = result;
+                    breadcrumbs.options = { 'Modifica ruolo': 'Modifica ruolo: ' + $scope.role.name };
+                });
+            } else {
+                $scope.role = new roleResource();
+            }
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler eliminare il ruolo?').then((success: boolean) => {
+                    if (success) {
+                        roleResource.delete(() => {
+                            $window.history.back();
+                        });
+                    }
+                });
+            };
+
+            $scope.save = () => {
+                (<any>$scope.role).$save().then((result: any) => {
+                    notification.showNotify('Ruolo ' + result.name, 'Salvataggio ruolo ' + result.name + ' eseguito con successo!');
+                    $scope.redirectToPage();
+                });
+            }
+
+            $scope.redirectToPage = () => {
+                $location.path('/roles');
+            }
+
         }).controller('categoryCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             categoriesUrl: string, breadcrumbs: any, $window: any) => {
 
