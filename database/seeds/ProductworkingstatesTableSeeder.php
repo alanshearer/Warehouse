@@ -46,6 +46,13 @@ class ProductworkingstatesTableSeeder extends Seeder {
             'description' => 'Prodotto mancante',
             'check' => true,
         ]);
+
+        Productworkingstate::create([
+            'id' => 6,
+            'name' => 'In trasferimento',
+            'description' => 'Prodotto in trasferimento',
+            'check' => true,
+        ]);
     }
 
 }

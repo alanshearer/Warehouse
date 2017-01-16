@@ -46,6 +46,9 @@
                     <div class="tab-pane fade" data-ng-form="formTabInfoGenerali">
                         <div class="row">
                             <div class="col-lg-6">
+                                <div data-form-group data-label="Data creazione">
+                                    <small>{{product.created_at}}</small>
+                                </div>
                                 <div data-form-group data-label="Brand *">
                                     <kvp-select data-items="brands"
                                                 data-action="getBrands()"
@@ -67,8 +70,10 @@
                                                 data-current="product.model">
                                     </kvp-select>
                                 </div>
-                                <div data-form-group data-label="Prezzo (€)">
+                                <div data-form-group data-label="Prezzo">
                                     <input class="form-control input-sm"
+                                           type="text"
+                                           ng-input-currency
                                            data-width="auto"
                                            name="price"
                                            ng-model="product.price"
@@ -89,7 +94,7 @@
                                            ng-model="product.serial"
                                            >
                                 </div>
-                                <div data-form-group data-label="Id esterno">
+                                <div data-form-group data-label="Id Fiber">
                                     <input class="form-control input-sm"
                                            data-width="auto"
                                            name="external_id"
@@ -97,20 +102,21 @@
                                            readonly
                                            >
                                 </div>
-                                <div data-form-group data-label="Ufficio o Magazzino *">
+                                <div data-form-group data-label="Ufficio o Magazzino">
                                     <kvp-select data-items="offices"
                                                 data-action="getOffices()"
-                                                data-required="true"
-                                                data-current="product.office">
+                                                data-required="false"
+                                                data-current="product.office"
+                                                data-disabled="true">
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Stato">
-                                    <input class="form-control input-sm"
-                                           data-width="auto"
-                                           name="external_id"
-                                           ng-model="product.workingstate.key"
-                                           readonly
-                                           >
+                                    <kvp-select data-items="workingstates"
+                                                data-action="getWorkingStates()"
+                                                data-required="false"
+                                                data-current="product.workingstate"
+                                                data-disabled="true">
+                                    </kvp-select>
                                 </div>
                             </div>
                         </div>

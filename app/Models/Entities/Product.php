@@ -29,11 +29,11 @@ class Product extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function offices() {
-        return $this->belongsToMany('App\Models\Entities\Office', 'office_product')->withTimestamps();
+        return $this->belongsToMany('App\Models\Entities\Office', 'office_product')->whereNull('office_product.deleted_at')->withTimestamps();
     }
 
-    public function latestoffices() {
-        return $this->offices()->orderBy('pivot_created_at', 'desc');
+    public function alloffices() {
+        return $this->belongsToMany('App\Models\Entities\Office', 'office_product')->withTimestamps();
     }
 
     public function checks() {
@@ -45,11 +45,11 @@ class Product extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function workingstates() {
-        return $this->belongsToMany('App\Models\Entities\Productworkingstate', 'product_productworkingstate')->withTimestamps();
+        return $this->belongsToMany('App\Models\Entities\Productworkingstate', 'product_productworkingstate')->whereNull('product_productworkingstate.deleted_at')->withTimestamps();
     }
 
-    public function latestworkingstates() {
-        return $this->workingstates()->orderBy('pivot_created_at', 'desc');
+    public function allworkingstates() {
+        return $this->belongsToMany('App\Models\Entities\Productworkingstate', 'product_productworkingstate')->withTimestamps();
     }
     
 

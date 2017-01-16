@@ -14,6 +14,7 @@ class Productworkingstate extends \Illuminate\Database\Eloquent\Model {
     ];
 
     public function products() {
-        return $this->belongsToMany('App\Models\Entities\Product', 'product_productworkingstate');
+        return $this->belongsToMany('App\Models\Entities\Product', 'product_productworkingstate')->whereNull('product_productworkingstate.deleted_at')->withTimestamps();
+
     }
 }

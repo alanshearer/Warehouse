@@ -22,24 +22,39 @@ class ProductController extends Controller {
         $type = $request->desc == 'true' ? 'desc' : 'asc';
         $term = $request->term ? $request->term : '';
         $isActive = $request->isActive ? $request->isActive : false;
-
+        $office_id = $request->officeId ? $request->officeId : null;
         $paginateditems = Entity::withTrashed()
-                ->select('products.*')
-                ->join('models as model', 'model.id', '=', 'model_id')
-                ->join('brands as brand', 'brand.id', '=', 'model.brand_id')
-                ->join('categories as category', 'category.id', '=', 'model.category_id')
+                ->with('offices', 'workingstates', 'model', 'model.brand', 'model.category')
+//                ->where(function ($query) {
+//                    $query->whereDoesntHave('workingstates')
+//                    ->orWhereHas('workingstates', function ($q) {
+//                        $q->where('productworkingstate_id', '=', 1);
+//                    });
+//                })
                 ->where(function ($query) use($term) {
-                    $query->where('model.name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('brand.name', 'LIKE', '%' . $term . '%')
-                    ->orWhere('category.name', 'LIKE', '%' . $term . '%');
+                    $query->whereHas('model', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    })
+                    ->orWhereHas('model.brand', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    })
+                    ->orWhereHas('model.category', function($q) use($term) {
+                        $q->where('name', 'LIKE', '%' . $term . '%');
+                    });
                 })
-                ->with('offices')
                 ->where(function ($query) use ($isActive) {
                     if ($isActive) {
                         $query->whereNull('deleted_at');
                     }
                 })
-                ->orderBy($orderby, $type)
+                ->where(function ($query) use ($office_id) {
+                    if ($office_id) {
+                        $query->whereHas('offices', function ($q) use ($office_id) {
+                            $q->where('office_id', '=', $office_id);
+                        });
+                    }
+                })
+                //->orderBy($orderby, $type)
                 ->paginate($elements, null, '', $page);
         $paginateditems->setCollection(self::toDTOArray($paginateditems->getCollection()));
         return response()->success($paginateditems);
@@ -65,8 +80,7 @@ class ProductController extends Controller {
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
         $entity->fill(["external_id" => self::composeexternal_id($entity->id)]);
-        $entity->workingstates()->attach(1, array('date' => date("Y-m-d H:i:s")));
-        $entity->offices()->attach(1);
+        self::normalize($entity);
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -74,12 +88,7 @@ class ProductController extends Controller {
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
-        if ($entity->latestworkingstates()->first()->id != $request->workingstate["value"]) {
-            $entity->workingstates()->attach($request->state, array('date' => date("Y-m-d H:i:s")));
-        } 
-        if ($entity->latestoffices()->first()->id != $request->office["value"]) {
-            $entity->offices()->attach($request->office["value"]);
-        } 
+        self::normalize($entity);
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -125,6 +134,15 @@ class ProductController extends Controller {
 
     private function composeexternal_id($product) {
         return 'prod-' . $product;
+    }
+
+    private function normalize($entity) {
+        if ($entity->workingstates()->count() == 0) {
+            $entity->workingstates()->attach(1, array('date' => date("Y-m-d H:i:s")));
+        }
+        if ($entity->offices()->count() == 0) {
+            $entity->offices()->attach(1);
+        }
     }
 
 }

@@ -71,13 +71,25 @@ class ShippingController extends Controller {
                 $entity->products()->attach($product["product"]["value"]);
             }
         }
-        if ($request->shippingstate["value"] == 2) {
+        if ($request->shippingstate["value"] == 1) {
             foreach ($entity->products as $product){
                 $product->offices()->detach();
                 $product->offices()->attach($request->destination["value"]);
             }
         }
-
+        else if ($request->shippingstate["value"] == 2) {
+            foreach ($entity->products as $product){
+                $product->offices()->detach();
+                $product->offices()->attach($request->destination["value"]);
+            }
+        }        
+        else if ($request->shippingstate["value"] == 3) {
+            foreach ($entity->products as $product){
+                $product->offices()->detach();
+                $product->offices()->attach($request->destination["value"]);
+            }
+        }
+        
         $entity->states()->detach();
         $entity->states()->attach($request->shippingstate["value"], ['date' => new \DateTime()]);
         $entity->save();

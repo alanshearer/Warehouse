@@ -22,7 +22,8 @@
             'blueimp.fileupload',
             'ngClipboard',
             'LocalStorageModule',
-            'highcharts-ng'
+            'highcharts-ng',
+            'ngInputCurrency'
         ])
         .factory('myHttpInterceptor', ($q: angular.IQService, notification: Notification.INotificationService) => {
             return {

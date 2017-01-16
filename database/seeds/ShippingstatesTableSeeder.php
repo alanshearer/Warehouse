@@ -28,6 +28,12 @@ class ShippingstatesTableSeeder extends Seeder {
             'name' => 'Rifiutata',
             'description' => 'Spedizione rigettata',
         ]);
+        
+        Shippingstate::create([
+            'id' => 4,
+            'name' => 'Salvata',
+            'description' => 'Spedizione salvata',
+        ]);
     }
 
 }

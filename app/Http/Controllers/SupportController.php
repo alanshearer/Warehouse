@@ -25,9 +25,9 @@ class SupportController extends Controller {
         $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = ProductEntity::withTrashed()
-                ->with('supports', 'latestworkingstates', 'model', 'model.brand', 'model.category')
+                ->with('supports', 'workingstates', 'model', 'model.brand', 'model.category')
                 ->where(function ($query) {
-                    $query->whereHas('latestworkingstates', function ($q) {
+                    $query->whereHas('workingstates', function ($q) {
                         $q->where('productworkingstate_id', '=', 2);
                     });
                 })

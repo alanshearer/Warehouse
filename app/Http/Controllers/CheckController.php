@@ -25,10 +25,10 @@ class CheckController extends Controller {
         $isActive = $request->isActive ? $request->isActive : false;
 
         $paginateditems = ProductEntity::withTrashed()
-                ->with('checks', 'latestworkingstates', 'model', 'model.brand', 'model.category')
+                ->with('checks', 'workingstates', 'model', 'model.brand', 'model.category')
                 ->where(function ($query) {
-                    $query->whereDoesntHave('latestworkingstates')
-                    ->orWhereHas('latestworkingstates', function ($q) {
+                    $query->whereDoesntHave('workingstates')
+                    ->orWhereHas('workingstates', function ($q) {
                         $q->where('productworkingstate_id', '=', 1);
                     });
                 })

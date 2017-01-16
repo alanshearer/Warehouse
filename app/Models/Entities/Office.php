@@ -29,7 +29,7 @@ class Office extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function products() {
-        return $this->belongsToMany('App\Models\Entities\Product');
+        return $this->belongsToMany('App\Models\Entities\Product', 'office_product')->whereNull('office_product.deleted_at');
     }
 
     public function warehouse() {

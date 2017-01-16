@@ -76,7 +76,7 @@
                             </a>
                         </li>
                         <li class="visible-lg">
-                            <a href="/#changelog" class=" h-seperate" title="Visualizza informazioni" data-jquery-tooltip>
+                            <a href="/#/changelog" class=" h-seperate" title="Visualizza informazioni" data-jquery-tooltip>
                                 <i class="fa fa-info fa-fw"></i><i>(@{{application.version}})</i>
                             </a>
                         </li>
@@ -189,6 +189,10 @@
         <script src="content/plugins/jquery.inputmask/jquery.inputmask.bundle.min.js"></script>
         <!--<script src="content/plugins/angular-ui/ui-bootstrap.min.js"></script>-->
         <script src="content/plugins/angular-ui/ui-bootstrap-tpls.min.js"></script>
+        
+        <script src="content/plugins/ng-input-currency/ng-input-currency.js"></script>
+        
+        <script src="content/scripts/i18n/angular-locale_it.js"></script>
 
         <script src="configuration/configuration.js"></script>
         <script src="common/filters/filters.js"></script>

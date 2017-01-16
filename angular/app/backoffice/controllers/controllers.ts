@@ -305,11 +305,15 @@ module BackOfficeApp.Controllers {
             }
         })
         .controller('productsCtrl', ($scope: any, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $q: angular.IQService, listPageSize: number, notification: Notification.INotificationService,
-            productsUrl: string) => {
+            productsUrl: string, officesUrl: string) => {
 
             $scope.pageSize = listPageSize;
             $scope.resourceUrl = productsUrl;
             $scope.filters = {};
+
+            $scope.getOffices = () => {
+                return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } });
+            }
 
             $scope.downloadXls = () => {
                 var deffered = $q.defer();
@@ -535,8 +539,8 @@ module BackOfficeApp.Controllers {
                 });
             }
         })
-        .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
-            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, officesUrl: string, breadcrumbs: any, $window: any) => {
+        .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $filter: angular.IFilterService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+            productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, officesUrl: string, statesUrl: string, breadcrumbs: any, $window: any) => {
 
             var productId = $routeParams['id'];
 
@@ -558,6 +562,8 @@ module BackOfficeApp.Controllers {
             $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getWorkingstates = () => { return $http.get(statesUrl + 'working', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.delete = () => {
                 notification.showConfirm('Sei sicuro di voler eliminare il prodotto?').then((success: boolean) => {
@@ -754,8 +760,8 @@ module BackOfficeApp.Controllers {
                     }
                 });
             };
-            
-            $scope.getWarehouses = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true }, params: {officetype_id: 2} }); };
+
+            $scope.getWarehouses = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true }, params: { officetype_id: 2 } }); };
 
             $scope.save = () => {
                 (<any>$scope.office).$save().then((result: any) => {
