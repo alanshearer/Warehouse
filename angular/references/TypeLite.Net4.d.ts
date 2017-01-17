@@ -158,8 +158,8 @@ declare module dto {
     }
     interface IUserTokenResponse {
         identity: dto.IUserToken;
-        accessToken: string;
-        tokenType: string;
+        accesstoken: string;
+        tokentype: string;
     }
     interface IValidateUserParameters {
         userName: string;

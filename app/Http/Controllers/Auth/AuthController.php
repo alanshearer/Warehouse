@@ -33,8 +33,8 @@ class AuthController extends Controller
         $user = UserEntity::with('role')->find($authenticateduser->id);
         
         $compositetoken = new \App\Models\Auth\IToken();
-        $compositetoken->accessToken = $token;
-        $compositetoken->tokenType = 'Bearer';
+        $compositetoken->accesstoken = $token;
+        $compositetoken->tokentype = 'Bearer';
         $compositetoken->identity = new \App\Models\Auth\IUser();
         $compositetoken->identity->id=$user->id;
         $compositetoken->identity->firstname=$user->firstname;

@@ -72,8 +72,8 @@
                         <th scope="col" class="text-left width-10">Brand</th>
                         <th scope="col" class="text-left width-20">Modello</th>
                         <th scope="col" class="text-left width-10">Seriale</th>
-                        <th scope="col" class="text-left width-10">Prezzo (€)</th>
-                        <th scope="col" class="text-left width-10">Stato attuale</th>
+                        <th scope="col" class="text-left width-10">Ufficio</th>      
+                        <th scope="col" class="text-left width-10">Ultimo controllo</th>
                         <th scope="col" class="text-left width-10">Seleziona come</th>
                         <th scope="col" class=" width-5">Azioni</th>
                     </tr>
@@ -94,8 +94,8 @@
                         <td data-from-group data-ng-form="productForm{{$index}}" class="align-top">
                             {{item.product.serial}}
                         </td>
-                        <td>{{item.product.price}}</td>
-                        <td>{{item.product.productworkingstate.key}}</td>
+                        <td class="">{{item.product.office.key}}</td>
+                        <td>{{item.check.key}}</td>
                         <td>
                 <kvp-select data-items="checkstates"
                             data-action="getCheckstates()"

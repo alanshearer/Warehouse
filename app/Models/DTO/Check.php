@@ -19,7 +19,7 @@ class Check {
     public function __construct(Entity $entity) {
         //$this->id = $entity->id;
         $this->product = (new ProductDTO($entity));
-        $this->check = $entity->checks()->latest();
+        $this->check = $entity->checks()->latest()->first();
         $this->enabled = $entity->deleted_at == null;
     }
 

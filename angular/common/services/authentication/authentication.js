@@ -16,11 +16,11 @@ var Authentication;
                     if (token == null) {
                         throw 'La request di autenticazione non può ritornare un valore null';
                     }
-                    if (angular.isUndefined(token.identity) || angular.isUndefined(token.accessToken || angular.isUndefined(token.tokenType))) {
-                        throw 'La request non contiente le seguente proprietà obbligatorie: identity, accessToken, tokenType';
+                    if (angular.isUndefined(token.identity) || angular.isUndefined(token.accesstoken || angular.isUndefined(token.tokentype))) {
+                        throw 'La request non contiente le seguente proprietà obbligatorie: identity, accesstoken, tokentype';
                     }
                     localStorageService.set('userToken', token);
-                    $http.defaults.headers.common.Authorization = token.tokenType + ' ' + token.accessToken;
+                    $http.defaults.headers.common.Authorization = token.tokentype + ' ' + token.accesstoken;
                     angular.copy(token.identity, identity);
                     isAuthenticated = true;
                 }
