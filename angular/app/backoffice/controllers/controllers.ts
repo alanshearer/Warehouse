@@ -539,7 +539,7 @@ module BackOfficeApp.Controllers {
                 });
             }
         })
-        .controller('productCtrl', ($scope: any, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $filter: angular.IFilterService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
+        .controller('productCtrl', ($scope: any, $sce: angular.ISCEService, $routeParams: angular.route.IRouteService, $resource: angular.resource.IResourceService, $http: angular.IHttpService, $filter: angular.IFilterService, notification: Notification.INotificationService, $location: angular.ILocationService, $q: angular.IQService,
             productsUrl: string, modelsUrl: string, brandsUrl: string, categoriesUrl: string, officesUrl: string, statesUrl: string, breadcrumbs: any, $window: any) => {
 
             var productId = $routeParams['id'];
@@ -549,6 +549,7 @@ module BackOfficeApp.Controllers {
             if (angular.isDefined(productId)) {
                 productResource.get((result: dto.IGenericObject) => {
                     $scope.product = result;
+                    $scope.product.qrcode = $sce.trustAsHtml($scope.product.qrcode);
                     breadcrumbs.options = { 'Modifica prodotto': 'Modifica prodotto: ' + $scope.product.name };
                 });
             } else {

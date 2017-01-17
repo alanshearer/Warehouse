@@ -8,6 +8,7 @@ use App\Models\DTO\Category as CategoryDTO;
 use App\Models\DTO\Brand as BrandDTO;
 use App\Models\DTO\Office as OfficeDTO;
 use App\Models\DTO\Productworkingstate as ProductworkingstateDTO;
+use QrCode;
 
 class Product {
 
@@ -41,6 +42,7 @@ class Product {
         $this->enabled = $entity->deleted_at == null;
         $this->statecssclass = self::getstatecssclass($this->workingstate["value"]);
         $this->created_at = date('Y/m/d H:i:s', strtotime($entity->created_at));
+        $this->qrcode = QrCode::encoding('UTF-8')->size(200)->generate(url('products/external/' . $entity->external_id));
     }
 
     public function kvp() {
