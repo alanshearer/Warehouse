@@ -390,8 +390,8 @@ a.list-group-item .list-group-item-heading {
 }
 .panel-themes > .panel-heading {
   color: #ffffff;
-  background-color:#088076;
-  border-color: #0aa699;
+  background-color:#f9ba46;
+  border-color: #fac105;
 }
 .panel-themes > .panel-heading + .panel-collapse .panel-body {
   border-top-color: #428bca;
@@ -1252,8 +1252,8 @@ label span.icon i {
 
 .btn-theme {
   color: white;
-  background-color:#005d49;
-  border-color: #005d49;
+  background-color:#f19709;
+  border-color: #f19709;
 }
 .btn-theme:hover, .btn-theme:focus, .btn-theme:active, .btn-theme.active {
   color: white;
@@ -1277,31 +1277,31 @@ label span.icon i {
 }
 .btn-theme.btn-transparent {
   color: #AAA;
-  border-color: #005d49;
+  border-color: #f19709;
 }
 .btn-theme.btn-transparent:hover, .btn-theme.btn-transparent:focus, .btn-theme.btn-transparent:active, .btn-theme.btn-transparent.active {
-  background-color: #005d49;
+  background-color: #f19709;
   color: white;
 }
 .btn-theme .badge {
-  color: #005d49;
+  color: #f19709;
   background-color: white;
 }
 
 .btn-theme-inverse {
   color: white;
-  background-color: #0aa699;
-  border-color: #0aa699;
+  background-color: #fac105;
+  border-color: #fac105;
 }
 .btn-theme-inverse:hover, .btn-theme-inverse:focus, .btn-theme-inverse:active, .btn-theme-inverse.active {
   color: white;
-  background-color: #088076;
-  border-color: #088076;
+  background-color: #f9ba46;
+  border-color: #f9ba46;
 }
 .open .btn-theme-inverse.dropdown-toggle {
   color: white;
-  background-color: #088076;
-  border-color: #088076;
+  background-color: #f9ba46;
+  border-color: #f9ba46;
 }
 .btn-theme-inverse:active, .btn-theme-inverse.active {
   background-image: none;
@@ -1310,19 +1310,19 @@ label span.icon i {
   background-image: none;
 }
 .btn-theme-inverse.disabled, .btn-theme-inverse.disabled:hover, .btn-theme-inverse.disabled:focus, .btn-theme-inverse.disabled:active, .btn-theme-inverse.disabled.active, .btn-theme-inverse[disabled], .btn-theme-inverse[disabled]:hover, .btn-theme-inverse[disabled]:focus, .btn-theme-inverse[disabled]:active, .btn-theme-inverse[disabled].active, fieldset[disabled] .btn-theme-inverse, fieldset[disabled] .btn-theme-inverse:hover, fieldset[disabled] .btn-theme-inverse:focus, fieldset[disabled] .btn-theme-inverse:active, fieldset[disabled] .btn-theme-inverse.active {
-  background-color: #0aa699;
-  border-color: #0aa699;
+  background-color: #fac105;
+  border-color: #fac105;
 }
 .btn-theme-inverse.btn-transparent {
   color: #AAA;
-  border-color: #0aa699;
+  border-color: #fac105;
 }
 .btn-theme-inverse.btn-transparent:hover, .btn-theme-inverse.btn-transparent:focus, .btn-theme-inverse.btn-transparent:active, .btn-theme-inverse.btn-transparent.active {
-  background-color: #0aa699;
+  background-color: #fac105;
   color: white;
 }
 .btn-theme-inverse .badge {
-  color: #0aa699;
+  color: #fac105;
   background-color: white;
 }
 

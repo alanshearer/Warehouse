@@ -20,7 +20,7 @@ $(function () {
         "danger": "#E15258",
         "inverse": "#62707D",
         "theme": "#f35958",
-        "theme-inverse": "#0aa699",
+        "theme-inverse": "#fac105",
         "palevioletred": "#372b32",
         "green": "#99CC00",
         "lightseagreen": "#1ABC9B",

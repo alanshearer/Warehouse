@@ -26,21 +26,21 @@
 
 
 #header {
-    border-bottom: 5px #088076 solid;
+    border-bottom: 5px #f9ba46 solid;
 }
 
 #header .tools-bar a.icon-toolsbar, .avatar-slide .avatar-detail p a, a {
-    color: #088076;
+    color: #f9ba46;
 }
 
     
 table > tbody > tr > td > a {
-    color: #088076!important;
+    color: #f9ba46!important;
 }
 
 
 table > tbody > tr > td > a:hover {
-    color: #0aa699!important;
+    color: #fac105!important;
 }
 
 .no-margin-padding {
@@ -122,11 +122,11 @@ ul.iCheck-inline > li {
 
 
 a[data-toggle="collapse"] h2 {
-    color: #0aa699;
+    color: #fac105;
 }
 
     a[data-toggle="collapse"] h2:hover {
-        color: #088076;
+        color: #f9ba46;
     }
 
 
@@ -289,7 +289,7 @@ a[data-toggle="collapse"] h2 {
 }
 
 table.table thead .sorting {
-    color: #088076;
+    color: #f9ba46;
 }
 
     table.table thead .sorting:hover {
@@ -300,7 +300,7 @@ table.table thead tr th.sorting_asc,
 table.table thead tr th.sorting_desc,
 table.table tbody tr td.sorting_asc,
 table.table tbody tr td.sorting_desc {
-    background-color: #0aa699;
+    background-color: #fac105;
     background-color: rgba(0, 117, 176, 0.03);
 }
 
@@ -359,12 +359,12 @@ tr.deletedrow, tr.deletedrow input {
         width: auto;
         font-weight: bold;
         border: none;
-        color: #088076;
+        color: #f9ba46;
         background-color: transparent;
     }
 
         .panel-tools ul li .btn > i {
-            color:#088076;
+            color:#f9ba46;
         }
 
 
@@ -403,7 +403,7 @@ tr.deletedrow, tr.deletedrow input {
 
 
 .breadcrumb {
-    background-color: #0aa699;
+    background-color: #fac105;
 }
 
     .breadcrumb > li > a, .breadcrumb > li > a:active {

@@ -7,12 +7,12 @@
 @import url(jquery-ui.css);
 
 ::-moz-selection {
-    background-color: #0aa699;
+    background-color: #fac105;
     color: white;
 }
 
 ::selection {
-    background-color: #0aa699;
+    background-color: #fac105;
     color: white;
 }
 
@@ -53,7 +53,7 @@ a {
 }
 
     a:hover {
-        color: #088379;
+        color: #f9bd39;
         text-decoration: none;
     }
 
@@ -91,7 +91,7 @@ textarea {
 
 #header {
     background: white;
-    border-bottom: 5px #0aa699 solid;
+    border-bottom: 5px #fac105 solid;
     height: 55px;
     left: 0;
     position: absolute;
@@ -714,7 +714,7 @@ body.leftMenu {
         content: "";
         height: 100%;
         left: 0px;
-        background-color: #0aa699;
+        background-color: #fac105;
         position: absolute;
         top: 0%;
         width: 100%;
@@ -1064,7 +1064,7 @@ body.leftMenu {
     }
 
         .widget-write-post ul li {
-            background-color: #0aa699;
+            background-color: #fac105;
             border-radius: 2px;
             color: #FFF;
             display: inline-block;
@@ -1512,7 +1512,7 @@ body.leftMenu {
     }
 
     .widget-timeline li:after {
-        background-color: #0aa699;
+        background-color: #fac105;
         border-radius: 50%;
         content: "";
         height: 12px;
@@ -1929,7 +1929,7 @@ ul.themeColors {
         }
 
             .avatar-slide .avatar-detail p a {
-                color: #0aa699;
+                color: #fac105;
                 display: block;
                 margin-bottom: 5px;
             }
@@ -2199,11 +2199,11 @@ ul.themeColors {
 }
 
 .color-theme {
-    color: #088076 !important;
+    color: #f9ba46 !important;
 }
 
 .color-theme-inverse {
-    color: #0aa699 !important;
+    color: #fac105 !important;
 }
 
 .color-palevioletred {
@@ -2339,7 +2339,7 @@ ul.themeColors {
 }
 
 .bg-theme {
-    background-color: #0aa699 !important;
+    background-color: #fac105 !important;
     color: white !important;
 }
 
@@ -2354,7 +2354,7 @@ ul.themeColors {
 }
 
 .bg-theme-inverse {
-    background-color: #0aa699 !important;
+    background-color: #fac105 !important;
     color: white !important;
 }
 
@@ -2526,7 +2526,7 @@ ul.themeColors {
 }
 
 .bd-theme-inverse {
-    border-color: #0aa699 !important;
+    border-color: #fac105 !important;
 }
 
 .bd-theme-inverse-darken {
@@ -3225,7 +3225,7 @@ ul.themeColors {
     background: url(../img/overview.jpg) no-repeat left top;
     background-color: #454545;
     background-size: cover !important;
-    border-bottom: 5px #0aa699 solid;
+    border-bottom: 5px #fac105 solid;
     height: 237px;
     position: relative;
     -webkit-background-size: cover !important;
@@ -3545,7 +3545,7 @@ ul.themeColors {
         }
 
         .pricing .plan li.plan-name {
-            background: #0aa699;
+            background: #fac105;
             border-top: 0;
             border-bottom: 5px solid #07766d;
             color: #fff;
@@ -4029,7 +4029,7 @@ ol {
         }
 
         ol.rectangle-list a:before {
-            background: #0aa699;
+            background: #fac105;
             color: #FFF;
             content: counter(li);
             counter-increment: li;
@@ -7876,7 +7876,7 @@ ul.parsley-error-list {
         cursor: pointer;
         color: #fff;
         text-decoration: none;
-        background-color: #0aa699;
+        background-color: #fac105;
     }
 
     .ms-container .ms-selectable li.disabled, .ms-container .ms-selection li.disabled {
@@ -7925,7 +7925,7 @@ ul.parsley-error-list {
 }
 
 .ios-switch.theme-inverse .has-switch.checked:before {
-    background-color: #0aa699;
+    background-color: #fac105;
 }
 
 .ios-switch.palevioletred .has-switch.checked:before {
@@ -8802,7 +8802,7 @@ footer#site-footer {
         }
 
         footer#site-footer #copyright a {
-            color: #0aa699;
+            color: #fac105;
         }
 
     footer#site-footer .social-bar {
@@ -8970,7 +8970,7 @@ footer#site-footer {
 
         footer#site-footer ul.dropdown a.menu:hover {
             color: #fff;
-            background: #0aa699;
+            background: #fac105;
         }
 
         footer#site-footer ul.dropdown a.menu span {

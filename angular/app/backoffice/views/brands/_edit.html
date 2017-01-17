@@ -10,19 +10,19 @@
         <div class="panel-tools">
             <ul>
                 <li>
-                    <button type="submit" class="btn btn-info btn-transparent">
+                    <button type="submit" class="btn btn-theme-inverse btn-transparent">
                         <i class="fa fa-save"></i>
                         Salva
                     </button>
                 </li>
                 <li ng-if="brand.id > 0 && brand.enabled">
-                    <button type="button" class="btn btn-info btn-transparent" ng-click="delete()">
+                    <button type="button" class="btn btn-theme-inverse btn-transparent" ng-click="delete()">
                         <i class="fa fa-trash-o"></i>
                         Elimina
                     </button>
                 </li>
                 <li ng-if="brand.id > 0 && !brand.enabled">
-                    <button type="button" class="btn btn-info btn-transparent" ng-click="restore()">
+                    <button type="button" class="btn btn-theme-inverse btn-transparent" ng-click="restore()">
                         <span class="fa-stack">
                             <i class="fa fa-trash-o fa-stack-1x"></i>
                             <i class="fa fa-times fa-stack-1x"></i>
