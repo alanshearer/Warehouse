@@ -82,8 +82,8 @@
                     <tr>
                         <th scope="col" data-sorter="model.name" class="text-left width-20">Modello</th>
                         <th scope="col" class="text-left" data-sorter="created_at">Data</th>
-                        <th scope="col" class="text-left" data-sorter="brand.name">Brand</th>
                         <th scope="col" class="text-left" data-sorter="category.name">Categoria</th>                        
+                        <th scope="col" class="text-left" data-sorter="brand.name">Brand</th>
                         <th scope="col" class="text-left" data-sorter="serial">Seriale</th>                        
                         <th scope="col" class="text-left" data-sorter="office">Ufficio</th>                        
                         <th scope="col" class="text-center width-5">Stato Funzionamento</th>
@@ -93,8 +93,8 @@
                     <tr ng-repeat="item in items">
                         <td class=""><a class="btn btn-link uppercase no-margin-padding" ng-href="/#/products/edit/{{item.id}}"><strong>{{item.model.key}}</strong></a></td>
                         <td class="">{{item.created_at}}</td>
-                        <td class="">{{item.brand.key}}</td>
                         <td class="">{{item.category.key}}</td>
+                        <td class="">{{item.brand.key}}</td>
                         <td class="">{{item.serial}}</td>
                         <td class="">{{item.office.key}}</td>
                         <td class="text-center">

@@ -1,8 +1,8 @@
 ﻿<form name="modelForm"
-      class="form-horizontal"
-      novalidate="novalidate"
-      data-form-submit="save()"
-      data-ng-controller="modelCtrl">
+       class="form-horizontal"
+       novalidate="novalidate"
+       data-form-submit="save()"
+       data-ng-controller="modelCtrl">
     <section class="panel panel-themes borders bd-gray">
         <header class="panel-heading sm">
             <h2><strong>Gestione modello</strong> </h2>
@@ -47,26 +47,19 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div data-form-group data-label="Nome">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="name"
                                            ng-model="model.name"
                                            required>
                                 </div>
                                 <div data-form-group data-label="Descrizione">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="description"
                                            ng-model="model.description"
                                            >
                                 </div> 
-                                <div data-form-group data-label="Brand *">
-                                    <kvp-select data-items="brands"
-                                                data-action="getBrands()"
-                                                data-required="true"
-                                                data-current="model.brand">
-                                    </kvp-select>
-                                </div>
                                 <div data-form-group data-label="Categoria *">
                                     <kvp-select data-items="categories"
                                                 data-action="getCategories()"
@@ -74,8 +67,15 @@
                                                 data-current="model.category">
                                     </kvp-select>
                                 </div>
+                                <div data-form-group data-label="Brand *">
+                                    <kvp-select data-items="brands"
+                                                data-action="getBrands()"
+                                                data-required="true"
+                                                data-current="model.brand">
+                                    </kvp-select>
+                                </div>
                                 <div data-form-group data-label="Note">
-                                        <input class="form-control input-sm"
+                                    <input class="form-control input-sm"
                                            data-width="auto"
                                            name="note"
                                            ng-model="model.note"

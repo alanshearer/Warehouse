@@ -458,9 +458,10 @@ module BackOfficeApp.Controllers {
                 $scope.model = new modelResource();
             }
 
+            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
             $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
-            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.delete = () => {
                 notification.showConfirm('Sei sicuro di voler eliminare il modello?').then((success: boolean) => {
@@ -556,11 +557,11 @@ module BackOfficeApp.Controllers {
                 $scope.product = new productResource();
             }
 
-            $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
-
             $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
-            $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.getAvailableBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+
+            $scope.getAvailableModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
             $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
@@ -884,6 +885,7 @@ module BackOfficeApp.Controllers {
             $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
             $scope.getShippingstates = () => { return $http.get(statesUrl + 'shipping', <any>{ headers: { 'No-Loading': true } }); };
 
+
             var shippingResource = $resource<dto.IGenericObject>(shippingsUrl + ':id', { id: angular.isDefined(shippingId) ? shippingId : '@shipping.id' }, { save: { method: shippingId != null ? "PUT" : "POST" } });
 
             if (angular.isDefined(shippingId)) {
@@ -904,13 +906,53 @@ module BackOfficeApp.Controllers {
                 });
             };
 
-            $scope.getBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.$watch("shipping.origin.value", (newValue: Date, oldValue: Date) => {
+                if (oldValue && newValue != oldValue) {
+                    $scope.shipping.products = [];
+                }
+                if (newValue) {
+                    $http.get(productsUrl, <any>{ headers: { 'No-Loading': true }, params: { officeId: newValue } }).success((result: number) => {
+                        $scope.shipping.availableproducts = result;
+                    });
+                }
+            });
+            $scope.getProductsByParameters = (category: any, brand: any, model: any) => {
+                var ids = Enumerable.from($scope.shipping.products).select(function(x) { return x.product.value; }).toArray();
+                var products = Enumerable.from($scope.shipping.availableproducts).where(function(x) { return ids.indexOf(x.id) == -1; });
+                if (category)
+                    products = products.where(function(x) { return x.category.value == category; });
+                if (brand)
+                    products = products.where(function(x) { return x.brand.value == brand; });
+                if (model)
+                    products = products.where(function(x) { return x.model.value == model; });
+                return products;
+            };
 
-            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.simulateHttpGet = (data: any) => {
+                var promise = {
+                    success: function(callback: any) { return callback(data); },
+                    error: function(n) { return n; },
+                    then: function(n) { return n; },
+                };
+                $http.get('/');
+                return promise;
+            };
 
-            $scope.getModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.getAvailableCategories = (item: any) => {
+                return $scope.simulateHttpGet($scope.getProductsByParameters().select(function(x) { return x.category; }).toArray());
+            };
 
-            $scope.getProducts = () => { return $http.get(productsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.getAvailableBrands = (item: any) => {
+                return $scope.simulateHttpGet($scope.getProductsByParameters(item.category.value).select(function(x) { return x.brand; }).toArray());
+            };
+
+            $scope.getAvailableModels = (item: any) => {
+                return $scope.simulateHttpGet($scope.getProductsByParameters(item.category.value, item.brand.value).select(function(x) { return x.model; }).toArray());
+            };
+
+            $scope.getAvailableProducts = (item: any) => {
+                return $scope.simulateHttpGet($scope.getProductsByParameters(item.category.value, item.brand.value, item.model.value).select(function(x) { return { key: x.serial, value: x.id }; }).toArray());
+            };
 
             $scope.save = () => {
                 (<any>$scope.shipping).$save().then((result: any) => {

@@ -11,7 +11,17 @@ use \Excel;
 class ProductController extends Controller {
 
     public function index(Request $request) {
-        $dtos = self::toDTOArray(Entity::all());
+        $office_id = $request->officeId ? $request->officeId : null;
+
+        $dtos = self::toDTOArray(Entity::with('offices')
+                                ->where(function ($query) use ($office_id) {
+                                    if ($office_id) {
+                                        $query->whereHas('offices', function ($q) use ($office_id) {
+                                            $q->where('office_id', '=', $office_id);
+                                        });
+                                    }
+                                })
+                                ->get());
         return response()->success($dtos);
     }
 

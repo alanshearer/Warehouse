@@ -49,13 +49,6 @@
                                 <div data-form-group data-label="Data creazione">
                                     <small>{{product.created_at}}</small>
                                 </div>
-                                <div data-form-group data-label="Brand *">
-                                    <kvp-select data-items="brands"
-                                                data-action="getBrands()"
-                                                data-required="true"
-                                                data-current="product.brand">
-                                    </kvp-select>
-                                </div>
                                 <div data-form-group data-label="Categoria *">
                                     <kvp-select data-items="categories"
                                                 data-action="getCategories()"
@@ -63,11 +56,20 @@
                                                 data-current="product.category">
                                     </kvp-select>
                                 </div>
-                                <div data-form-group data-label="Modello" ng-if="product.brand && product.category">
-                                    <kvp-select data-items="models"
-                                                data-action="getModels()"
+                                <div data-form-group data-label="Brand *">
+                                    <kvp-select data-items="brands"
+                                                data-action="getAvailableBrands()"
                                                 data-required="true"
-                                                data-current="product.model">
+                                                data-current="product.brand"
+                                                ng-disabled="!product.category">
+                                    </kvp-select>
+                                </div>
+                                <div data-form-group data-label="Modello">
+                                    <kvp-select data-items="models"
+                                                data-action="getAvailableModels()"
+                                                data-required="true"
+                                                data-current="product.model"
+                                                ng-disabled="!product.brand || !product.category">
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Prezzo">
