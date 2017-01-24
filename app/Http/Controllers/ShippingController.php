@@ -8,6 +8,7 @@ use App\Models\Entities\Shipping as Entity;
 use App\Models\DTO\Shipping as DTO;
 use \Excel;
 use \PDF;
+use Dompdf\Dompdf;
 
 class ShippingController extends Controller {
 
@@ -100,18 +101,21 @@ class ShippingController extends Controller {
         $entity->delete();
         return response()->success(true);
     }
-    
-    public function document($id) {
-        $document = Entity::withTrashed()->find($id)->states()->first()->pivot->document;
-        return response($document)
-            ->header('Cache-Control', 'no-cache private')
-            ->header('Content-Description', 'File Transfer')
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-length', strlen($document))
-            ->header('Content-Disposition', 'attachment; filename=statedocument.pdf')
-            ->header('Content-Transfer-Encoding', 'binary');
-    }
 
+    public function document($id) {
+
+        $document = Entity::withTrashed()->find($id)->states()->first()->pivot->document;
+        $filename = 'file.pdf';
+        file_put_contents($filename, $document);
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filename));
+        readfile($filename);
+    }
 
     private function createStateDocument(Request $request) {
 //         return Excel::create('documento', function($excel) {
@@ -123,10 +127,10 @@ class ShippingController extends Controller {
 //                    });
 //                })->export('pdf');
         $pdf = PDF::loadView('pdf.invoice', []);
-        //$pdf = PDF::loadHTML('<h1>Test</h1>');    
-        $pdf->setPaper('A4', 'landscape');
+        //$pdf = PDF::loadHTML('<h1>Test</h1>');   
 
-        return $pdf->download('pippo.pdf');
+        return $pdf->output();
+        //return $pdf->stream();
     }
 
     private function toDTO($entity) {
