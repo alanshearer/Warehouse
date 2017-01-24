@@ -23,7 +23,7 @@
             'ngClipboard',
             'LocalStorageModule',
             'highcharts-ng',
-            'ngInputCurrency'
+            'ng-currency'
         ])
         .factory('myHttpInterceptor', ($q: angular.IQService, notification: Notification.INotificationService) => {
             return {

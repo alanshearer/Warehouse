@@ -556,12 +556,40 @@ module BackOfficeApp.Controllers {
             } else {
                 $scope.product = new productResource();
             }
+            $http.get(modelsUrl, <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
+                $scope.product.availablemodels = result;
+            });
 
-            $scope.getCategories = () => { return $http.get(categoriesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.getModelsByParameters = (category: any, brand: any) => {
+                var models = Enumerable.from($scope.product.availablemodels);
+                if (category)
+                    models = models.where(function(x) { return x.category.value == category; });
+                if (brand)
+                    models = models.where(function(x) { return x.brand.value == brand; });
+                return models;
+            };
 
-            $scope.getAvailableBrands = () => { return $http.get(brandsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.simulateHttpGet = (data: any) => {
+                var promise = {
+                    success: function(callback: any) { return callback(data); },
+                    error: function(n) { return n; },
+                    then: function(n) { return n; },
+                };
+                $http.get('/');
+                return promise;
+            };
 
-            $scope.getAvailableModels = () => { return $http.get(modelsUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
+            $scope.getAvailableCategories = (item: any) => {
+                return $scope.simulateHttpGet($scope.getModelsByParameters().select(function(x) { return x.category; }).toArray());
+            };
+
+            $scope.getAvailableBrands = (item: any) => {
+                return $scope.simulateHttpGet($scope.getModelsByParameters(item.category.value).select(function(x) { return x.brand; }).toArray());
+            };
+
+            $scope.getAvailableModels = (item: any) => {
+                return $scope.simulateHttpGet($scope.getModelsByParameters(item.category.value, item.brand.value).select(function(x) { return x; }).toArray());
+            };
 
             $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
 
@@ -882,8 +910,23 @@ module BackOfficeApp.Controllers {
 
             var shippingId = $routeParams['id'];
 
-            $scope.getOffices = () => { return $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true } }); };
-            $scope.getShippingstates = () => { return $http.get(statesUrl + 'shipping', <any>{ headers: { 'No-Loading': true } }); };
+            $http.get(officesUrl + 'kvp', <any>{ headers: { 'No-Loading': true }, params: {} }).success((result: number) => {
+                $scope.offices = result;
+            });
+            $scope.getDestinationsByParameters = (origin: any) => {
+                var offices = Enumerable.from($scope.offices).where(function(x) { return x.value != origin.value; });
+                return offices;
+            };
+
+            $scope.getOrigins = () => {
+                return $scope.simulateHttpGet($scope.offices);
+            };
+
+            $scope.getDestinations = (origin: any) => {
+                return $scope.simulateHttpGet($scope.getDestinationsByParameters(origin).toArray());
+            };
+
+            //$scope.getShippingstates = () => { return $http.get(statesUrl + 'shipping', <any>{ headers: { 'No-Loading': true } }); };
 
 
             var shippingResource = $resource<dto.IGenericObject>(shippingsUrl + ':id', { id: angular.isDefined(shippingId) ? shippingId : '@shipping.id' }, { save: { method: shippingId != null ? "PUT" : "POST" } });
@@ -896,15 +939,15 @@ module BackOfficeApp.Controllers {
                 $scope.shipping = new shippingResource();
             }
 
-            $scope.delete = () => {
-                notification.showConfirm('Sei sicuro di voler eliminare la spedizione?').then((success: boolean) => {
-                    if (success) {
-                        shippingResource.delete(() => {
-                            $window.history.back();
-                        });
-                    }
-                });
-            };
+            //            $scope.delete = () => {
+            //                notification.showConfirm('Sei sicuro di voler eliminare la spedizione?').then((success: boolean) => {
+            //                    if (success) {
+            //                        shippingResource.delete(() => {
+            //                            $window.history.back();
+            //                        });
+            //                    }
+            //                });
+            //            };
 
             $scope.$watch("shipping.origin.value", (newValue: Date, oldValue: Date) => {
                 if (oldValue && newValue != oldValue) {
@@ -917,7 +960,7 @@ module BackOfficeApp.Controllers {
                 }
             });
             $scope.getProductsByParameters = (category: any, brand: any, model: any) => {
-                var ids = Enumerable.from($scope.shipping.products).select(function(x) { return x.product.value; }).toArray();
+                var ids = Enumerable.from($scope.shipping.products).select(function(x) { if (x.product && x.product.value) { return x.product.value; } }).toArray();
                 var products = Enumerable.from($scope.shipping.availableproducts).where(function(x) { return ids.indexOf(x.id) == -1; });
                 if (category)
                     products = products.where(function(x) { return x.category.value == category; });
@@ -953,14 +996,64 @@ module BackOfficeApp.Controllers {
             $scope.getAvailableProducts = (item: any) => {
                 return $scope.simulateHttpGet($scope.getProductsByParameters(item.category.value, item.brand.value, item.model.value).select(function(x) { return { key: x.serial, value: x.id }; }).toArray());
             };
+            $scope.send = () => {
+                notification.showConfirm('Sei sicuro di voler inviare la spedizione?').then((success: boolean) => {
+                    if (success) {
+                        $scope.shipping.shippingstate = { value: 1 };
+                        $scope.submit();
+                    }
+                });
+            }
+            $scope.confirm = () => {
+                notification.showConfirm('Sei sicuro di voler confermare la spedizione?').then((success: boolean) => {
+                    if (success) {
+                        $scope.shipping.shippingstate = { value: 2 };
+                        $scope.submit();
+                    }
+                });
+            }
 
             $scope.save = () => {
+                notification.showConfirm('Sei sicuro di voler salvare la spedizione?').then((success: boolean) => {
+                    if (success) {
+                        $scope.shipping.shippingstate = { value: 4 };
+                        $scope.submit();
+                    }
+                });
+            }
+
+            $scope.delete = () => {
+                notification.showConfirm('Sei sicuro di voler rigettare la spedizione?').then((success: boolean) => {
+                    if (success) {
+                        $scope.shipping.shippingstate = { value: 3 };
+                        $scope.submit();
+                    }
+                });
+            }
+            $scope.submit = () => {
                 (<any>$scope.shipping).$save().then((result: any) => {
                     notification.showNotify('Spedizione ' + $scope.shipping.date, 'Salvataggio eseguito con successo!');
                     $window.history.back();
                 });
             }
+            $scope.downloadDocument = (id: number) => {
+                $http.get(shippingsUrl + 'document/' + id, <any>{ headers: { 'No-Loading': true }, params: {} }).success(function(data) {
+                    download(data, "documento.pdf");
+                });
+            };
 
+            function download(data, reportname) {
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                (<any>a).style = "display: none";
+                var blob = new Blob([data], { type: 'application/octet-stream' });
+                var urlCreator = window.URL;
+                var objectUrl = urlCreator.createObjectURL(blob);
+                a.href = objectUrl;
+                a.download = reportname;
+                a.click();
+                URL.revokeObjectURL(objectUrl);
+            }
             $scope.filters = {
                 isActive: ''
             };

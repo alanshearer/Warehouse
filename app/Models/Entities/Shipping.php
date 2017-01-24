@@ -20,7 +20,7 @@ class Shipping extends \Illuminate\Database\Eloquent\Model {
     ];
 
     public function states() {
-        return $this->belongsToMany('App\Models\Entities\Shippingstate')->withTimestamps();
+        return $this->belongsToMany('App\Models\Entities\Shippingstate')->withPivot('id', 'date', 'document')->withTimestamps();
     }
 
     public function products() {

@@ -190,7 +190,7 @@
         <!--<script src="content/plugins/angular-ui/ui-bootstrap.min.js"></script>-->
         <script src="content/plugins/angular-ui/ui-bootstrap-tpls.min.js"></script>
         
-        <script src="content/plugins/ng-input-currency/ng-input-currency.js"></script>
+        <script src="content/plugins/ng-currency/ng-currency.js"></script>
         
         <script src="content/scripts/i18n/angular-locale_it.js"></script>
 

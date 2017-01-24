@@ -1,7 +1,6 @@
 ﻿<form name="shippingForm"
        class="form-horizontal"
        novalidate="novalidate"
-       data-form-submit="save()"
        data-ng-controller="shippingCtrl">
     <section class="panel panel-themes borders bd-gray">
         <header class="panel-heading sm">
@@ -10,25 +9,25 @@
         <div class="panel-tools">
             <ul>
                 <li>
-                    <button type="submit" class="btn btn-theme-inverse btn-transparent">
+                    <button type="submit" class="btn btn-theme-inverse btn-transparent" ng-click="shippingForm.$valid && save()">
                         <i class="fa fa-save"></i>
                         Salva come bozza
                     </button>
                 </li>
                 <li>
-                    <button type="submit" class="btn btn-theme-inverse btn-transparent">
+                    <button type="submit" class="btn btn-theme-inverse btn-transparent" ng-click="shippingForm.$valid && send()">
                         <i class="fa fa-send"></i>
                         Invia
                     </button>
                 </li>
                 <li ng-if="shipping.id > 0 && shipping.enabled">
-                    <button type="submit" class="btn btn-theme-inverse btn-transparent">
+                    <button type="submit" class="btn btn-theme-inverse btn-transparent" ng-click="shippingForm.$valid && confirm()">
                         <i class="fa fa-check"></i>
                         Conferma
                     </button>
                 </li>
                 <li ng-if="shipping.id > 0 && shipping.enabled">
-                    <button type="button" class="btn btn-theme-inverse btn-transparent" ng-click="delete()">
+                    <button type="submit" class="btn btn-theme-inverse btn-transparent" ng-click="shippingForm.$valid && delete()">
                         <i class="fa fa-trash-o"></i>
                         Rifiuta
                     </button>
@@ -58,14 +57,14 @@
                                 </div>
                                 <div data-form-group data-label="Provenienza *">
                                     <kvp-select data-items="origins"
-                                                data-action="getOffices()"
+                                                data-action="getOrigins()"
                                                 data-required="true"
                                                 data-current="shipping.origin">
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Destinazione *">
                                     <kvp-select data-items="destinations"
-                                                data-action="getOffices()"
+                                                data-action="getDestinations(shipping.origin)"
                                                 data-required="true"
                                                 data-current="shipping.destination">
                                     </kvp-select>
@@ -78,12 +77,8 @@
                                            >
                                 </div> 
                                 <div data-form-group data-label="Stato">
-                                    <kvp-select data-items="shippingstates"
-                                                data-action="getShippingstates()"
-                                                data-required="true"
-                                                data-current="shipping.shippingstate"
-                                                data-disabled="true">
-                                    </kvp-select>
+                                    <span class="badge {{shipping.statecssclass}}">{{shipping.shippingstate.key}}</span>
+                                    <span class="badge"><button class="btn btn-link" ng-click="downloadDocument(shipping.id)">Scarica documento</button></span>
                                 </div>  
                             </div>
                         </div>

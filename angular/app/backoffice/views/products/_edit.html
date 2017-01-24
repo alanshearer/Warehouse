@@ -51,22 +51,22 @@
                                 </div>
                                 <div data-form-group data-label="Categoria *">
                                     <kvp-select data-items="categories"
-                                                data-action="getCategories()"
+                                                data-action="getAvailableCategories()"
                                                 data-required="true"
                                                 data-current="product.category">
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Brand *">
                                     <kvp-select data-items="brands"
-                                                data-action="getAvailableBrands()"
+                                                data-action="getAvailableBrands(product)"
                                                 data-required="true"
                                                 data-current="product.brand"
                                                 ng-disabled="!product.category">
                                     </kvp-select>
                                 </div>
-                                <div data-form-group data-label="Modello">
+                                <div data-form-group data-label="Modello *">
                                     <kvp-select data-items="models"
-                                                data-action="getAvailableModels()"
+                                                data-action="getAvailableModels(product)"
                                                 data-required="true"
                                                 data-current="product.model"
                                                 ng-disabled="!product.brand || !product.category">
@@ -75,7 +75,8 @@
                                 <div data-form-group data-label="Prezzo">
                                     <input class="form-control input-sm"
                                            type="text"
-                                           ng-input-currency
+                                           ng-currency
+                                           currency-symbol="€"
                                            data-width="auto"
                                            name="price"
                                            ng-model="product.price"
@@ -113,12 +114,7 @@
                                     </kvp-select>
                                 </div>
                                 <div data-form-group data-label="Stato">
-                                    <kvp-select data-items="workingstates"
-                                                data-action="getWorkingStates()"
-                                                data-required="false"
-                                                data-current="product.workingstate"
-                                                data-disabled="true">
-                                    </kvp-select>
+                                    <span class="badge {{item.statecssclass}}">{{item.workingstate.key}}</span>
                                 </div>
                                 <div data-form-group data-label="QrCode">
                                     <div ng-bind-html="product.qrcode"></div>

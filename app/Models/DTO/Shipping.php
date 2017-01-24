@@ -36,6 +36,9 @@ class Shipping {
         if ($entity->states()->get()->count() > 0) {
             $this->shippingstate = (new ShippingstateDTO($entity->states()->first()))->kvp();
         }
+        //$this->pivot_id = $entity->states()->first()->pivot->id;
+        //$this->statecssclass = self::getstatecssclass($this->shippingstate);
+
         $this->enabled = $entity->deleted_at == null ? true : false;
     }
 
@@ -52,4 +55,18 @@ class Shipping {
         return ["key" => $this->name, "value" => $this->id];
     }
 
+        private function getstatecssclass($state) {
+        switch ($state) {
+            case 1:
+                return 'bg-warning-darken';
+            case 2:
+                return 'bg-success-darken';
+            case 3:
+                return 'bg-danger-darken';
+            case 4:
+                return 'bg-info-darken';
+            default:
+                return 'bg-darken';
+        }
+    }
 }

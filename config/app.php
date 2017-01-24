@@ -163,6 +163,11 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         
         /*
+         * DomPDF Service Provider
+         */
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        /*
          * Qr Code Service Provider
          */
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
@@ -212,5 +217,6 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 ];

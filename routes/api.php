@@ -109,6 +109,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::put('orders/{id}', 'OrderController@update');
     Route::delete('orders/{id}', 'OrderController@delete');
 
+    Route::get('shippings/document/{id}', 'ShippingController@document');
     Route::get('shippings/{page}/{elements}/{orderby?}/{desc?}', 'ShippingController@search');
     Route::get('shippings', 'ShippingController@index');
     Route::get('shippings/xls', 'ShippingController@xls');
@@ -117,6 +118,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('shippings', 'ShippingController@create');
     Route::put('shippings/{id}', 'ShippingController@update');
     Route::delete('shippings/{id}', 'ShippingController@delete');
+
 
     Route::get('checks/{page}/{elements}/{orderby?}/{desc?}', 'CheckController@search');
     Route::get('checks', 'CheckController@index');
