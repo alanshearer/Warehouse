@@ -113,7 +113,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="detail in data.officesRights" ng-form="associatedWarehouseForm">
+                                        <tr ng-repeat="detail in data.offices" ng-form="associatedWarehouseForm">
                                             <td class="text-right">
                                                 {{$index + 1}}
                                             </td>
@@ -121,7 +121,7 @@
                                     <kvp-select data-items="offices"
                                                 data-action="getOffices()"
                                                 data-required="true"
-                                                data-current="detail.office">
+                                                data-current="detail">
                                     </kvp-select>
                                     </td>
                                     <td data-form-group>
@@ -132,7 +132,7 @@
                                     <tfoot>
                                         <tr>
                                             <td colspan="2" ng-cloak>
-                                                <label class="color color-primary">Totale magazzini associati: <strong>{{data.officesRights.length}}</strong> </label>
+                                                <label class="color color-primary">Totale magazzini associati: <strong>{{data.offices.length}}</strong> </label>
                                             </td>
                                             <td>
                                                 <a class="btn btn-default btn-sm" href="javascript:void(0)" ng-click="addOffice()">

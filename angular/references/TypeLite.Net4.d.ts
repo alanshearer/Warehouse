@@ -123,7 +123,7 @@ declare module dto {
         modifiedUser: string;
         lastUsedCompanyId: number;
         lastUsedCompanyName: string;
-        officesRights: dto.IUserOfficeRight[];
+        offices: dto.IUserOfficeRight[];
         fullName: string;
     }
     interface IUserOfficeRight {

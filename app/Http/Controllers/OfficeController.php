@@ -54,7 +54,6 @@ class OfficeController extends Controller {
 
     public function get(Request $request, $id) {
         $officetype_id = $request->officetype_id;
-        //print($officetype_id);
         $entity = Entity::withTrashed()->find($id);
         $dto = self::toDTO($entity);
         return response()->success($dto);

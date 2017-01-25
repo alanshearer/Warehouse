@@ -105,32 +105,22 @@ class ShippingController extends Controller {
     public function document($id) {
 
         $document = Entity::withTrashed()->find($id)->states()->first()->pivot->document;
-        $filename = 'file.pdf';
-        file_put_contents($filename, $document);
+//        $filename = 'file.pdf';
+//        file_put_contents($filename, $document);
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+        header('Content-Disposition: attachment; filename="file.pdf"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($filename));
-        readfile($filename);
+        header('Content-Length: ' . strlen($document));
+//        readfile($filename);
+        return $document;
     }
 
     private function createStateDocument(Request $request) {
-//         return Excel::create('documento', function($excel) {
-//                    $excel->sheet('Foglio 1', function($sheet) {
-//                        $sheet->setOrientation('portrait');
-//                        $sheet->row(1, array(
-//                            'test1', 'test2'
-//                       ));
-//                    });
-//                })->export('pdf');
         $pdf = PDF::loadView('pdf.invoice', []);
-        //$pdf = PDF::loadHTML('<h1>Test</h1>');   
-
         return $pdf->output();
-        //return $pdf->stream();
     }
 
     private function toDTO($entity) {

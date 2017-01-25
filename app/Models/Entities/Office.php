@@ -36,4 +36,8 @@ class Office extends \Illuminate\Database\Eloquent\Model {
         return $this->belongsTo('App\Models\Entities\Office', 'parent_id', 'id');
     }
 
+    public function users() {
+        return $this->belongsToMany('App\Models\Entities\User', 'user_office')->whereNull('user_office.deleted_at')->withTimestamps();
+    }
+
 }

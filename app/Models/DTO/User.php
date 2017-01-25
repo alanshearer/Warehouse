@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Models\DTO;
+
 use App\Models\Entities\User as Entity;
 use App\Models\DTO\Role as RoleDTO;
+use App\Models\DTO\Office as OfficeDTO;
 
-class User 
-{
+class User {
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,10 +23,10 @@ class User
      * @var array
      */
     protected $hidden = [
-        'password',  'password_confirmation', 'remember_token',
+        'password', 'password_confirmation', 'remember_token',
     ];
-    
-        public function __construct(Entity $entity) {
+
+    public function __construct(Entity $entity) {
         $this->id = $entity->id;
         $this->username = $entity->username;
         $this->firstname = $entity->firstname;
@@ -32,9 +34,14 @@ class User
         $this->email = $entity->email;
         $this->role = (new RoleDTO($entity->role))->kvp();
         $this->enabled = !$entity->trashed();
+        $this->offices = array();
+        foreach ($entity->offices as $office) {
+            array_push($this->offices, (new OfficeDTO($office))->kvp());
+        }
     }
 
     public function kvp() {
         return ["key" => $this->name, "value" => $this->id];
     }
+
 }

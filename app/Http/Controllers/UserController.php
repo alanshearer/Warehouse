@@ -52,12 +52,23 @@ class UserController extends Controller {
 
     public function create(Request $request) {
         $entity = Entity::create(self::toEntity($request));
+        if ($request->offices) {
+            foreach ($request->offices as $office) {
+                $entity->offices()->attach($office["value"]);
+            }
+        }
         return response()->success(new DTO($entity));
     }
 
     public function update(Request $request, $id) {
         $entity = Entity::withTrashed()->find($id);
         $entity->fill(self::toEntity($request));
+        $entity->offices()->detach();
+        if ($request->offices) {
+            foreach ($request->offices as $office) {
+                $entity->offices()->attach($office["value"]);
+            }
+        }
         $entity->save();
         return response()->success(new DTO($entity));
     }

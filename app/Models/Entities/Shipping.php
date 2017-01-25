@@ -3,11 +3,24 @@
 namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\ShippingScope;
 
 class Shipping extends \Illuminate\Database\Eloquent\Model {
 
     use SoftDeletes;
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new ShippingScope);;
+    }
+    
     protected $softDeletes = true;
 
     /**

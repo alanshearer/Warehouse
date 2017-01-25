@@ -406,15 +406,15 @@ module BackOfficeApp.Controllers {
 
             $scope.removeOffice = (item: dto.IUserOfficeRight) => {
                 if (angular.isDefined(item)) {
-                    var index = $scope.data.officesRights.indexOf(item);
-                    $scope.data.officesRights.splice(index, 1);
+                    var index = $scope.data.offices.indexOf(item);
+                    $scope.data.offices.splice(index, 1);
                 }
             }
             $scope.addOffice = () => {
-                if (angular.isUndefined($scope.data.officesRights) || $scope.data.officesRights == null) {
-                    $scope.data.officesRights = [];
+                if (angular.isUndefined($scope.data.offices) || $scope.data.offices == null) {
+                    $scope.data.offices = [];
                 }
-                $scope.data.officesRights.push(<dto.IUserOfficeRight>{});
+                $scope.data.offices.push(<dto.IUserOfficeRight>{});
             }
 
             $scope.delete = () => {
@@ -1037,7 +1037,7 @@ module BackOfficeApp.Controllers {
                 });
             }
             $scope.downloadDocument = (id: number) => {
-                $http.get(shippingsUrl + 'document/' + id, <any>{ headers: { 'No-Loading': true }, params: {} }).success(function(data) {
+                $http.get(shippingsUrl + 'document/' + id, <any>{ headers: { 'No-Loading': true }, params: {}, responseType: 'arraybuffer' }).success(function(data) {
                     download(data, "documento.pdf");
                 });
             };

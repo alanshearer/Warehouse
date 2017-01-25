@@ -33,5 +33,9 @@ class User extends \Illuminate\Database\Eloquent\Model {
     public function role() {
         return $this->belongsTo('App\Models\Entities\Role', 'role_id', 'id');
     }
+    
+    public function offices() {
+        return $this->belongsToMany('App\Models\Entities\Office', 'user_office')->whereNull('user_office.deleted_at')->withTimestamps();
+    }
 
 }
