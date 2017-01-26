@@ -35,10 +35,11 @@ class Shipping {
         }
         if ($entity->states()->get()->count() > 0) {
             $this->shippingstate = (new ShippingstateDTO($entity->states()->first()))->kvp();
+            $this->issendable = self::issendable($this->shippingstate["value"]);
+            $this->isconfirmable = self::isconfirmable($this->shippingstate["value"]);
         }
         //$this->pivot_id = $entity->states()->first()->pivot->id;
         //$this->statecssclass = self::getstatecssclass($this->shippingstate);
-
         $this->enabled = $entity->deleted_at == null ? true : false;
     }
 
@@ -55,7 +56,7 @@ class Shipping {
         return ["key" => $this->name, "value" => $this->id];
     }
 
-        private function getstatecssclass($state) {
+    private function getstatecssclass($state) {
         switch ($state) {
             case 1:
                 return 'bg-warning-darken';
@@ -69,4 +70,31 @@ class Shipping {
                 return 'bg-darken';
         }
     }
+
+    private function issendable($state) {
+        switch ($state) {
+            case 1:
+            case 2:
+            case 3:
+                return false;
+            case 4:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private function isconfirmable($state) {
+        switch ($state) {
+            case 1:
+                return true;
+            case 2:
+            case 3:
+            case 4:
+                return false;
+            default:
+                return false;
+        }
+    }
+
 }

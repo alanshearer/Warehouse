@@ -937,6 +937,7 @@ module BackOfficeApp.Controllers {
                 });
             } else {
                 $scope.shipping = new shippingResource();
+                $scope.shipping.issendable = true;
             }
 
             //            $scope.delete = () => {

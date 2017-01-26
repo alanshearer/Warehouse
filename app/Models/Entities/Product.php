@@ -3,12 +3,24 @@
 namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\ProductScope;
 
 class Product extends \Illuminate\Database\Eloquent\Model {
 
     use SoftDeletes;
 
     protected $softDeletes = true;
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot() {
+        parent::boot();
+
+        static::addGlobalScope(new ProductScope);
+    }
 
     /**
      * The attributes that are mass assignable.

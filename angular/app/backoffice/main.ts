@@ -214,7 +214,7 @@
                 })
                 .when('/products', {
                     templateUrl: "/app/backoffice/views/products/_list.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Gestione prodotti'
                 }).when('/products/edit/:id', {
                     templateUrl: "/app/backoffice/views/products/_edit.html",

@@ -9,19 +9,18 @@ class Shipping extends \Illuminate\Database\Eloquent\Model {
 
     use SoftDeletes;
 
+    protected $softDeletes = true;
+
     /**
      * The "booting" method of the model.
      *
      * @return void
      */
-    protected static function boot()
-    {
+    protected static function boot() {
         parent::boot();
 
-        static::addGlobalScope(new ShippingScope);;
+        static::addGlobalScope(new ShippingScope);
     }
-    
-    protected $softDeletes = true;
 
     /**
      * The attributes that are mass assignable.
