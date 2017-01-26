@@ -22,26 +22,25 @@ class ShippingScope implements Scope {
         $id = Auth::id();
         $user = UserEntity::findOrFail($id);
         $role_id = $user->role->id;
-        $warehouse_ids = [];
-        $office_ids = [];
-        array_push($office_ids, $user->offices()->pluck('offices.id')->toArray());
-        array_push($warehouse_ids, OfficeEntity::where('parent_id', $office_ids)->pluck('id')->toArray());
-        $warehouse_ids = array_merge($warehouse_ids, $office_ids);
-
         switch ($role_id) {
             case 1:
                 break;
             case 2:
+                $warehouse_ids = [];
+                $office_ids = [];
+                array_push($office_ids, $user->offices()->pluck('offices.id')->toArray());
+                array_push($warehouse_ids, OfficeEntity::where('parent_id', $office_ids)->pluck('id')->toArray());
+                $warehouse_ids = array_merge($warehouse_ids, $office_ids);
                 $builder->where(function ($query) use($warehouse_ids) {
                     $query->whereIn('origin_id', $warehouse_ids)
                             ->orWhereIn('destination_id', $warehouse_ids);
                 });
                 break;
             case 3:
-                $builder->where('id', '>', 0);
+                $builder->where('id', '<', 0);
                 break;
             case 4:
-                $builder->where('id', '>', 0);
+                $builder->where('id', '<', 0);
                 break;
             default:
                 break;

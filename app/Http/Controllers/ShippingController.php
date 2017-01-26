@@ -91,7 +91,7 @@ class ShippingController extends Controller {
         }
 
         $entity->states()->detach();
-        $entity->states()->attach($request->shippingstate["value"], ['date' => new \DateTime(), 'document' => self::createStateDocument($request)]);
+        $entity->states()->attach($request->shippingstate["value"], ['date' => new \DateTime(), 'document' => self::createStateDocument($entity)]);
         $entity->save();
         return response()->success(new DTO($entity));
     }
@@ -118,9 +118,10 @@ class ShippingController extends Controller {
         return $document;
     }
 
-    private function createStateDocument(Request $request) {
-        $pdf = PDF::loadView('pdf.invoice', []);
-        return $pdf->output();
+    private function createStateDocument(Entity $entity) {
+        $shipping = self::toDTO($entity);
+        $pdf = PDF::loadView('pdf.shipping', compact('shipping'));
+        return $pdf->setPaper('a4', 'landscape')->setWarnings(false)->output();
     }
 
     private function toDTO($entity) {
