@@ -6,7 +6,9 @@ $(function () {
 
     if (iOS || android) {
         $("html").addClass("isMobile");
-        if (iOS) { $(".form-control").css("-webkit-appearance", "caret"); }
+        if (iOS) {
+            $(".form-control").css("-webkit-appearance", "caret");
+        }
         $("select.input-sm,select.input-lg ").css("line-height", "1.3");
     }
 
@@ -45,9 +47,9 @@ $(function () {
     };
     $.rgbaColor = function (hex, opacity) {
         var bigint = parseInt(hex.replace("#", ""), 16),
-            r = (bigint >> 16) & 255,
-            g = (bigint >> 8) & 255,
-            b = bigint & 255;
+                r = (bigint >> 16) & 255,
+                g = (bigint >> 8) & 255,
+                b = bigint & 255;
         if (opacity || opacity <= 1) {
             return "rgba(" + r + "," + g + "," + b + "," + (opacity || 1) + ")";
         } else {
@@ -90,18 +92,20 @@ $(function () {
 
     //////////     TEXTAREA  AUTO SIZE    //////////
     $('textarea[data-height="auto"]').autosize();
-    $(".widget-write-post textarea").limit({ limit: 20 });
+    $(".widget-write-post textarea").limit({limit: 20});
 
     //////////     SELETE PICKER    //////////
     $('.selectpicker').selectpicker();
 
     //////////     INPUT MAXLENGTH    //////////
     $("input[maxlength] , textarea[maxlength] ").each(function () {
-        $(this).maxlength({ bornIn: "#main" });
+        $(this).maxlength({bornIn: "#main"});
     });
 
     //////////     PRETTY PRINT CODE    //////////
-    addEventListener('load', function (event) { prettyPrint() }, false);
+    addEventListener('load', function (event) {
+        prettyPrint()
+    }, false);
 
 
     //////////     TAB DROP    //////////
@@ -206,16 +210,16 @@ $(function () {
                 if (objBtn.data("btn-group") == "monochromatic") {
                     objBtn.each(function (i) {
                         var group = $(this),
-                        fontColor,
-                        btn = $(this).find(".btn"),
-                        color = $.inColor($(this).data("btn-color"), cepletColor);
+                                fontColor,
+                                btn = $(this).find(".btn"),
+                                color = $.inColor($(this).data("btn-color"), cepletColor);
                         btn.each(function (i) {
                             if (group.data("btn-step") === "lighten") {
                                 btncolor = $.xcolor.lighten(color || group.data("btn-color") || "#CCC", i == 0 ? i : i + 1, group.data("btn-color-step") || 9);
                             } else {
                                 btncolor = $.xcolor.darken(color || group.data("btn-color") || "#AAA", i == 0 ? i : i + 1, group.data("btn-color-step") || 13);
                             }
-                            $(this).css({ "background-color": btncolor, "border-color": btncolor, "color": group.data("btn-fcolor") || "#FFF" });
+                            $(this).css({"background-color": btncolor, "border-color": btncolor, "color": group.data("btn-fcolor") || "#FFF"});
 
                         });
                     });
@@ -238,7 +242,9 @@ $(function () {
         var confirmClose = function () {
             parents.fadeOut(400, function () {
                 $(this).remove();
-                setTimeout(function () { imClose(aClick, imWrapper) }, 200);
+                setTimeout(function () {
+                    imClose(aClick, imWrapper)
+                }, 200);
             });
         }
         if (confirm == "yes" || confirm == "accept") {
@@ -290,7 +296,7 @@ $(function () {
 
 
     //////////     PROGRESS BAR      //////////
-    $('.progress-tooltip .progress-bar').progressbar({ display_text: 'tooltip' });
+    $('.progress-tooltip .progress-bar').progressbar({display_text: 'tooltip'});
     $('.progress-bar').progressbar();
 
 
@@ -298,7 +304,7 @@ $(function () {
     $('.tooltip-area .btn').tooltip();
     $('.tooltip-area a[data-toggle="tooltip"]').tooltip();
     $('.popover-area [data-toggle="popover"]').popover();
-    $('.popover-area-hover [data-toggle="popover"]').popover({ trigger: "hover" });
+    $('.popover-area-hover [data-toggle="popover"]').popover({trigger: "hover"});
 
 
 
@@ -323,7 +329,9 @@ $(function () {
         }).on("closing.mm", function () {
             var highest = $(this).find("ul.mm-highest");
             highest.find(".mm-subclose").trigger('click');
-            setTimeout(function () { closeSub() }, 200);
+            setTimeout(function () {
+                closeSub()
+            }, 200);
         });
     });
 
@@ -356,16 +364,18 @@ $(function () {
     //////////     TOGGLE  OPEN LEFT CANVAS MENU      //////////
     $("body").append('<div class="toggle-menu"/>');
     $('body').on("click", ".toggle-menu", function (e) {
+        $("body").toggleClass("in");
+        closeSub();
         e.stopImmediatePropagation();
         e.preventDefault();
-        $('nav#menu').trigger('open.mm');
+        //$('nav#menu').trigger('open.mm');
     });
 
 
     //////////     TOUCH TO OPEN CANVAS MENU      //////////
     $('li[data-counter-color]').each(function (i) {
         var counter = $(this).find("em.mm-counter");
-        counter.css({ "background-color": $.fillColor($(this)), "color": "#FFF" });
+        counter.css({"background-color": $.fillColor($(this)), "color": "#FFF"});
     });
 
 
@@ -399,7 +409,7 @@ $(function () {
     //////////     HORIZONTAL FORM  AUTO GENERENT COLUMN       //////////
     $(".form-horizontal").each(function () {
         var form = $(this), data = $(this).data(), colClass = "col-" + (data.col || "md"), coldiv = "",
-        colOffset = colClass + "-offset-", labelClass = colClass + "-" + (data.collabel || "2");
+                colOffset = colClass + "-offset-", labelClass = colClass + "-" + (data.collabel || "2");
         if (data.collabel) {
             coldiv = 12 - parseInt(data.collabel);
         }
@@ -417,7 +427,7 @@ $(function () {
                 form.addClass('labelcustomize');
                 $text = $label.html();
                 $label.html("").append('<span class="' + data.label + '">' + $text + '</span>');
-                $label.find("span.icon").css({ "border-color": data.colorlabel || "#EEE" });
+                $label.find("span.icon").css({"border-color": data.colorlabel || "#EEE"});
             }
             if (!$(this).hasClass("none")) {
                 $label.addClass(labelClass);
@@ -426,7 +436,7 @@ $(function () {
         });
         if (data.label == "icon") {
             form.append('<div class="icon ' + labelClass + ' ' + data.alignlabel + '" />')
-            form.find("div.icon").css({ "border-color": data.colorlabel || "#EEE" });
+            form.find("div.icon").css({"border-color": data.colorlabel || "#EEE"});
         }
     });
 
@@ -436,12 +446,12 @@ $(function () {
     var createiCheck = (function () {
         $('.iCheck').each(function (i) {
             var data = $(this).data(),
-             input = $(this).find("input"),
-             li = $(this).find("li"),
-             index = "cp" + i,
-             insert_text,
-             iCheckColor = ["black", "red", "green", "blue", "aero", "grey", "orange", "yellow", "pink", "purple"],
-             callCheck = data.style || "flat";
+                    input = $(this).find("input"),
+                    li = $(this).find("li"),
+                    index = "cp" + i,
+                    insert_text,
+                    iCheckColor = ["black", "red", "green", "blue", "aero", "grey", "orange", "yellow", "pink", "purple"],
+                    callCheck = data.style || "flat";
             if (data.color && data.style !== "polaris" && data.style !== "futurico") {
                 hasColor = jQuery.inArray(data.color, iCheckColor);
                 if (hasColor != -1 && hasColor < iCheckColor.length) {
@@ -454,13 +464,13 @@ $(function () {
                 if (data.style == "line") {
                     insert_text = '<div class="icheck_line-icon"></div><span>' + label_text + '</span>';
                     label.remove();
-                    self.iCheck({ checkboxClass: 'icheckbox_' + callCheck, radioClass: 'iradio_' + callCheck, insert: insert_text });
+                    self.iCheck({checkboxClass: 'icheckbox_' + callCheck, radioClass: 'iradio_' + callCheck, insert: insert_text});
                 } else {
                     label.attr("for", "iCheck-" + index + "-" + i);
                 }
             });
             if (data.style !== "line") {
-                input.iCheck({ checkboxClass: 'icheckbox_' + callCheck, radioClass: 'iradio_' + callCheck });
+                input.iCheck({checkboxClass: 'icheckbox_' + callCheck, radioClass: 'iradio_' + callCheck});
             } else {
                 li.addClass("line");
             }
@@ -479,7 +489,8 @@ $(function () {
             $('.iCheck input').iCheck('destroy');
             createiCheck();
             self.addClass('active');
-        };
+        }
+        ;
     });
 
     $('.ios-switch .switch').each(function (i) {
@@ -516,7 +527,7 @@ $(function () {
     //////////     COLOR PICKER     //////////
     $('[data-provide="colorpicker"]').each(function (i) {
         var id = "color_" + i, $this = $(this).attr("id", id), data = $(this).data(),
-        submit_btn = data.inline ? 0 : 1;
+                submit_btn = data.inline ? 0 : 1;
         if (data.addon && $this.is("input")) {
             $('#' + id).next().css("width", $(this).outerHeight());
         }
@@ -530,8 +541,8 @@ $(function () {
             onChange: function (hsb, hex, rgb) {
                 $('#' + id).val('#' + hex);
                 if (data.addon) {
-                    $('#' + id).css({ 'border-color': '#' + hex });
-                    $('#' + id).next().css({ 'background-color': '#' + hex, 'border-color': '#' + hex });
+                    $('#' + id).css({'border-color': '#' + hex});
+                    $('#' + id).next().css({'background-color': '#' + hex, 'border-color': '#' + hex});
                 }
             },
             onSubmit: function (hsb, hex, rgb, el) {
@@ -553,7 +564,7 @@ $(function () {
     $.each(cepletColor, function (key, val) {
         cc_color.push(val) //put color for ceplet color
     });
-    $('#colorpalette_events').colorPalette({ colors: [cc_color] }).on('selectColor', function (e) {
+    $('#colorpalette_events').colorPalette({colors: [cc_color]}).on('selectColor', function (e) {
         var data = $(this).data();
         $(data.returnColor).val(e.color);
         $(this).parents(".input-group").find(".ico").css("color", e.color);
@@ -581,7 +592,7 @@ $(function () {
         endDate: moment(),
         minDate: '01/01/2012',
         maxDate: '12/31/2014',
-        dateLimit: { days: 60 },
+        dateLimit: {days: 60},
         /*parentEl:"#main",*/
         timePicker: false,
         timePickerIncrement: 1,
@@ -608,33 +619,33 @@ $(function () {
             firstDay: 1
         }
     },
-         function (start, end) {
-             console.log("Callback has been called!");
-             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-         }
-      );
+            function (start, end) {
+                console.log("Callback has been called!");
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+    );
     $('#reportrange span').html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
 
 
 
     //////////     PANEL  TOOLS     //////////
     /*		$(".panel-tools[data-toolscolor]").each(function(i) {
-                var tools=$(this), 
-                    data=$(this).data(), 
-                    btn=$(this).find(".btn"),
-                    step="";
-                    data.colorStep  = data.colorStep || true;
-                    if(tools.prev().hasClass("panel-heading") && !tools.hasClass("panel-tools-mini") ){
-                        tools.prev().css("border","none");
-                    }
-                    if(data.toolscolor){ 
-                        tools.css({"background-color":$.fillColor(tools) }) ;
-                        tools.parent().find(".panel-body .table thead > tr > th").css("border-bottom-color", $.fillColor(tools) );
-                    }
-                    btn.each(function(i) {
-                        $(this).css("background-color",$.xcolor.darken( $.fillColor(tools) , data.colorStep==false? 1:i+1 ,15))	;
-                    });
-            });*/
+     var tools=$(this), 
+     data=$(this).data(), 
+     btn=$(this).find(".btn"),
+     step="";
+     data.colorStep  = data.colorStep || true;
+     if(tools.prev().hasClass("panel-heading") && !tools.hasClass("panel-tools-mini") ){
+     tools.prev().css("border","none");
+     }
+     if(data.toolscolor){ 
+     tools.css({"background-color":$.fillColor(tools) }) ;
+     tools.parent().find(".panel-body .table thead > tr > th").css("border-bottom-color", $.fillColor(tools) );
+     }
+     btn.each(function(i) {
+     $(this).css("background-color",$.xcolor.darken( $.fillColor(tools) , data.colorStep==false? 1:i+1 ,15))	;
+     });
+     });*/
     $('.panel-tools .btn-collapse').on('click', function () {
         var btn = $(this), panelBody = btn.closest(".panel").find(".panel-body");
         btn.toggleClass("in");
@@ -648,14 +659,16 @@ $(function () {
     });
     $('.panel-tools .btn-reload').click(function (e) {
         var btn = $(this), panelBody = btn.closest(".panel").find(".panel-body"),
-        overlay = $('<div class="load-overlay"><div><div class="c1"></div><div class="c2"></div><div class="c3"></div><div class="c4"></div></div><span>Loading...</span></div>');
+                overlay = $('<div class="load-overlay"><div><div class="c1"></div><div class="c2"></div><div class="c3"></div><div class="c4"></div></div><span>Loading...</span></div>');
         btn.removeClass("btn-panel-reload").addClass("disabled");
         panelBody.append(overlay);
         overlay.css('opacity', 1).fadeIn();
 
         setTimeout(function () {
             btn.removeClass("disabled").addClass("btn-panel-reload");
-            panelBody.find(overlay).fadeOut("slow", function () { $(this).remove() });
+            panelBody.find(overlay).fadeOut("slow", function () {
+                $(this).remove()
+            });
         }, 5000);
     });
     $(".panel-tools").on('click', ".btn-close", function () {
@@ -668,10 +681,12 @@ $(function () {
             tools.append(confirmGroup);
             panel.toggleClass("push-in");
             blockClose.appendTo("#content");
-            blockClose.css({ "height": $("#content").outerHeight() }).fadeTo(400, 0.5);
+            blockClose.css({"height": $("#content").outerHeight()}).fadeTo(400, 0.5);
             console.log($("#content").outerHeight())
         } else {
-            $(".blockerClose").fadeOut(200, function () { $(this).remove() });
+            $(".blockerClose").fadeOut(200, function () {
+                $(this).remove()
+            });
             setTimeout(function () {
                 tools.find(".pt-confirm-group").remove();
                 panel.toggleClass("push-in");
@@ -681,12 +696,16 @@ $(function () {
     $(".panel-tools").on('click', '.close-confirm', function () {
         $(this).closest('.panel').fadeOut(500, function () {
             $(this).remove();
-            $(".blockerClose").fadeOut(200, function () { $(this).remove() });
+            $(".blockerClose").fadeOut(200, function () {
+                $(this).remove()
+            });
         });
     });
     $('#content').on('click', '.blockerClose', function () {
         var el = $(this);
-        el.fadeOut(200, function () { $(this).remove() });
+        el.fadeOut(200, function () {
+            $(this).remove()
+        });
         $(".panel-tools.push-in").toggleClass("push-in", function () {
             var tools = $(this);
             setTimeout(function () {
@@ -706,7 +725,7 @@ $(function () {
         var el = $("table" + ($change ? $change : ".flot-chart"));
         el.each(function () {
             var colors = [], data = $(this).data(),
-            gridColor = data.tickColor || "rgba(0,0,0,0.2)";
+                    gridColor = data.tickColor || "rgba(0,0,0,0.2)";
             $(this).find("thead th:not(:first)").each(function () {
                 colors.push($(this).css("color"));
             });
@@ -722,18 +741,26 @@ $(function () {
                     pie = data.type.indexOf("pie") != -1;
                 }
             }
-            $(this).graphTable({ series: 'columns', position: data.position || 'after', width: data.width, height: data.height, colors: colors },
-            {
-                series: { stack: data.stack, pie: { show: pie, innerRadius: data.innerRadius || 0, stroke: { shadow: data.pieStyle == "shadow" ? true : false }, label: { show: data.pieLabel } }, bars: { show: bars, barWidth: data.barWidth || 0.5, fill: data.fill || 1, align: "center" }, lines: { show: lines, fill: 0.1, steps: data.steps } },
-                xaxis: { mode: data.mode || "categories", tickLength: 0 },
-                yaxis: {
-                    tickColor: gridColor, max: data.yaxisMax,
-                    tickFormatter: function number(x) { var num; if (x >= 1000) { num = (x / 1000) + "k"; } else { num = x; } return num; }
-                },
-                grid: { borderWidth: { top: 0, right: 0, bottom: 1, left: 1 }, color: gridColor },
-                tooltip: data.toolTip == "show" ? true : false,
-                tooltipOpts: { content: (pie ? "%p.0%, %s" : "<b>%s</b> :  %y") }
-            });
+            $(this).graphTable({series: 'columns', position: data.position || 'after', width: data.width, height: data.height, colors: colors},
+                    {
+                        series: {stack: data.stack, pie: {show: pie, innerRadius: data.innerRadius || 0, stroke: {shadow: data.pieStyle == "shadow" ? true : false}, label: {show: data.pieLabel}}, bars: {show: bars, barWidth: data.barWidth || 0.5, fill: data.fill || 1, align: "center"}, lines: {show: lines, fill: 0.1, steps: data.steps}},
+                        xaxis: {mode: data.mode || "categories", tickLength: 0},
+                        yaxis: {
+                            tickColor: gridColor, max: data.yaxisMax,
+                            tickFormatter: function number(x) {
+                                var num;
+                                if (x >= 1000) {
+                                    num = (x / 1000) + "k";
+                                } else {
+                                    num = x;
+                                }
+                                return num;
+                            }
+                        },
+                        grid: {borderWidth: {top: 0, right: 0, bottom: 1, left: 1}, color: gridColor},
+                        tooltip: data.toolTip == "show" ? true : false,
+                        tooltipOpts: {content: (pie ? "%p.0%, %s" : "<b>%s</b> :  %y")}
+                    });
         });
     }
     // Create Flot Chart
@@ -758,7 +785,7 @@ $(function () {
         el.append("<ul>" + li + "</ul>");
         if ($(data.flotId).prev(".label-flot-custom-title")) {
             var height = $(data.flotId).next(".chart_flot").css("height");
-            $(data.flotId).prev(".label-flot-custom-title").css({ "height": height, "line-height": height });
+            $(data.flotId).prev(".label-flot-custom-title").css({"height": height, "line-height": height});
         }
     });
 
@@ -770,9 +797,11 @@ $(function () {
         $data.fgColor = $.fillColor(thisKnob) || "#F37864";
         thisKnob.knob($data);
         if ($data.animate) {
-            $({ value: 0 }).animate({ value: this.value }, {
+            $({value: 0}).animate({value: this.value}, {
                 duration: 1000, easing: 'swing',
-                step: function () { thisKnob.val(Math.ceil(this.value)).trigger('change'); }
+                step: function () {
+                    thisKnob.val(Math.ceil(this.value)).trigger('change');
+                }
             });
         }
     });
@@ -860,10 +889,10 @@ $(function () {
         $data.lineCap = $data.lineCap || "butt";
         $data.lineWidth = $data.lineWidth || 20;
         $data.scaleColor = $data.scaleColor || false,
-        $data.onStep = function (from, to, percent) {
-            $(this.el).find('.percent').text(Math.round(percent));
-        }
-        thisEasy.find('.percent').css({ "line-height": $data.size + "px" });
+                $data.onStep = function (from, to, percent) {
+                    $(this.el).find('.percent').text(Math.round(percent));
+                }
+        thisEasy.find('.percent').css({"line-height": $data.size + "px"});
         thisEasy.easyPieChart($data);
     });
     $('.js_update').on('click', function () {
@@ -883,8 +912,12 @@ $(function () {
                 livedata = livedata.slice(1);
             while (livedata.length < totalPoints) {
                 var prev = livedata.length > 0 ? livedata[livedata.length - 1] : 20,
-                    y = prev + Math.random() * 10 - 5;
-                if (y < 0) { y = 0; } else if (y > 30) { y = 30; }
+                        y = prev + Math.random() * 10 - 5;
+                if (y < 0) {
+                    y = 0;
+                } else if (y > 30) {
+                    y = 30;
+                }
                 $("#realtimeChartCount  span").text(Math.ceil(y));
                 livedata.push(y);
             }
@@ -898,12 +931,12 @@ $(function () {
         var updateInterval = 1000;
         var realtimePlot = $.plot("#realtimeChart", [getRealtimeData()], {
             colors: ["#F37864"],
-            series: { lines: { show: true, fill: 0.1 }, shadowSize: 0 },
-            yaxis: { tickColor: "rgba(255,255,255,0.2)", min: 0, max: 30, },
-            grid: { borderWidth: { top: 0, right: 0, bottom: 1, left: 1 }, color: "rgba(255,255,255,0.2)" },
+            series: {lines: {show: true, fill: 0.1}, shadowSize: 0},
+            yaxis: {tickColor: "rgba(255,255,255,0.2)", min: 0, max: 30, },
+            grid: {borderWidth: {top: 0, right: 0, bottom: 1, left: 1}, color: "rgba(255,255,255,0.2)"},
             tooltip: true,
-            tooltipOpts: { content: ("%y") },
-            xaxis: { show: false }
+            tooltipOpts: {content: ("%y")},
+            xaxis: {show: false}
         });
         function realtimeChart() {
             realtimePlot.setData([getRealtimeData()]);
