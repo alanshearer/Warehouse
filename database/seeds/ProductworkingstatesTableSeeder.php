@@ -24,12 +24,13 @@ class ProductworkingstatesTableSeeder extends Seeder {
             'name' => 'Rotto',
             'description' => 'Prodotto rotto',
             'check' => true,
+            'support' => false, 
         ]);
         Productworkingstate::create([
             'id' => 3,
             'name' => 'In riparazione',
             'description' => 'Prodotto in riparazione',
-            'check' => true,
+            'check' => false,
             'support' => true,
         ]);
 
@@ -37,6 +38,7 @@ class ProductworkingstatesTableSeeder extends Seeder {
             'id' => 4,
             'name' => 'Gettato',
             'description' => 'Prodotto definitivamente gettato',
+            'check' => false,
             'support' => true,
         ]);
 
@@ -45,13 +47,15 @@ class ProductworkingstatesTableSeeder extends Seeder {
             'name' => 'Mancante',
             'description' => 'Prodotto mancante',
             'check' => true,
+            'support' => false,
         ]);
 
         Productworkingstate::create([
             'id' => 6,
             'name' => 'In trasferimento',
             'description' => 'Prodotto in trasferimento',
-            'check' => true,
+            'check' => false,
+            'support' => false,
         ]);
     }
 

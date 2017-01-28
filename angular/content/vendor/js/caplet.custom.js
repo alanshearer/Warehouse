@@ -330,9 +330,10 @@ $(function () {
     $(document).on("click", ".nav-mini", function () {
         $("body").toggleClass("in");
         closeSub();
-        if ($(window).width() < 991) {
-            navMenu.trigger('open.mm');
-        }
+        // commented to get the theme working correctly on Chrome and Safari browser
+//        if ($(window).width() < 991) {
+//            navMenu.trigger('open.mm');
+//        }
     });
 
     // function Auto close sub menu

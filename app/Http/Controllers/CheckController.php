@@ -33,7 +33,10 @@ class CheckController extends Controller {
                     });
                 })
                 ->where(function ($query) {
-                    $query->whereDoesntHave('checks');
+                    $query->whereDoesntHave('checks')
+                    ->orWhereHas('checks', function ($q) {
+                        $q->where('date', '<', new \DateTime('first day of this month'));
+                    });
                 })
                 ->where(function ($query) use($term) {
                     $query->whereHas('model', function($q) use($term) {
