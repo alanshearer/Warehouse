@@ -19,16 +19,12 @@ class Chart {
         $this->description = $description;
         $this->showLegend = $showLegend;
         $this->showDataLabels = $showDataLabels;
-        $this->series = array();
-        if ($series == null) {
-            $this->xAxisValues = array();
-        } else {
-            $this->xAxisValues = array_keys($series[0]->data);
-            foreach ($series as $singleseries){
-                array_push($this->series, array_values($singleseries->data));
-            }
+        $this->series = $series;
+        $this->xAxisValues = array();
+
+        if ($series != null) {
+            $this->xAxisValues = $series[0]->xAxisValues;
         }
-        
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\DTO\Chart;
+
 use App\Models\DTO\Chart\AxisValue;
 
 class ChartSeries {
@@ -17,7 +18,14 @@ class ChartSeries {
         $this->name = $name;
         $this->colorByPoint = $colorByPoint;
         $this->color = $color;
-        $this->data = $data;
+        $this->data = array();
+        $this->xAxisValues = array();
+        if ($data != null) {
+            foreach ($data as $item) {
+                array_push($this->data, $item->y);
+                array_push($this->xAxisValues, $item->x);
+            }
+        }
     }
 
 }

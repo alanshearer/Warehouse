@@ -13,6 +13,7 @@ use App\Models\Entities\Office as WarehouseEntity;
 use Illuminate\Support\Facades\DB;
 use App\Models\DTO\Chart\Chart as ChartDTO;
 use App\Models\DTO\Chart\ChartSeries as ChartSeriesDTO;
+use App\Models\DTO\Chart\AxisValue as AxisValueDTO;
 
 /**
  * Class HomeController
@@ -34,7 +35,7 @@ class DashboardController extends Controller {
         $warehouses = WarehouseEntity::with('products')
                 ->get();
         foreach ($warehouses as $warehouse) {
-            array_push($warehousesvalues, array($warehouse->name => floatval($warehouse->products()->sum('price'))));
+            array_push($warehousesvalues, new AxisValueDTO($warehouse->name, floatval($warehouse->products()->sum('price'))));
         }
         $chartSeries = new ChartSeriesDTO('Valore', false, '#5cb85c', $warehousesvalues);
         $chart = new ChartDTO('Valore oggetti per magazzino', '', true, true,  array($chartSeries));

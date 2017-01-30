@@ -12,9 +12,9 @@ class AxisValue {
     protected $fillable = [
     ];
 
-    public function __construct($item) {
-        $this->x = $item['key'];
-        $this->y = $item['value'];
+    public function __construct($key, $value) {
+        $this->x = $key;
+        $this->y = $value;
     }
 
 }
