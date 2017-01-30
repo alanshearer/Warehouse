@@ -1103,45 +1103,45 @@ module BackOfficeApp.Controllers {
                 $scope.filters.endDate = null;
             }
 
-
-            $http.get(dashboardUrl + 'withoutsupplier', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
-                $scope.employeeWithoutContract = result;
+//
+//            $http.get(dashboardUrl + 'withoutsupplier', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
+//                $scope.employeeWithoutContract = result;
+//            });
+//            $http.get(dashboardUrl + 'withsupplier', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
+//                $scope.employeeWithContract = result;
+//            });
+//            $http.get(dashboardUrl + 'withnotvalidposition', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
+//                $scope.withnotvalidposition = result;
+//            });
+            $http.get(dashboardUrl + 'warehousesvalue', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.warehousesvalue = result;
             });
-            $http.get(dashboardUrl + 'withsupplier', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
-                $scope.employeeWithContract = result;
-            });
-            $http.get(dashboardUrl + 'withnotvalidposition', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
-                $scope.withnotvalidposition = result;
-            });
-            $http.get(dashboardUrl + 'departmentactiveemployees', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.departmentactiveemployees = result;
-            });
-            $http.get(dashboardUrl + 'campaignactiveemployees', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.campaignactiveemployees = result;
-            });
-            $http.get(dashboardUrl + 'incompleteandmissingregistrations', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.incompleteandmissingregistrations = result;
-            });
-
-            $http.get(dashboardUrl + 'incompleteandmissingregistrations', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.incompleteandmissingregistrations = result;
-            });
-
-            $http.get(dashboardUrl + 'negativeturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.negativeturnover = result;
-            });
-
-            $http.get(dashboardUrl + 'positiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.positiveturnover = result;
-            });
-
-            $http.get(dashboardUrl + 'currentmonthnegativeturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.currentmonthnegativeturnover = result;
-            });
-
-            $http.get(dashboardUrl + 'currentmonthpositiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-                $scope.currentmonthpositiveturnover = result;
-            });
+//            $http.get(dashboardUrl + 'campaignactiveemployees', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.campaignactiveemployees = result;
+//            });
+//            $http.get(dashboardUrl + 'incompleteandmissingregistrations', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.incompleteandmissingregistrations = result;
+//            });
+//
+//            $http.get(dashboardUrl + 'incompleteandmissingregistrations', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.incompleteandmissingregistrations = result;
+//            });
+//
+//            $http.get(dashboardUrl + 'negativeturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.negativeturnover = result;
+//            });
+//
+//            $http.get(dashboardUrl + 'positiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.positiveturnover = result;
+//            });
+//
+//            $http.get(dashboardUrl + 'currentmonthnegativeturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.currentmonthnegativeturnover = result;
+//            });
+//
+//            $http.get(dashboardUrl + 'currentmonthpositiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+//                $scope.currentmonthpositiveturnover = result;
+//            });
         })
         .controller('changeLogCtrl', ($scope: any, $http: angular.IHttpService) => {
 

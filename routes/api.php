@@ -27,6 +27,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('dashboard/warehousesvalue', 'DashboardController@warehousesvalue');
+
     Route::get('categories/{page}/{elements}/{orderby?}/{desc?}', 'CategoryController@search');
     Route::get('categories', 'CategoryController@index');
     Route::get('categories/xls', 'CategoryController@xls');

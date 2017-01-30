@@ -1,5 +1,5 @@
-<!--﻿<div data-ng-controller="dashboardCtrl">
-    <div class="row">
+<div data-ng-controller="dashboardCtrl">
+<!--    <div class="row">
         <div class="col-md-2" data-ng-if="employeeWithoutContract">
             <div class="well bg-info">
                 <div class="widget-tile">
@@ -55,26 +55,26 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <div class="row">
-        <div class="col-md-4" data-ng-if="departmentactiveemployees">
+        <div class="col-md-4" data-ng-if="warehousesvalue">
             <div class="well bg-info">
-                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{departmentactiveemployees.description}}" data-jquery-tooltip></i></label></div>
+                <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{warehousesvalue.description}}" data-jquery-tooltip></i></label></div>
                 <div class="widget-tile">
-                    <highchart-ext id="departmentactiveemployeesgraph" title="Dipendenti per reparto" data="departmentactiveemployees" y-axis-title="Dipendenti"></highchart-ext>
+                    <highchart-ext id="warehousesvaluegraph" title="Valore per magazzino" data="warehousesvalue" y-axis-title="Dipendenti"></highchart-ext>
                 </div>
             </div>
         </div>
-        <div class="col-md-8" data-ng-if="campaignactiveemployees">
+<!--        <div class="col-md-8" data-ng-if="campaignactiveemployees">
             <div class="well bg-info">
                 <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{campaignactiveemployees.description}}" data-jquery-tooltip></i></label></div>
                 <div class="widget-tile">
                     <highchart-ext id="campaignactiveemployeesgraph" title="Dipendenti per campagna" data="campaignactiveemployees" y-axis-title="Dipendenti"></highchart-ext>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
-    <div class="row">
+<!--    <div class="row">
         <div class="col-md-4" data-ng-if="incompleteandmissingregistrations">
             <div class="well bg-info">
                 <div class="graph-info"><label><i class="fa fa-info-circle fa-2x ico" title="{{incompleteandmissingregistrations.description}}" data-jquery-tooltip></i></label></div>
@@ -99,5 +99,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>-->
