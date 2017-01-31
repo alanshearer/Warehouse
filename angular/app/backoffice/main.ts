@@ -136,28 +136,28 @@
                 })
                 .when('/offices', {
                     templateUrl: "/app/backoffice/views/offices/_list.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Gestione uffici'
                 }).when('/offices/edit/:id', {
                     templateUrl: "/app/backoffice/views/offices/_edit.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Modifica ufficio'
                 }).when('/offices/create', {
                     templateUrl: "/app/backoffice/views/offices/_edit.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Nuovo ufficio'
                 })
                 .when('/warehouses', {
                     templateUrl: "/app/backoffice/views/warehouses/_list.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Gestione magazzini'
                 }).when('/warehouses/edit/:id', {
                     templateUrl: "/app/backoffice/views/warehouses/_edit.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Modifica magazzino'
                 }).when('/warehouses/create', {
                     templateUrl: "/app/backoffice/views/warehouses/_edit.html",
-                    roles: "'Amministratore'",
+                    roles: "'Amministratore' || 'RespMagazzino'",
                     label: 'Nuovo magazzino'
                 })
                 .when('/roles', {

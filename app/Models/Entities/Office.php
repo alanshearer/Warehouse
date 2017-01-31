@@ -3,6 +3,7 @@
 namespace App\Models\Entities;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\OfficeScope;
 
 class Office extends \Illuminate\Database\Eloquent\Model {
 
@@ -10,6 +11,17 @@ class Office extends \Illuminate\Database\Eloquent\Model {
 
     protected $softDeletes = true;
 
+    
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot() {
+        parent::boot();
+
+        static::addGlobalScope(new OfficeScope);
+    }
     /**
      * The attributes that are mass assignable.
      *

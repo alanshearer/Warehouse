@@ -1103,45 +1103,28 @@ module BackOfficeApp.Controllers {
                 $scope.filters.endDate = null;
             }
 
-//
-//            $http.get(dashboardUrl + 'withoutsupplier', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
-//                $scope.employeeWithoutContract = result;
-//            });
-//            $http.get(dashboardUrl + 'withsupplier', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
-//                $scope.employeeWithContract = result;
-//            });
-//            $http.get(dashboardUrl + 'withnotvalidposition', <any>{ headers: { 'No-Loading': true } }).success((result: number) => {
-//                $scope.withnotvalidposition = result;
-//            });
             $http.get(dashboardUrl + 'warehousesvalue', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
                 $scope.warehousesvalue = result;
             });
-//            $http.get(dashboardUrl + 'campaignactiveemployees', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.campaignactiveemployees = result;
-//            });
-//            $http.get(dashboardUrl + 'incompleteandmissingregistrations', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.incompleteandmissingregistrations = result;
-//            });
-//
-//            $http.get(dashboardUrl + 'incompleteandmissingregistrations', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.incompleteandmissingregistrations = result;
-//            });
-//
-//            $http.get(dashboardUrl + 'negativeturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.negativeturnover = result;
-//            });
-//
-//            $http.get(dashboardUrl + 'positiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.positiveturnover = result;
-//            });
-//
-//            $http.get(dashboardUrl + 'currentmonthnegativeturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.currentmonthnegativeturnover = result;
-//            });
-//
-//            $http.get(dashboardUrl + 'currentmonthpositiveturnover', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
-//                $scope.currentmonthpositiveturnover = result;
-//            });
+            $http.get(dashboardUrl + 'brokenheadphonesforwarehouse', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.brokenheadphonesforwarehouse = result;
+            });
+            $http.get(dashboardUrl + 'brokenheadphonesforbrand', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.brokenheadphonesforbrand = result;
+            });
+            $http.get(dashboardUrl + 'repairrequestsforwarehouse', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.repairrequestsforwarehouse = result;
+            });
+            $http.get(dashboardUrl + 'avgworkingtimeforbrand', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.avgworkingtimeforbrand = result;
+            });
+            $http.get(dashboardUrl + 'dropsforwarehouse', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.dropsforwarehouse = result;
+            });
+            $http.get(dashboardUrl + 'warehouseproducts', <any>{ headers: { 'No-Loading': true } }).success(function(result: any) {
+                $scope.warehouseproducts = result;
+            });
+
         })
         .controller('changeLogCtrl', ($scope: any, $http: angular.IHttpService) => {
 

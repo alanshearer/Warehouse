@@ -27,7 +27,14 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::group(['middleware' => 'auth:api'], function () {
+    
     Route::get('dashboard/warehousesvalue', 'DashboardController@warehousesvalue');
+    Route::get('dashboard/brokenheadphonesforwarehouse', 'DashboardController@brokenheadphonesforwarehouse');
+    Route::get('dashboard/brokenheadphonesforbrand', 'DashboardController@brokenheadphonesforbrand');
+    Route::get('dashboard/repairrequestsforwarehouse', 'DashboardController@repairrequestsforwarehouse');
+    Route::get('dashboard/avgworkingtimeforbrand', 'DashboardController@avgworkingtimeforbrand');
+    Route::get('dashboard/dropsforwarehouse', 'DashboardController@dropsforwarehouse');
+    Route::get('dashboard/warehouseproducts', 'DashboardController@warehouseproducts');
 
     Route::get('categories/{page}/{elements}/{orderby?}/{desc?}', 'CategoryController@search');
     Route::get('categories', 'CategoryController@index');

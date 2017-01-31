@@ -170,7 +170,12 @@ return [
         /*
          * Qr Code Service Provider
          */
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        /*
+         * DebugBar Service Provider
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
+
     ],
     /*
       |--------------------------------------------------------------------------
@@ -218,5 +223,6 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 ];
