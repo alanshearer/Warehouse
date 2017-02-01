@@ -26,5 +26,9 @@ class Model extends \Illuminate\Database\Eloquent\Model {
     public function brand() {
         return $this->belongsTo('App\Models\Entities\Brand', 'brand_id', 'id');
     }
+    
+        public function products() {
+        return $this->hasMany('App\Models\Entities\Product');
+    }
 
 }
